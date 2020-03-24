@@ -1,3 +1,39 @@
-<ion-app>
-  <ion-router-outlet></ion-router-outlet>
+<ion-app *ngIf="post == false">
+    <ion-content fullscreen class="ion-padding" scroll-y="false">
+        <ion-slides pager>
+
+            <ion-slide>
+                <div class="slide">
+                    <img src="../assets/img/fondo2.jpg" />
+                    <h2>Bienvenido</h2>
+                    <p>A <b>GuGo</b> Entérate de manera fácil acerca de tus proyectos.</p>
+                </div>
+            </ion-slide>
+
+            <ion-slide>
+                <img src="../assets/img/fondo3.jpg" />
+                <h2>¿Qué es GuGo?</h2>
+                <p><b>GuGo</b> Es una plataforma con la cual podrás conocer el avance de tus proyectos, actividades y tareas que realizan tu equipo de trabajo.</p>
+            </ion-slide>
+
+            <ion-slide>
+                <img src="../assets/img/fondo4.jpg" />
+                <h2>¿Por qué usar Gugo?</h2>
+                <p><b>Porque</b> es sencillo de usar, y te muestra la información en tiempo real.</p>
+            </ion-slide>
+
+            <ion-slide>
+                <img src="../assets/img/fondo5.jpg" />
+                <h2>¿Preparado?</h2>
+                <ion-button fill="clear" (click)="cambiar()">Continuar
+                    <ion-icon slot="end" name="arrow-forward"></ion-icon>
+                </ion-button>
+            </ion-slide>
+
+        </ion-slides>
+    </ion-content>
+</ion-app>
+
+<ion-app *ngIf="post == true">
+    <ion-router-outlet></ion-router-outlet>
 </ion-app>
