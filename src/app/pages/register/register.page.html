@@ -1,0 +1,62 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="login"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Register</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <form (ngSubmit)="onRegister( f )" #f="ngForm">
+        <ion-item lines="full">
+            <ion-label position="floating">Nombre Completo</ion-label>
+            <ion-input type="text" name="name" [(ngModel)]="userRegister.name" minlength="2" required></ion-input>
+        </ion-item>
+
+        <ion-item lines="full">
+            <ion-label position="floating">Correo electrónico</ion-label>
+            <ion-input type="text" name="email" [(ngModel)]="userRegister.email" required></ion-input>
+        </ion-item>
+
+        <ion-item lines="full">
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input type="password" name="password" [(ngModel)]="userRegister.password" minlength="6" required></ion-input>
+        </ion-item>
+
+        <ion-item lines="full">
+            <ion-label position="floating">Confirmar contraseña</ion-label>
+            <ion-input type="password" name="re-password" [(ngModel)]="password" minlength="6" required></ion-input>
+        </ion-item>
+
+        <ion-item lines="full">
+            <ion-label position="floating">Número celular</ion-label>
+            <ion-input type="text" name="phone" [(ngModel)]="userRegister.phone_number" required></ion-input>
+        </ion-item>
+
+        <ion-list>
+            <ion-radio-group [(ngModel)]="userRegister.manager" name="manager" required>
+                <ion-list-header>
+                    <ion-label>¿Qué función desempeña?</ion-label>
+                </ion-list-header>
+
+                <ion-item>
+                    <ion-label>Gestor de proyectos</ion-label>
+                    <ion-radio slot="start" value=true></ion-radio>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label>Delegado</ion-label>
+                    <ion-radio slot="start" value=false></ion-radio>
+                </ion-item>
+
+            </ion-radio-group>
+        </ion-list>
+
+        <ion-row>
+            <ion-col>
+                <ion-button type="submit" color="danger" expand="block">Sign Up</ion-button>
+            </ion-col>
+        </ion-row>
+    </form>
+</ion-content>

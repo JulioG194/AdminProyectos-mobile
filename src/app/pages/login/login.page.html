@@ -1,0 +1,33 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Log In</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <form (ngSubmit)="onLogin( f2 )" #f2="ngForm">
+        <ion-item lines="full">
+            <ion-label position="floating">Correo electrónico</ion-label>
+            <ion-input type="text" name="email" [(ngModel)]="userLogin.email" required></ion-input>
+        </ion-item>
+
+        <ion-item lines="full">
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input type="password" name="password" [(ngModel)]="userLogin.password" required></ion-input>
+        </ion-item>
+
+        <ion-row>
+            <ion-col>
+                <ion-button type="submit" color="danger" expand="block">Sign In</ion-button>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-button color="danger" expand="block" (click)="register()">Register</ion-button>
+            </ion-col>
+        </ion-row>
+    </form>
+</ion-content>
