@@ -4,7 +4,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Tab1Page } from './tab1.page';
+import { ChartsModule } from 'ng2-charts';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
+
+
+
 
 @NgModule({
   imports: [
@@ -12,7 +16,8 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    RouterModule.forChild([{ path: '', component: Tab1Page }])
+    RouterModule.forChild([{ path: '', component: Tab1Page }]),
+    ChartsModule
   ],
   declarations: [Tab1Page]
 })

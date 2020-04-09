@@ -20,8 +20,8 @@ export class LoginPage implements OnInit {
 
 userLogin: User = {
                 name: '',
-                email: '',
-                password: ''
+                email: 'julio.gonzalez@gugo.com',
+                password: '123456789'
             };
   ngOnInit() {
   }

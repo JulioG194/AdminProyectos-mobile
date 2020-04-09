@@ -13,7 +13,8 @@ import { Router } from '@angular/router';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-  post = false;
+  post = 'false';
+  items = 0;
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -21,6 +22,12 @@ export class AppComponent {
     private router: Router
   ) {
     this.initializeApp();
+    this.items = localStorage.length;
+    if (localStorage.getItem('intro')) {
+      this.router.navigate(['login']);
+    } else {
+      this.post = 'false';
+    }
   }
 
   initializeApp() {
@@ -31,7 +38,9 @@ export class AppComponent {
   }
 
   cambiar() {
-    this.post = true;
+    localStorage.setItem('intro', 'true');
+    this.post =  'true';
+    this.items = localStorage.length;
     this.router.navigate(['login']);
   }
 }

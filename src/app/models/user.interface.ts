@@ -12,5 +12,6 @@ export interface User {
         google?: boolean;
         phone_number?: string;
         createdAt?: any;
+        check?: boolean;
 }
 

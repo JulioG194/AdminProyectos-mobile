@@ -12,6 +12,16 @@
             <ion-title size="large">Tab 2</ion-title>
         </ion-toolbar>
     </ion-header>
+    <div>
+        <ion-list>
+            <ion-item *ngFor="let item of usersGugo">
+                <ion-avatar item-left="item-left">
+                    <img style="width:55px;height:55px;" [src]="item.photo"></ion-avatar>
+                <ion-label>
+                    {{item.name}}</ion-label>
+                <ion-checkbox item-end="item-end" [(ngModel)]="item.check" (ionChange)="onChange(usersGugo)"></ion-checkbox>
+            </ion-item>
+        </ion-list>
+    </div>
 
-    <app-explore-container name="Tab 2 page"></app-explore-container>
 </ion-content>

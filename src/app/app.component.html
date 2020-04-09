@@ -1,4 +1,4 @@
-<ion-app *ngIf="post == false">
+<ion-app *ngIf="items == 0">
     <ion-content fullscreen class="ion-padding" scroll-y="false">
         <ion-slides pager>
 
@@ -34,6 +34,6 @@
     </ion-content>
 </ion-app>
 
-<ion-app *ngIf="post == true">
+<ion-app *ngIf="items > 0">
     <ion-router-outlet></ion-router-outlet>
 </ion-app>

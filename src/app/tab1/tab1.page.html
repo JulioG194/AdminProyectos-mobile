@@ -9,9 +9,21 @@
 <ion-content [fullscreen]="true">
     <ion-header collapse="condense">
         <ion-toolbar>
-            <ion-title size="large">Tab 1</ion-title>
+            <ion-title size="large">Inicio</ion-title>
         </ion-toolbar>
     </ion-header>
 
-    <app-explore-container name="Tab 1 page"></app-explore-container>
+    <div class="row">
+
+        <div class="chart-container" style="position: relative; height:50vh; width:50vw; margin-left: 30px;">
+            <canvas baseChart width="75" height="100" [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins" [colors]="pieChartColors" [legend]="pieChartLegend">
+                </canvas>
+        </div>
+        <div class="chart-container" style="position: relative; height:30vh; width:50vw; margin-left: 60px;">
+            <canvas baseChart width="300" height="400" [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [colors]="barChartColors" [legend]="barChartLegend" [chartType]="barChartType">
+      </canvas>
+        </div>
+
+    </div>
+
 </ion-content>
