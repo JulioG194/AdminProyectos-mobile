@@ -1,0 +1,37 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="tabs/tabs/tab4"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Vista Cronograma</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <!-- <ion-header collapse="condense">
+        <ion-toolbar>
+            <ion-title size="large">Tab 4</ion-title>
+        </ion-toolbar>
+    </ion-header> -->
+    <h1>Timeline chart</h1>
+    <ion-card>
+
+        <ion-card-header>
+            <ion-button (click)="setLandscape()">
+                <ion-icon slot="icon-only" name="phone-landscape-outline"></ion-icon>
+            </ion-button>
+            <ion-button (click)="setPortrait()">
+                <ion-icon slot="icon-only" name="phone-portrait-outline"></ion-icon>
+            </ion-button>
+        </ion-card-header>
+        <ion-card-content>
+            <div *ngIf="post == true" class="scrolling-box">
+                <google-chart [data]="timelineChartData"></google-chart>
+            </div>
+
+
+        </ion-card-content>
+
+    </ion-card>
+
+</ion-content>

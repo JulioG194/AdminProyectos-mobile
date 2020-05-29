@@ -1,3 +1,31 @@
 ion-content ion-toolbar {
-  --background: translucent;
+    --background: translucent;
+}
+
+.scrolling-box {
+    overflow-x: scroll;
+    height: 300px;
+}
+
+#notification-button {
+    position: relative;
+    width: 42px;
+    top: 1px;
+    right: 1px;
+    overflow: visible!important;
+}
+
+#notification-button1 {
+    position: relative;
+    width: 60px;
+    height: 40px;
+    top: 0.5px;
+}
+
+#notifications-badge {
+    background-color: blue($color: #000000);
+    position: absolute;
+    top: 0px;
+    right: -4px;
+    border-radius: 100%;
 }

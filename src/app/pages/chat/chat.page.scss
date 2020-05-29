@@ -1,0 +1,49 @@
+* {
+    .user_name {
+        color: #afafaf;
+    }
+    .message {
+        padding: 10px !important;
+        transition: all 250ms ease-in-out !important;
+        border-radius: 10px !important;
+        margin-bottom: 4px !important;
+    }
+    .my_message {
+        padding: 10px !important;
+        transition: all 250ms ease-in-out !important;
+        border-radius: 10px !important;
+        margin-bottom: 4px !important;
+        background: #387ef5 !important;
+        color: white !important;
+        border-style: solid;
+        border-width: 1px;
+    }
+    ion-item {
+        right: 0;
+    }
+    .line-breaker {
+        white-space: pre-line;
+    }
+    .other_message {
+        padding: 10px !important;
+        // transition: all 250ms ease-in-out !important;
+        border-radius: 10px !important;
+        margin-bottom: 4px !important;
+        background: white !important;
+        color: black !important;
+        // border-style: ridge;
+        border-width: 0.5px;
+        width: 20px;
+    }
+    .left {
+        left: 0;
+    }
+    .time {
+        color: #afafaf;
+        float: right;
+        font-size: small;
+    }
+    .message_row {
+        background-color: #fff;
+    }
+}

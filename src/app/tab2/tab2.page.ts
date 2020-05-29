@@ -4,6 +4,9 @@ import { Team } from '../models/team.interface';
 import { TeamService } from '../services/team.service';
 import { AuthService } from '../services/auth.service';
 import { ProjectService } from '../services/project.service';
+import { NavController, ModalController } from '@ionic/angular';
+import { ModalTeamPageModule } from '../pages/modal-team/modal-team.module';
+import { ModalTeamPage } from '../pages/modal-team/modal-team.page';
 
 @Component({
   selector: 'app-tab2',
@@ -66,7 +69,9 @@ delegateAux1: User = {
 
   constructor(private teamService: TeamService,
               private authService: AuthService,
-              private projectService: ProjectService ) {}
+              private projectService: ProjectService,
+              private navCtrl: NavController,
+              private modalCtrl: ModalController ) {}
 
   ngOnInit() {
 
@@ -149,14 +154,18 @@ delegateAux1: User = {
                                                            this.teamsAux1.push(team);
                                                            this.teamsAux1.forEach(teamA => {
                                                             this.authService.getUserById(teamA.manager).subscribe(manager => {
-                                                              if (!this.delegatesAux1.some(obj => obj.email === manager.email && obj.id === manager.id)) {
-                                                                this.delegatesAux1.push(manager);
+                                                              if (manager != null) {
+                                                                if (!this.delegatesAux1.some(obj => obj.email === manager.email && obj.id === manager.id)) {
+                                                                  this.delegatesAux1.push(manager);
+                                                                }
                                                               }
                                                            });
                                                 });
                                                            team.delegates.forEach(delegate => {
+                                                            if (delegate != null) {
                                                             if (!this.delegatesAux1.some(obj => obj.email === delegate.email && obj.id === delegate.id)) {
                                                               this.delegatesAux1.push(delegate);
+                                                            }
                                                             }
                                                            });
                                                        }
@@ -186,6 +195,43 @@ delegateAux1: User = {
     if (isChecked === false){
       this.visability = false;
     }
+  }
+
+  // profile() {
+     // this.navCtrl.navigateRoot( 'tabs/tabs/tab2/profile', { animated: true } );
+
+  // }
+
+  async addTeam() {
+
+    const modal = await this.modalCtrl.create({
+      component: ModalTeamPage,
+      componentProps: {
+        members: this.usersAppFilter,
+        newMembers: null
+      }
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onDidDismiss();
+    console.log(data);
+    if ( data != null) {
+      let users: User [] = [];
+      users = data['newMembers'] ;
+      console.log(users) ;
+      this.teamService.addDelegates(this.teamGugo, users);
+    }
+  }
+
+  team() {
+    this.usersGugo.map(usr => {
+      if ( usr.check === true) {
+          console.log(usr);
+      }
+    });
+    console.log(this.usersAppFilter);
+    console.log(this.teamGugo.delegates);
   }
 
 }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { Platform, NavController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
@@ -19,14 +19,19 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private router: Router
+    private router: Router,
+    private navCtrl: NavController
   ) {
     this.initializeApp();
     this.items = localStorage.length;
-    if (localStorage.getItem('intro')) {
-      this.router.navigate(['login']);
+    if ( localStorage.getItem('usuario') && localStorage.getItem('token')) {
+      this.navCtrl.navigateRoot( 'tabs/tabs/tab1', { animated: true } );
     } else {
-      this.post = 'false';
+      if (localStorage.getItem('intro')) {
+        this.router.navigate(['login']);
+      } else {
+        this.post = 'false';
+      }
     }
   }
 
@@ -35,6 +40,7 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+
   }
 
   cambiar() {

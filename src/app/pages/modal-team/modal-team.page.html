@@ -1,0 +1,30 @@
+<ion-header traslucent>
+    <ion-toolbar>
+        <ion-title>Agregar delegados</ion-title>
+        <ion-buttons slot="end">
+            <ion-button color="primary" (click)="onClose()">Cerrar</ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list-header color="light">
+        LISTA DE DELEGADOS
+    </ion-list-header>
+    <ion-list>
+        <ion-item button *ngFor="let item of members">
+            <ion-avatar item-left="item-left">
+                <img style="width:45px;height:45px;" [src]="item.photo"></ion-avatar>
+            <ion-label>
+                <h2>{{ item.name }}</h2>
+                <p>{{ item.employment }}</p>
+                <p>{{ item.phone_number }}</p>
+            </ion-label>
+
+            <ion-checkbox item-end="item-end" [(ngModel)]="item.check" (ionChange)="onChange(members)"></ion-checkbox>
+        </ion-item>
+    </ion-list>
+    <ion-row style="height: 10mm"></ion-row>
+    <ion-button expand="block" (click)="onSave()">Agregar seleccionados</ion-button>
+
+</ion-content>

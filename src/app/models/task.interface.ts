@@ -9,4 +9,5 @@ export interface Task {
     id?: string;
     createdAt?: any;
     idActivity?: string;
+    active?: boolean;
     }

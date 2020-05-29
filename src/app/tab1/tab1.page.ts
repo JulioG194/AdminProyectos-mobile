@@ -72,10 +72,15 @@ colorScheme = {
               private projectService: ProjectService,
               private teamService: TeamService) {}
 
+
   public pieChartOptions: ChartOptions = {
     responsive: true,
     legend: {
       position: 'top',
+      labels: {
+        fontFamily: "'Roboto', sans-serif",
+        fontSize: 8,
+      }
     }
   };
   public pieChartLabels: Label[] = ['Proyectos sin realizar', 'Proyectos completados', 'Proyectos en proceso'];
@@ -91,6 +96,10 @@ colorScheme = {
 
   public barChartOptions: ChartOptions = {
     responsive: true,
+    scales: {
+      yAxes: [{ticks: {fontSize: 8, fontFamily: "'Roboto', sans-serif", fontColor: '#000000', fontStyle: '500'}}],
+      xAxes: [{ticks: {fontSize: 8, fontFamily: "'Roboto', sans-serif", fontColor: '#000000', fontStyle: '500'}}]
+    }
   };
   public barChartLabels: Label[] = [];
   public barChartType: ChartType = 'horizontalBar';
@@ -101,7 +110,7 @@ colorScheme = {
   ];
 
   public barChartColors: Color[] = [
-    { backgroundColor: ['blue', 'green', 'red', 'yellow', 'purple', 'grey', 'black', 'magenta'] }
+    { backgroundColor: ['blue', 'green', 'red', 'yellow', 'purple', 'grey', 'black', 'magenta', 'blue', 'green', 'red', 'yellow', 'purple', 'grey', 'black', 'magenta'] }
   ];
 
   ngOnInit() {
@@ -158,7 +167,6 @@ colorScheme = {
               }
             }); */
           });
-          console.log(this.barData);
           this.dataProjects = [];
           let projectsInprogress = 0;
           let projectsOut = 0;
@@ -256,6 +264,13 @@ colorScheme = {
     this.barData = this.barData1;
     this.labelBar = this.labelBar1;
     console.log(this.barData);
+  }
+  doRefresh(event) {
+    console.log('Begin async operation');
+    setTimeout(() => {
+         console.log('Async operation has ended');
+         event.target.complete();
+          }, 2000);
   }
 
 }

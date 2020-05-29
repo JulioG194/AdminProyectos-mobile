@@ -3,27 +3,68 @@
         <ion-title>
             Inicio
         </ion-title>
+        <ion-buttons slot="end">
+            <ion-button id="notification-button">
+                <ion-badge id="notifications-badge" color="primary">5</ion-badge>
+                <ion-icon name="notifications"></ion-icon>
+            </ion-button>
+            <ion-button id="notification-button1">
+                <ion-avatar id="notification-button1">
+                    <img [src]="userGugo.photo">
+                </ion-avatar>
+            </ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-    <ion-header collapse="condense">
+    <!--  <ion-header collapse="condense">
         <ion-toolbar>
             <ion-title size="large">Inicio</ion-title>
         </ion-toolbar>
-    </ion-header>
+    </ion-header> -->
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-list-header color="light">PROYECTOS</ion-list-header>
+    <ion-card class="welcome-card">
+        <ion-card-header>
+            <ion-card-subtitle>Numero de proyectos</ion-card-subtitle>
+            <ion-card-title>Visualizacion</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <canvas baseChart width="10" height="10" [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins" [colors]="pieChartColors" [legend]="pieChartLegend">
+        </canvas>
+        </ion-card-content>
+    </ion-card>
+    <ion-list-header color="light">POR PROYECTOS</ion-list-header>
+    <ion-card class="welcome-card">
+        <ion-card-header>
+            <ion-card-subtitle>%Porcentaje por proyectos</ion-card-subtitle>
+            <ion-card-title>Visualizacion</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <canvas baseChart width="25px" height="25px" [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [colors]="barChartColors" [legend]="barChartLegend" [chartType]="barChartType">
+        </canvas>
+        </ion-card-content>
+    </ion-card>
 
-    <div class="row">
-
-        <div class="chart-container" style="position: relative; height:50vh; width:50vw; margin-left: 30px;">
-            <canvas baseChart width="75" height="100" [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins" [colors]="pieChartColors" [legend]="pieChartLegend">
-                </canvas>
+    <!--  <ion-card>
+        <div class="row">
+            <div class="chart-container" style="position: relative; height:50vh; width:50vw; margin-left: 30px;">
+                <canvas baseChart width="75" height="100" [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins" [colors]="pieChartColors" [legend]="pieChartLegend">
+                    </canvas>
+            </div>
         </div>
-        <div class="chart-container" style="position: relative; height:30vh; width:50vw; margin-left: 60px;">
-            <canvas baseChart width="300" height="400" [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [colors]="barChartColors" [legend]="barChartLegend" [chartType]="barChartType">
+    </ion-card>
+
+    <ion-card>
+        <div class="row">
+            <div class="chart-container" style="position: relative; height:30vh; width:50vw; margin-left: 60px;">
+                <canvas baseChart width="300" height="400" [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [colors]="barChartColors" [legend]="barChartLegend" [chartType]="barChartType">
       </canvas>
+            </div>
         </div>
-
-    </div>
+    </ion-card> -->
 
 </ion-content>
