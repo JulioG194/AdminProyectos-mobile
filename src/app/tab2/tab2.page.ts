@@ -24,17 +24,16 @@ export class Tab2Page implements OnInit{
   delegates: User[] = [];
 
   userGugo: User = {
-    name: '',
+    displayName: '',
     email: '',
     password: '',
-    id: '',
+    uid: '',
     birthdate: new Date(),
     description: '',
     gender: '',
-    photo: '',
+    photoURL: '',
     manager: false,
-    google: false,
-    phone_number: ''
+    phoneNumber: ''
   };
 
   teamsObservable: any;
@@ -55,15 +54,18 @@ export class Tab2Page implements OnInit{
   delegatesAux1: User[] = [];
   managers: string[] = [];
   managerAux: User = {
-      name: '',
+      uid: '',
+      displayName: '',
       email: ''
   };
   delegateAux: User = {
-    name: '',
+    uid: '',
+    displayName: '',
     email: ''
 };
 delegateAux1: User = {
-  name: '',
+  uid: '',
+  displayName: '',
   email: ''
 };
 
@@ -117,7 +119,7 @@ delegateAux1: User = {
                                     this.usersGugo = [];          // Lista de los usuarios excepto el usuario autenticado
                                     // Obtener lista de usuarios excepto el usuario autenticado
                                     this.usersApp.map( item => {
-                                    if ( item.id !== this.userGugo.id && item.manager === false ) {
+                                    if ( item.uid !== this.userGugo.uid && item.manager === false ) {
                                     this.usersGugo.push(item);
                                     }
                                     });
@@ -155,7 +157,7 @@ delegateAux1: User = {
                                                            this.teamsAux1.forEach(teamA => {
                                                             this.authService.getUserById(teamA.manager).subscribe(manager => {
                                                               if (manager != null) {
-                                                                if (!this.delegatesAux1.some(obj => obj.email === manager.email && obj.id === manager.id)) {
+                                                                if (!this.delegatesAux1.some(obj => obj.email === manager.email && obj.uid === manager.uid)) {
                                                                   this.delegatesAux1.push(manager);
                                                                 }
                                                               }
@@ -163,7 +165,7 @@ delegateAux1: User = {
                                                 });
                                                            team.delegates.forEach(delegate => {
                                                             if (delegate != null) {
-                                                            if (!this.delegatesAux1.some(obj => obj.email === delegate.email && obj.id === delegate.id)) {
+                                                            if (!this.delegatesAux1.some(obj => obj.email === delegate.email && obj.uid === delegate.uid)) {
                                                               this.delegatesAux1.push(delegate);
                                                             }
                                                             }

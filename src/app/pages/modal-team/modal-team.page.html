@@ -14,11 +14,11 @@
     <ion-list>
         <ion-item button *ngFor="let item of members">
             <ion-avatar item-left="item-left">
-                <img style="width:45px;height:45px;" [src]="item.photo"></ion-avatar>
+                <img style="width:45px;height:45px;" [src]="item.photoURL"></ion-avatar>
             <ion-label>
-                <h2>{{ item.name }}</h2>
+                <h2>{{ item.displayName }}</h2>
                 <p>{{ item.employment }}</p>
-                <p>{{ item.phone_number }}</p>
+                <p>{{ item.phoneNumber }}</p>
             </ion-label>
 
             <ion-checkbox item-end="item-end" [(ngModel)]="item.check" (ionChange)="onChange(members)"></ion-checkbox>

@@ -1,36 +1,39 @@
 <ion-header [translucent]="true">
     <ion-toolbar>
-        <ion-title>
-            Proyectos
-        </ion-title>
-        <ion-buttons slot="end">
-            <ion-button id="notification-button">
-                <ion-badge id="notifications-badge" color="primary">5</ion-badge>
-                <ion-icon name="notifications"></ion-icon>
-            </ion-button>
-            <ion-button id="notification-button1">
-                <ion-avatar id="notification-button1">
-                    <img [src]="userApp.photo">
-                </ion-avatar>
-            </ion-button>
-        </ion-buttons>
+        <div class="box align">
+            <ion-title>Proyectos</ion-title>
+            <ion-buttons slot="end">
+                <ion-button id="notification-button">
+                    <ion-badge id="notifications-badge" color="primary">5</ion-badge>
+                    <ion-icon name="notifications"></ion-icon>
+                </ion-button>
+                <ion-button id="notification-button1">
+                    <ion-avatar id="notification-button1">
+                        <img [src]="userApp.photoURL">
+                    </ion-avatar>
+                </ion-button>
+            </ion-buttons>
+        </div>
     </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-    <ion-list-header color="light">Tus Proyectos</ion-list-header>
+<ion-content [fullscreen]="true" color="secondary">
+    <!-- <div class="background"> -->
+    <!-- <ion-list-header class="title">Proyectos</ion-list-header> -->
+    <br>
     <ion-list>
         <ion-item-sliding *ngFor="let project of projectsApp; let i = index">
-            <ion-item tappable (click)="projectRoute(project.id)">
+            <ion-item class="container" color='dark' tappable (click)="projectRoute(project.id)">
                 <ion-icon slot="start" name="clipboard"></ion-icon>
                 <ion-icon slot="end" name="arrow-forward"></ion-icon>
-                <ion-label>
-                    <h2 style="color:#428cff;">{{project.name}}</h2>
-                    <h3 style="color:crimson;">Cliente: {{ project.client }}</h3>
-                    <p style="font-size: 10px;">Fecha de inicio: {{allstartdates[i] | date : "dd/MM/y"}}</p>
-                    <p style="font-size: 10px;">Fecha de fin: {{allenddates[i] | date : "dd/MM/y"}}</p>
+                <ion-label class="container">
+                    <h2>{{project.name}}</h2>
+                    <p style="color: rgb(253, 220, 201);">Cliente: {{ project.client }}</p>
+                    <p>Fecha de inicio: {{allstartdates[i] | date : "dd/MM/y"}}</p>
+                    <p>Fecha de fin: {{allenddates[i] | date : "dd/MM/y"}}</p>
                 </ion-label>
             </ion-item>
+            <br>
             <ion-item-options>
                 <ion-button color="primary" icon-left>
                     <ion-icon slot="icon-only" name="create"></ion-icon>
@@ -41,6 +44,8 @@
             </ion-item-options>
         </ion-item-sliding>
     </ion-list>
+    <br>
     <ion-row style="height: 1mm"></ion-row>
-    <ion-button expand="block">Proyecto</ion-button>
+    <button class="btnNewProject" expand="block">Nuevo proyecto</button>
+    <!--  </div> -->
 </ion-content>

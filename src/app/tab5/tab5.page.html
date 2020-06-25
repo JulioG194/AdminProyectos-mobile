@@ -1,38 +1,42 @@
 <ion-header [translucent]="true">
     <ion-toolbar>
-        <ion-title>
-            Chat
-        </ion-title>
-        <ion-buttons slot="end">
-            <ion-button id="notification-button">
-                <ion-badge id="notifications-badge" color="primary">5</ion-badge>
-                <ion-icon name="notifications"></ion-icon>
-            </ion-button>
-            <ion-button id="notification-button1">
-                <ion-avatar id="notification-button1">
-                    <img [src]="userGugo.photo">
-                </ion-avatar>
-            </ion-button>
-        </ion-buttons>
+        <div class="box align">
+            <ion-title>Chat</ion-title>
+            <ion-buttons slot="end">
+                <ion-button id="notification-button">
+                    <ion-badge id="notifications-badge" color="primary">5</ion-badge>
+                    <ion-icon name="notifications"></ion-icon>
+                </ion-button>
+                <ion-button id="notification-button1">
+                    <ion-avatar id="notification-button1">
+                        <img [src]="userGugo.photoURL">
+                    </ion-avatar>
+                </ion-button>
+            </ion-buttons>
+        </div>
     </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-    <ion-list-header color="light">
-        TUS MENSAJES
-    </ion-list-header>
+<ion-content [fullscreen]="true" color="secondary">
+    <!-- <div class="background"> -->
+    <br>
+    <!-- <ion-list-header color="light">TUS MENSAJES</ion-list-header> -->
     <ion-list>
         <div *ngFor="let item of delegatesAux1">
-            <ion-item button (click)="goChat(userGugo.id,item.id,item.name,item.email,item.photo)">
-                <ion-avatar item-left="item-left">
-                    <img style="width:45px;height:45px;" [src]="item.photo"></ion-avatar>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <ion-label>
-                    <br>
-                    <h2>{{ item.name }}</h2>
-                    <p>{{ item.employment }}</p>
-                    <br>
-                </ion-label>
+            <ion-item class="align1" color="dark" button (click)="goChat(userGugo.uid,item.uid,item.displayName,item.email,item.photoURL)">
+                <div class="part1">
+                    <ion-avatar item-left="item-left">
+                        <img style="width:45px;height:45px;" [src]="item.photoURL">
+                    </ion-avatar>
+                </div>
+                <div class="align2 part2">
+                    <ion-label class="style1">{{ item.displayName }}</ion-label>
+                    <ion-label class="style2">{{ item.phoneNumber }}</ion-label>
+                </div>
             </ion-item>
         </div>
     </ion-list>
+    <br>
+    <br>
+    <!--  </div> -->
 </ion-content>

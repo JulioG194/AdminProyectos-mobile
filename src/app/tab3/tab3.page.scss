@@ -1,26 +1,112 @@
+@font-face {
+    font-family: Channel;
+    src: url(../../assets/fuente/Channel.ttf);
+}
+
+* {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+
+/* .background{
+  background: #082330;    
+  padding: 10px;
+} */
+
 ion-content ion-toolbar {
-  --background: translucent;
+    --background: translucent;
+}
+
+.box {
+    /* background: #082330; */
+    background: #0C1B22;
+    padding: 10px;
+    color: white;
+}
+
+.align {
+    display: flex;
+    flex-direction: row;
+}
+
+.gugo {
+    font-family: Channel;
+    font-size: 20px;
+}
+
+.title {
+    color: white;
+    border-bottom: 1px solid white;
+    width: 100%;
+    font-size: 20px;
 }
 
 #notification-button {
-  position: relative;
-  width: 42px;
-  top: 1px;
-  right: 1px;
-  overflow: visible!important;
+    position: relative;
+    width: 42px;
+    top: 1px;
+    right: 1px;
+    overflow: visible!important;
 }
 
 #notification-button1 {
-  position: relative;
-  width: 60px;
-  height: 40px;
-  top: 0.5px;
+    position: relative;
+    width: 60px;
+    height: 40px;
+    top: 0.5px;
 }
 
 #notifications-badge {
-  background-color: blue($color: #000000);
-  position: absolute;
-  top: 0px;
-  right: -4px;
-  border-radius: 100%;
+    background-color: blue($color: #000000);
+    position: absolute;
+    top: 0px;
+    right: -4px;
+    border-radius: 100%;
+}
+
+.container ion-icon {
+    color: white
+}
+
+.container p {
+    color: rgb(212, 212, 212);
+    font-size: 14px;
+}
+
+.container h2 {
+    color: #5c92b1;
+    text-align: center;
+    text-transform: lowercase;
+}
+
+.container h2::first-letter {
+    text-transform: uppercase;
+}
+
+ion-list {
+    background: #082330;
+    width: 95%;
+    margin: 0 auto;
+}
+
+ion-item {
+    border: 0.5px solid black;
+}
+
+ion-item-sliding {
+    background: #082330;
+}
+
+.options ion-icon {
+    color: white;
+}
+
+.btnNewProject {
+    background: #D4D4D4;
+    color: black;
+    border-radius: 10px;
+    padding: 10px;
+    border: none;
+    width: 100%;
+    font-size: 18px;
 }

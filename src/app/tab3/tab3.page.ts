@@ -65,14 +65,14 @@ export class Tab3Page implements OnInit {
               team: string[] = [];
 
               userApp: User = {
-                    name: '',
+                    displayName: '',
                     email: '',
                     password: '',
-                    id: '',
+                    uid: '',
                     birthdate: new Date(),
                     description: '',
                     gender: '',
-                    photo: ''
+                    photoURL: ''
                 };
 
 
@@ -136,7 +136,7 @@ export class Tab3Page implements OnInit {
 
               ngOnInit() {
                 // this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
-                this.authService.getUser(this.authService.userAuth).subscribe(user => {(this.userApp = user, this.idUser = user.id);
+                this.authService.getUser(this.authService.userAuth).subscribe(user => {(this.userApp = user, this.idUser = user.uid);
                                                                                        if ( this.userApp.manager === true ) {
                                                                                             this.teamService.getTeamByUser(this.userApp).subscribe(team => {
                                                                                                 this.teamAux1 = team;
@@ -198,9 +198,10 @@ export class Tab3Page implements OnInit {
                                                                                                                      this.allstartdates.push(new Date(project.start_date['seconds'] * 1000));
                                                                                                                      this.allenddates.push(new Date(project.end_date['seconds'] * 1000));
                                                                                                                      let userAux: User = {
-                                                                                                                      name: '',
+                                                                                                                      uid: '',
+                                                                                                                      displayName: '',
                                                                                                                       email: '',
-                                                                                                                      photo: ''
+                                                                                                                      photoURL: ''
                                                                                                                   };
                                                                                                                      this.authService.getUserById(project.ownerId).subscribe( user => {
                                                                                                                         userAux = user;
@@ -231,8 +232,8 @@ export class Tab3Page implements OnInit {
                                                                                                                                         task,
                                                                                                                                         start_date: new Date(task.start_date['seconds'] * 1000),
                                                                                                                                         end_date: new Date(task.end_date['seconds'] * 1000),
-                                                                                                                                        photo : userAux.photo,
-                                                                                                                                        manager_name: userAux.name
+                                                                                                                                        photo : userAux.photoURL,
+                                                                                                                                        manager_name: userAux.displayName
                                                                                                                                       };
                                                                                                                                        this.pats.push(this.pat);
 

@@ -1,5 +1,21 @@
+* {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
 ion-content ion-toolbar {
     --background: translucent;
+}
+
+.box {
+    /* background: #082330; */
+    background: #0C1B22;
+    padding: 10px;
+    color: white;
+}
+
+.align {
+    display: flex;
+    flex-direction: row;
 }
 
 .scrolling-box {
@@ -28,4 +44,32 @@ ion-content ion-toolbar {
     top: 0px;
     right: -4px;
     border-radius: 100%;
+}
+
+.background {
+    background: #082330;
+    padding: 10px;
+}
+
+ion-item-sliding {
+    background: #082330;
+}
+
+ion-card {
+    background: #082330;
+}
+
+.container p {
+    color: rgb(212, 212, 212);
+    font-size: 14px;
+}
+
+.container h2 {
+    color: #5c92b1;
+    text-align: center;
+    text-transform: lowercase;
+}
+
+.container h2::first-letter {
+    text-transform: uppercase;
 }

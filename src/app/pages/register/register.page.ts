@@ -16,23 +16,23 @@ import { NavController } from '@ionic/angular';
 export class RegisterPage implements OnInit {
 
   userRegister: User = {
-    name: '',
+    uid: '',
+    displayName: '',
     email: '',
     password: '',
     employment: '',
     description: '',
     gender: '',
-    photo: 'https://bauerglobalbrigades.files.wordpress.com/2018/10/no-photo7.png',
-    google: false,
+    photoURL: 'https://bauerglobalbrigades.files.wordpress.com/2018/10/no-photo7.png',
     birthdate: new Date(),
-    phone_number: '',
+    phoneNumber: '',
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
 };
 password = '';
 
   constructor(private authService: AuthService,
               private router: Router,
-              private navCtrl: NavController,) { }
+              private navCtrl: NavController ) { }
 
   ngOnInit() {
   }

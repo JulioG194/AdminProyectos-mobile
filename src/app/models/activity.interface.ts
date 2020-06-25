@@ -11,5 +11,5 @@ export interface Activity {
     createdAt?: any;
     tasks?: Task[];
     idProject?: string;
-    active?: boolean;
+    active?: any;
 }

@@ -79,25 +79,25 @@ differenceTime: number;
 differenceDays: number;
 
 userApp: User = {
-  name: '',
+  displayName: '',
   email: '',
   password: '',
-  id: '',
+  uid: '',
   birthdate: new Date(),
   description: '',
   gender: '',
-  photo: ''
+  photoURL: ''
 };
 
 coworker: User = {
-  name: '',
+  displayName: '',
   email: '',
   password: '',
-  id: '',
+  uid: '',
   birthdate: new Date(),
   description: '',
   gender: '',
-  photo: ''
+  photoURL: ''
 };
 
 allstartdates: Date[] = [];
@@ -174,12 +174,12 @@ elemento: any;
     if ( form.invalid ) { return; }
 
     this.chatUser.coworkerEmail = this.coworker.email;
-    this.chatUser.coworkerName = this.coworker.name;
+    this.chatUser.coworkerName = this.coworker.displayName;
     this.chatUser.senderEmail = this.userApp.email;
-    this.chatUser.senderName = this.userApp.name;
-    this.chatUser.coworkerPhoto = this.coworker.photo;
-    this.chatUser.userId = this.userApp.id;
-    this.chatUser.coworkerId = this.coworker.id;
+    this.chatUser.senderName = this.userApp.displayName;
+    this.chatUser.coworkerPhoto = this.coworker.photoURL;
+    this.chatUser.userId = this.userApp.uid;
+    this.chatUser.coworkerId = this.coworker.uid;
 
     // console.log(this.chatUser);
 

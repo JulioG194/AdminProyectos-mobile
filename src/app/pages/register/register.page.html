@@ -11,7 +11,7 @@
     <form (ngSubmit)="onRegister( f )" #f="ngForm">
         <ion-item lines="full">
             <ion-label position="floating">Nombre Completo</ion-label>
-            <ion-input type="text" name="name" [(ngModel)]="userRegister.name" minlength="2" required></ion-input>
+            <ion-input type="text" name="name" [(ngModel)]="userRegister.displayName" minlength="2" required></ion-input>
         </ion-item>
 
         <ion-item lines="full">
@@ -31,7 +31,7 @@
 
         <ion-item lines="full">
             <ion-label position="floating">Número celular</ion-label>
-            <ion-input type="text" name="phone" [(ngModel)]="userRegister.phone_number" required></ion-input>
+            <ion-input type="text" name="phone" [(ngModel)]="userRegister.phoneNumber" required></ion-input>
         </ion-item>
 
         <ion-list>

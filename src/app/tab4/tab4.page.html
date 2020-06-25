@@ -1,59 +1,64 @@
 <ion-header [translucent]="true">
     <ion-toolbar>
-        <ion-title>
-            Cronograma
-        </ion-title>
-        <ion-buttons slot="end">
-            <ion-button id="notification-button">
-                <ion-badge id="notifications-badge" color="primary">5</ion-badge>
-                <ion-icon name="notifications"></ion-icon>
-            </ion-button>
-            <ion-button id="notification-button1">
-                <ion-avatar id="notification-button1">
-                    <img [src]="userApp.photo">
-                </ion-avatar>
-            </ion-button>
-        </ion-buttons>
+        <div class="box align">
+            <ion-title>Cronograma</ion-title>
+            <ion-buttons slot="end">
+                <ion-button id="notification-button">
+                    <ion-badge id="notifications-badge" color="primary">5</ion-badge>
+                    <ion-icon name="notifications"></ion-icon>
+                </ion-button>
+                <ion-button id="notification-button1">
+                    <ion-avatar id="notification-button1">
+                        <img [src]="userApp.photoURL">
+                    </ion-avatar>
+                </ion-button>
+            </ion-buttons>
+        </div>
     </ion-toolbar>
 </ion-header>
-<ion-content [fullscreen]="true">
-    <ion-list-header color="light">Tus Proyectos</ion-list-header>
-    <ion-list *ngFor="let project of projectsAux; let i = index">
-        <ion-card>
-            <ion-card-content>
-                <ion-item-sliding>
-                    <ion-item tappable (click)="projectRoute(project.id)" [ngClass]="{'section-active': project.active, 'section': !project.active}">
-                        <ion-icon slot="start" name="alarm-outline"></ion-icon>
-                        <ion-icon slot="end" name="arrow-forward"></ion-icon>
-                        <ion-label>
-                            <h2 style="color:#428cff;">{{project.name}}</h2>
-                            <h3 style="color:crimson;">Dias restantes: {{ difDyas[i] }}</h3>
-                            <!-- <p style="font-size: 10px;">Fecha de inicio: {{allstartdates[i] | date : "dd/MM/y"}}</p> -->
-                            <ion-progress-bar color="primary" [value]="project.progress / 100"></ion-progress-bar>
-                            <p style="font-size: 10px;">{{ project.progress }}%</p>
-                            <p style="font-size: 10px;">Fecha de entrega: {{allenddates[i] | date : "dd/MM/y"}}</p>
-                        </ion-label>
-                    </ion-item>
-                    <ion-item-options>
-                        <ion-button color="primary" icon-left>
-                            <ion-icon slot="icon-only" name="create"></ion-icon>
-                        </ion-button>
-                        <ion-button color="danger" icon-left>
-                            <ion-icon slot="icon-only" name="trash"></ion-icon>
-                        </ion-button>
-                    </ion-item-options>
-                </ion-item-sliding>
-                <div *ngIf="post == true && project.active">
-                    <!-- <ion-list-header color="light">Tareas</ion-list-header> -->
-                    <ion-item>
-                        <div class="scrolling-box">
-                            <google-chart [data]="timelineChartData"></google-chart>
-                        </div>
-                    </ion-item>
+<ion-content [fullscreen]="true" color="secondary">
+    <!-- <div class="background"> -->
+    <br>
+    <!--  <ion-list-header color="light">Tus Proyectos</ion-list-header> -->
+    <ion-list class="background" *ngFor="let project of projectsAux; let i = index">
+        <!-- <ion-card>
+                <ion-card-content> -->
+        <ion-item-sliding>
+            <ion-item color="dark" tappable (click)="projectRoute(project.id)" [ngClass]="{'section-active': project.active, 'section': !project.active}">
+                <ion-icon slot="start" name="alarm-outline"></ion-icon>
+                <ion-icon slot="end" name="arrow-forward"></ion-icon>
+                <ion-label class="container">
+                    <h2>{{project.name}}</h2>
+                    <p style="color: red;">Dias restantes: {{ difDyas[i] }}</p>
+                    <!-- <p style="font-size: 10px;">Fecha de inicio: {{allstartdates[i] | date : "dd/MM/y"}}</p> -->
+                    <div class="align">
+                        <ion-progress-bar color="primary" [value]="project.progress / 100"></ion-progress-bar>
+                        <p>{{project.progress}}%</p>
+                    </div>
+                    <p>Fecha de entrega: {{allenddates[i] | date : "dd/MM/y"}}</p>
+                </ion-label>
+            </ion-item>
+            <ion-item-options>
+                <ion-button color="primary" icon-left>
+                    <ion-icon slot="icon-only" name="create"></ion-icon>
+                </ion-button>
+                <ion-button color="danger" icon-left>
+                    <ion-icon slot="icon-only" name="trash"></ion-icon>
+                </ion-button>
+            </ion-item-options>
+        </ion-item-sliding>
+        <div *ngIf="post == true && project.active">
+            <!-- <ion-list-header color="light">Tareas</ion-list-header> -->
+            <ion-item>
+                <div class="scrolling-box">
+                    <google-chart [data]="timelineChartData"></google-chart>
                 </div>
-            </ion-card-content>
-        </ion-card>
+            </ion-item>
+        </div>
+        <!-- </ion-card-content>
+            </ion-card> -->
     </ion-list>
-    <ion-row style="height: 1mm"></ion-row>
-    <ion-button expand="block">Proyecto</ion-button>
+    <!-- <ion-row style="height: 1mm"></ion-row>
+        <ion-button expand="block">Proyecto</ion-button> -->
+    <!-- </div> -->
 </ion-content>

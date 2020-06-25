@@ -44,14 +44,14 @@ allstartdatesT: Date[] = [];
 allenddatesT: Date[] = [];
     projects: Project[] = [];
     userApp: User = {
-      name: '',
+      displayName: '',
       email: '',
       password: '',
-      id: '',
+      uid: '',
       birthdate: new Date(),
       description: '',
       gender: '',
-      photo: ''
+      photoURL: ''
   };
 projectApp: Project = {
       name: '',
@@ -136,7 +136,7 @@ automaticClose = false;
 
  ngOnInit() {
   this._authService.getUser(this._authService.userAuth)
-  .subscribe(user => {(this.userApp = user, this.idUser = user.id);
+  .subscribe(user => {(this.userApp = user, this.idUser = user.uid);
                       this._teamService.getTeamByUser(this.userApp)
                       .subscribe(team => {
                                           this.teamsObservable = team;

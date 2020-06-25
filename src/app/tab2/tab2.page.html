@@ -1,70 +1,81 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="false">
     <ion-toolbar>
-        <ion-title>
-            Mi Equipo
-        </ion-title>
-        <ion-buttons slot="end">
-            <ion-button id="notification-button">
-                <ion-badge id="notifications-badge" color="primary">5</ion-badge>
-                <ion-icon name="notifications"></ion-icon>
-            </ion-button>
-            <ion-button id="notification-button1">
-                <ion-avatar id="notification-button1">
-                    <img [src]="userGugo.photo">
-                </ion-avatar>
-            </ion-button>
-        </ion-buttons>
+        <div class="box align">
+            <ion-title>Mi Equipo</ion-title>
+            <ion-buttons slot="end">
+                <ion-button id="notification-button">
+                    <ion-badge id="notifications-badge" color="primary">5</ion-badge>
+                    <ion-icon name="notifications"></ion-icon>
+                </ion-button>
+                <ion-button id="notification-button1">
+                    <ion-avatar id="notification-button1">
+                        <img [src]="userGugo.photoURL">
+                    </ion-avatar>
+                </ion-button>
+            </ion-buttons>
+        </div>
     </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+
+<ion-content [fullscreen]="true" color="secondary">
     <!-- <ion-header collapse="condense">
         <ion-toolbar>
             <ion-title size="large">Tab 2</ion-title>
         </ion-toolbar>
     </ion-header> -->
+    <!--  <div class="background"> -->
     <div *ngIf="userGugo.manager == true; else delegate">
         <div *ngIf="!teamGugo.manager">
             <ion-list>
                 <ion-item *ngFor="let item of usersGugo">
                     <ion-avatar item-left="item-left">
-                        <img style="width:45px;height:45px;" [src]="item.photo"></ion-avatar>
-                    <ion-label>
-                        {{item.name}}</ion-label>
+                        <img style="width:45px;height:45px;" [src]="item.photoURL">
+                    </ion-avatar>
+                    <ion-label>{{item.employment}}</ion-label>
+
+                    <!-- <ion-label>{{item.email}}</ion-label>
+                        <ion-label>{{item.phone_number}}</ion-label>
+                        <ion-label>{{item.employment}}</ion-label> -->
+
                     <ion-checkbox item-end="item-end" [(ngModel)]="item.check" (ionChange)="onChange(usersGugo)"></ion-checkbox>
                 </ion-item>
             </ion-list>
         </div>
         <div *ngIf="teamGugo.manager">
-            <ion-list-header color="light">
-                TU EQUIPO DE TRABAJO
-            </ion-list-header>
-            <ion-list>
-                <ion-item tappable *ngFor="let item of teamGugo.delegates">
-                    &nbsp;&nbsp;&nbsp;
+            <!-- <ion-list-header class="title">Mi Equipo</ion-list-header> -->
+            <br>
+            <br>
+            <!-- <ion-list> -->
+
+            <div class="align1" tappable *ngFor="let item of teamGugo.delegates">
+                <div class="part1">
                     <ion-avatar item-left="item-left">
-                        <img style="width:45px;height:45px;" [src]="item.photo"></ion-avatar>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <ion-label>
-                        <br>
-                        <h2>{{ item.name }}</h2>
-                        <p>{{ item.employment }}</p>
-                        <p>{{ item.phone_number }}</p>
-                        <br>
-                    </ion-label>
+                        <img style="width:35px;height:35px;" [src]="item.photoURL">
+                    </ion-avatar>
+                </div>
+                <div class="align2 part2">
+                    <ion-label class="style1">{{item.displayName}}</ion-label>
+                    <ion-label class="style2">{{item.email}}</ion-label>
+                    <ion-label class="style3">{{item.phoneNumber}}</ion-label>
+                    <ion-label class="style3">{{item.employment}}</ion-label>
+                </div>
 
-                    <!--  <ion-checkbox item-end="item-end" [(ngModel)]="item.check" (ionChange)="onChange(usersGugo)"></ion-checkbox> -->
-                </ion-item>
-            </ion-list>
+                <!--  <ion-checkbox item-end="item-end" [(ngModel)]="item.check" (ionChange)="onChange(usersGugo)"></ion-checkbox> -->
+            </div>
+
+            <!-- </ion-list> -->
         </div>
-        <ion-row style="height: 1mm"></ion-row>
-        <ion-button expand="block" (click)="addTeam()">Agregar personas al equipo</ion-button>
-
+        <!-- <ion-row style="height: 1mm"></ion-row> -->
+        <br>
+        <br>
+        <button class="btnAddTeam" (click)="addTeam()">+ Personas al equipo</button>
+        <!-- <ion-button class="btnAddTeam" expand="block" (click)="addTeam()">+ Personas al equipo</ion-button> -->
+        <br>
+        <br>
     </div>
-
     <!-- <ion-button (click)="team()">Team</ion-button> -->
-
-
-
+    <!-- </div> -->
 </ion-content>
 
 <ng-template #delegate>
@@ -75,11 +86,11 @@
         <div *ngFor="let item of delegatesAux1">
             <ion-item button *ngIf="item.manager == true">
                 <ion-avatar *ngIf="item.manager == true" item-left="item-left">
-                    <img style="width:45px;height:45px;" [src]="item.photo"></ion-avatar>
+                    <img style="width:45px;height:45px;" [src]="item.photoURL"></ion-avatar>
                 <ion-label>
-                    <h2 *ngIf="item.manager == true">{{ item.name }}</h2>
+                    <h2 *ngIf="item.manager == true">{{ item.displayName }}</h2>
                     <p *ngIf="item.manager == true">{{ item.employment }}</p>
-                    <p *ngIf="item.manager == true">{{ item.phone_number }}</p>
+                    <p *ngIf="item.manager == true">{{ item.phoneNumber }}</p>
                 </ion-label>
             </ion-item>
         </div>
@@ -92,11 +103,11 @@
         <div *ngFor="let item of delegatesAux1">
             <ion-item button *ngIf="item.manager != true">
                 <ion-avatar *ngIf="item.manager != true" item-left="item-left">
-                    <img style="width:45px;height:45px;" [src]="item.photo"></ion-avatar>
+                    <img style="width:45px;height:45px;" [src]="item.photoURL"></ion-avatar>
                 <ion-label>
-                    <h2 *ngIf="item.manager != true">{{ item.name }}</h2>
+                    <h2 *ngIf="item.manager != true">{{ item.displayName }}</h2>
                     <p *ngIf="item.manager != true">{{ item.employment }}</p>
-                    <p *ngIf="item.manager != true">{{ item.phone_number }}</p>
+                    <p *ngIf="item.manager != true">{{ item.phoneNumber }}</p>
                 </ion-label>
             </ion-item>
         </div>

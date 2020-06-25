@@ -1,0 +1,94 @@
+* {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.bodyt {
+    height: 200px;
+}
+
+
+/* $colors: #360745, #D61C59, #E7D84B, #EFEAC5, #1B8798; */
+
+$colors: #1f6b79,
+white,
+rgb(231, 221, 129),
+rgb(79, 116, 71),
+rgb(88, 93, 94);
+.bodyt {
+    /* background: hsl(200,70,11); */
+    background-size: .15em 100%;
+    font: 20em/1 Arial;
+}
+
+.text--line {
+    font-size: .35em;
+}
+
+.text--line2 {
+    margin-top: 100px;
+}
+
+svg {
+    position: absolute;
+    width: 90%;
+    height: 200px;
+}
+
+$max: 5;
+$stroke-step: 7%;
+.text-copy {
+    fill: none;
+    stroke: white;
+    stroke-dasharray: $stroke-step $stroke-step * ($max - 1);
+    stroke-width: 3px;
+    animation: stroke-offset 5s alternate-reverse linear;
+    @for $item from 1 through $max {
+        $stroke-color: nth($colors, $item);
+        &:nth-child(#{$item}) {
+            stroke: $stroke-color;
+            stroke-dashoffset: $stroke-step * $item;
+        }
+    }
+}
+
+@keyframes stroke-offset {
+    50% {
+        stroke-dashoffset: $stroke-step * $max;
+        stroke-dasharray: 0 $stroke-step * $max*2.5;
+    }
+}
+
+ion-header {
+    background: #0C1B22;
+}
+
+.box {
+    /* background: #082330; */
+    background: #0C1B22;
+    color: white;
+    height: 100%;
+}
+
+.align {
+    display: flex;
+    flex-direction: row;
+}
+
+.align2 {
+    display: flex;
+    flex-direction: column;
+}
+
+.part1 {
+    background: white;
+    height: 100%;
+}
+
+ion-item {
+    height: 50%;
+}
+
+
+/* .aux {
+    height: 50%;
+} */

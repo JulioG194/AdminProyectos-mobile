@@ -27,17 +27,16 @@ export class Tab5Page implements OnInit {
                 delegates: User[] = [];
 
                 userGugo: User = {
-                  name: '',
+                  displayName: '',
                   email: '',
                   password: '',
-                  id: '',
+                  uid: '',
                   birthdate: new Date(),
                   description: '',
                   gender: '',
-                  photo: '',
+                  photoURL: '',
                   manager: false,
-                  google: false,
-                  phone_number: ''
+                  phoneNumber: ''
                 };
 
                 teamsObservable: any;
@@ -57,15 +56,18 @@ export class Tab5Page implements OnInit {
                 delegatesAux1: User[] = [];
                 managers: string[] = [];
                 managerAux: User = {
-                    name: '',
+                    uid: '',
+                    displayName: '',
                     email: ''
                 };
                 delegateAux: User = {
-                  name: '',
+                  uid: '',
+                  displayName: '',
                   email: ''
               };
               delegateAux1: User = {
-                name: '',
+                uid: '',
+                displayName: '',
                 email: ''
               };
                chatUser: Chat = {
@@ -79,7 +81,8 @@ export class Tab5Page implements OnInit {
             };
 
             coworker: User = {
-              name: '',
+              uid: '',
+              displayName: '',
               email: '',
             };
 
@@ -146,7 +149,7 @@ export class Tab5Page implements OnInit {
                                                this.teamsAux1.forEach(teamA => {
                                                 this.authService.getUserById(teamA.manager).subscribe(manager => {
                                                   if (manager != null) {
-                                                  if (!this.delegatesAux1.some(obj => obj.email === manager.email && obj.id === manager.id)) {
+                                                  if (!this.delegatesAux1.some(obj => obj.email === manager.email && obj.uid === manager.uid)) {
                                                     this.delegatesAux1.push(manager);
                                                   }
                                                 }
@@ -154,7 +157,7 @@ export class Tab5Page implements OnInit {
                                     });
                                                team.delegates.forEach(delegate => {
                                                 if (delegate != null) {
-                                                  if (!this.delegatesAux1.some(obj => obj.email === delegate.email && obj.id === delegate.id)) {
+                                                  if (!this.delegatesAux1.some(obj => obj.email === delegate.email && obj.uid === delegate.uid)) {
                                                   this.delegatesAux1.push(delegate);
                                                   // console.log(delegate.photo);
                                                 }
@@ -201,11 +204,11 @@ export class Tab5Page implements OnInit {
 
   goChat(idU: string, idC: string, name: string, email: string, photo: string ) {
 
-    this.coworker.id = idC;
+    this.coworker.uid = idC;
     // console.log(this.coworker.id);
-    this.coworker.name = name;
+    this.coworker.displayName = name;
     this.coworker.email = email;
-    this.coworker.photo = photo;
+    this.coworker.photoURL = photo;
 
     let navigationExtras: NavigationExtras = {
       queryParams: {
@@ -218,13 +221,13 @@ export class Tab5Page implements OnInit {
   }
 
   selectUser( id: string, name: string, email: string, photo: string ) {
-    this.coworker.id = id;
+    this.coworker.uid = id;
     // console.log(this.coworker.id);
-    this.coworker.name = name;
+    this.coworker.displayName = name;
     this.coworker.email = email;
-    this.coworker.photo = photo;
+    this.coworker.photoURL = photo;
 
-    this.chatService.getChats(this.userGugo.id).subscribe(chats => {
+    this.chatService.getChats(this.userGugo.uid).subscribe(chats => {
       this.allChats = chats;
       // console.log(this.allChats);
       try {

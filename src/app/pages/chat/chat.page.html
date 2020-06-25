@@ -3,7 +3,7 @@
         <ion-buttons slot="start">
             <ion-back-button defaultHref="tabs/tabs/tab5"></ion-back-button>
         </ion-buttons>
-        <ion-title>{{ coworker.name }}</ion-title>
+        <ion-title>{{ coworker.displayName }}</ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -21,7 +21,7 @@
             <!--  <div class="time">{{message.createdAt | date:'dd.MM hh:MM'}}</div> -->
             <!--   <ion-item> -->
             <ion-avatar slot="end">
-                <img style="width:45px;height:45px;" [src]="userApp.photo"></ion-avatar>
+                <img style="width:45px;height:45px;" [src]="userApp.photoURL"></ion-avatar>
             <ion-label floating class="my_message" [ngClass]="{'my_message':message.coworkerEmail == coworker.email, 'other_message':message.coworkerEmail == userApp.email && message.senderEmail == coworker.email}">
                 <p class="line-breaker " style="font-size: 14px; color:white">{{ message.message }}</p>
                 <!-- <p>{{ item.employment }}</p> -->
@@ -36,7 +36,7 @@
             <!--  <div class="time">{{message.createdAt | date:'dd.MM hh:MM'}}</div> -->
             <!--   <ion-item> -->
             <ion-avatar class="right">
-                <img style="width:45px;height:45px;" [src]="coworker.photo"></ion-avatar>&nbsp;&nbsp;&nbsp;
+                <img style="width:45px;height:45px;" [src]="coworker.photoURL"></ion-avatar>&nbsp;&nbsp;&nbsp;
             <ion-label class="other_message">
                 <p class="line-breaker " style="font-size: 14px; color:black">{{ message.message }}</p>
                 <!-- <p>{{ item.employment }}</p> -->

@@ -1,17 +1,16 @@
 export interface User {
-        name: string;
+        uid: string;
         email: string;
         password?: string;
-        id?: string;
+        displayName: string;
+        photoURL?: string;
+        phoneNumber?: string;
         birthdate?: Date;
         employment?: string;
         description?: string;
         gender?: string;
-        photo?: string;
         manager?: boolean;
-        google?: boolean;
-        phone_number?: string;
         createdAt?: any;
-        check?: boolean;
+        check?: any;
 }
 

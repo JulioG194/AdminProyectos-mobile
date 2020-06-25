@@ -11,5 +11,5 @@ export interface Project {
     id?: string;
     createdAt?: any;
     progress?: number;
-    active?: boolean;
+    active?: any;
 }

@@ -1,33 +1,85 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-back-button></ion-back-button>
-        </ion-buttons>
-        <ion-title>Log In</ion-title>
+    <ion-toolbar color="medium">
+        <div class="box align">
+            <ion-buttons slot="start">
+                <ion-back-button></ion-back-button>
+            </ion-buttons>
+            <ion-title>Ingreso</ion-title>
+        </div>
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
-    <form (ngSubmit)="onLogin( f2 )" #f2="ngForm">
-        <ion-item lines="full">
-            <ion-label position="floating">Correo electrónico</ion-label>
-            <ion-input type="text" name="email" [(ngModel)]="userLogin.email" required></ion-input>
-        </ion-item>
+<ion-content color="secondary" class="">
+    <br>
+    <div class="align2">
+        <!-- <ion-list> -->
+        <div color="secondary">
+            <div class="bodyt" style="height: 200px;">
+                <svg viewBox="0 0 800 600">
+                        <symbol id="s-text">
+                        <text text-anchor="middle"
+                                x="35%"
+                                y="40%"
+                                class="text--line"
+                                >
+                            EPN
+                        </text>
+                        
+                        <text text-anchor="middle"
+                                x="50%"
+                                y="73%"
+                                class="text--line2"
+                                >
+                            GuGo
+                        </text>
+                        
+                        </symbol>
+                        
+                        <g class="g-ants">
+                        <use xlink:href="#s-text"
+                            class="text-copy"></use>     
+                        <use xlink:href="#s-text"
+                            class="text-copy"></use>     
+                        <use xlink:href="#s-text"
+                            class="text-copy"></use>     
+                        <use xlink:href="#s-text"
+                            class="text-copy"></use>     
+                        <use xlink:href="#s-text"
+                            class="text-copy"></use>     
+                        </g>
+                    
+                    </svg>
+            </div>
+        </div>
+        <!-- </div> -->
+        <!-- </ion-list> -->
+        <br>
+        <!-- <div class="part1"> -->
+        <form (ngSubmit)="onLogin( f2 )" #f2="ngForm">
+            <div class="part1">
+                <ion-item lines="full" color="light">
+                    <ion-label position="floating">Correo electrónico</ion-label>
+                    <ion-input type="text" name="email" [(ngModel)]="userLogin.email" required></ion-input>
+                </ion-item>
 
-        <ion-item lines="full">
-            <ion-label position="floating">Contraseña</ion-label>
-            <ion-input type="password" name="password" [(ngModel)]="userLogin.password" required></ion-input>
-        </ion-item>
+                <ion-item lines="full" color="light">
+                    <ion-label position="floating">Contraseña</ion-label>
+                    <ion-input type="password" name="password" [(ngModel)]="userLogin.password" required></ion-input>
+                </ion-item>
 
-        <ion-row>
-            <ion-col>
-                <ion-button type="submit" color="danger" expand="block">Sign In</ion-button>
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col>
-                <ion-button color="danger" expand="block" (click)="register()">Register</ion-button>
-            </ion-col>
-        </ion-row>
-    </form>
+                <ion-row>
+                    <ion-col>
+                        <ion-button type="submit" color="danger" expand="block">Sign In</ion-button>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <ion-button color="danger" expand="block" (click)="register()">Register</ion-button>
+                    </ion-col>
+                </ion-row>
+            </div>
+        </form>
+
+    </div>
+    <!--  </div> -->
 </ion-content>

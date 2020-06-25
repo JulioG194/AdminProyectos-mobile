@@ -19,7 +19,8 @@ export class LoginPage implements OnInit {
                private authService: AuthService ) { }
 
 userLogin: User = {
-                name: '',
+                uid: '',
+                displayName: '',
                 email: 'julio.gonzalez@gugo.com',
                 password: '123456789'
             };

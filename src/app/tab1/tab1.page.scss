@@ -1,9 +1,35 @@
+@font-face {
+    font-family: Channel;
+    src: url(../../assets/fuente/Channel.ttf);
+}
+
+* {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
 ion-content ion-toolbar {
     --background: translucent;
 }
 
+.box {
+    /* background: #082330; */
+    background: #0C1B22;
+    padding: 10px;
+    color: white;
+}
+
+.align {
+    display: flex;
+    flex-direction: row;
+}
+
+.gugo {
+    font-family: Channel;
+    font-size: 20px;
+}
+
 .welcome-card img {
-    max-height: 35vh;
+    /* max-height: 35vh; */
     overflow: hidden;
 }
 
@@ -28,4 +54,36 @@ ion-content ion-toolbar {
     top: 0px;
     right: -4px;
     border-radius: 100%;
+}
+
+
+/* .main {
+    height: 100%;
+} */
+
+.title {
+    color: white;
+    border-bottom: 1px solid white;
+    width: 100%;
+    font-size: 20px;
+}
+
+.view1 {
+    width: 70%;
+    border: 1px solid black;
+    padding: 10px;
+    background: rgb(12, 27, 34);
+    align-items: center;
+    color: white;
+    margin: 0 auto;
+}
+
+.view2 {
+    width: 80%;
+    border: 1px solid black;
+    padding: 20px;
+    background: rgb(12, 27, 34);
+    align-items: center;
+    color: white;
+    margin: 0 auto;
 }

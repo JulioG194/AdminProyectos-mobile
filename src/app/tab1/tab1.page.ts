@@ -21,17 +21,16 @@ export class Tab1Page implements OnInit {
   post = true;
   show = false;
   userGugo: User = {
-    name: '',
+    displayName: '',
     email: '',
     password: '',
-    id: '',
+    uid: '',
     birthdate: new Date(),
     description: '',
     gender: '',
-    photo: '',
+    photoURL: '',
     manager: false,
-    google: false,
-    phone_number: ''
+    phoneNumber: ''
 };
 projects: any [] = ['asdsd'];
 progressArray: number[] = [];
@@ -79,7 +78,7 @@ colorScheme = {
       position: 'top',
       labels: {
         fontFamily: "'Roboto', sans-serif",
-        fontSize: 8,
+        fontSize: 10,
       }
     }
   };
@@ -97,8 +96,8 @@ colorScheme = {
   public barChartOptions: ChartOptions = {
     responsive: true,
     scales: {
-      yAxes: [{ticks: {fontSize: 8, fontFamily: "'Roboto', sans-serif", fontColor: '#000000', fontStyle: '500'}}],
-      xAxes: [{ticks: {fontSize: 8, fontFamily: "'Roboto', sans-serif", fontColor: '#000000', fontStyle: '500'}}]
+      yAxes: [{ticks: {fontSize: 8, fontFamily: "'Roboto', sans-serif", fontColor: '#ffffff', fontStyle: '500'}}],
+      xAxes: [{ticks: {fontSize: 8, fontFamily: "'Roboto', sans-serif", fontColor: '#ffffff', fontStyle: '500'}}]
     }
   };
   public barChartLabels: Label[] = [];
