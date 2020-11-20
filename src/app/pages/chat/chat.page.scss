@@ -1,3 +1,7 @@
+*{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
 * {
     .user_name {
         color: #afafaf;
@@ -13,26 +17,27 @@
         transition: all 250ms ease-in-out !important;
         border-radius: 10px !important;
         margin-bottom: 4px !important;
-        background: #387ef5 !important;
+        /* background: #387ef5 !important; */
         color: white !important;
-        border-style: solid;
-        border-width: 1px;
+      /*   border-style: solid;
+        border-width: 1px; */
     }
     ion-item {
         right: 0;
     }
     .line-breaker {
         white-space: pre-line;
+        font-size: 14px;
     }
     .other_message {
         padding: 10px !important;
         // transition: all 250ms ease-in-out !important;
         border-radius: 10px !important;
         margin-bottom: 4px !important;
-        background: white !important;
-        color: black !important;
+        /* background: white !important; */
+        color: rgb(182, 141, 141) !important;
         // border-style: ridge;
-        border-width: 0.5px;
+        /* border-width: 0.5px; */
         width: 20px;
     }
     .left {
@@ -46,4 +51,25 @@
     .message_row {
         background-color: #fff;
     }
+}
+
+.box {
+    /* background: #082330; */
+    background: #0C1B22;
+    padding: 10px;
+    color: white;
+}
+
+.align {
+    display: flex;
+    flex-direction: row;
+}
+
+.msgRx p{
+    color: white;
+}
+
+.msgTx p{
+    color: #5c92b1;
+   /*  color: #17b4b4; */
 }

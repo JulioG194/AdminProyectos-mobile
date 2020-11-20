@@ -1,0 +1,40 @@
+<ion-header traslucent>
+  <ion-toolbar>
+      <div class="box align">
+          <ion-title>EVIDENCIA</ion-title>
+          <ion-buttons slot="end">
+              <ion-button color="primary" (click)="onClose()">
+                  <ion-icon name="close"></ion-icon>
+              </ion-button>
+          </ion-buttons>
+      </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="secondary">
+  <div class="container">
+    <ion-label>{{task}}</ion-label>
+    <ion-item color="dark" class="align">
+      <ion-input type="file" accept="multiple"></ion-input>
+      <ion-button color="danger">
+        <ion-icon name="check"></ion-icon>
+      </ion-button>
+    </ion-item>
+    <div *ngFor="let item of test">
+      <ion-card>
+        <img src="../../../assets/img/test.JPG" alt="">
+        <ion-card-content>
+          <p>Nombre: Evidencia</p>
+          <p>Fecha de entrega: 03/07/2020</p>
+        </ion-card-content>
+        <!-- <div class="test">
+          <ion-button color="primary">
+            <ion-icon name="arrow-down-outline"></ion-icon>
+          </ion-button>
+        </div> -->
+      </ion-card>
+      <br>
+    </div>
+  </div>
+  
+</ion-content>

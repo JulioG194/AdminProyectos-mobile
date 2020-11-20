@@ -18,9 +18,8 @@ ion-content ion-toolbar {
     flex-direction: row;
 }
 
-.background {
-    background: #082330;
-    padding: 10px;
+.container {
+    padding: 20px;
 }
 
 #notification-button {
@@ -48,7 +47,7 @@ ion-content ion-toolbar {
 
 ion-list {
     background: #082330;
-    width: 95%;
+    width: 100%;
     margin: 0 auto;
 }
 

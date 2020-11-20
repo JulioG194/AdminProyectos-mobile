@@ -18,6 +18,8 @@ import { NavController } from '@ionic/angular';
 })
 export class Tab4Page implements OnInit {
 
+  gestor = true;
+
   activityProject: Activity = {
     name: '',
     status: '',

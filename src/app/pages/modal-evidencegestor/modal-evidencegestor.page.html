@@ -1,0 +1,35 @@
+<ion-header traslucent>
+    <ion-toolbar>
+        <div class="box align">
+            <ion-title>EVIDENCIA</ion-title>
+            <ion-buttons slot="end">
+                <ion-button color="primary" (click)="onClose()">
+                    <ion-icon name="close"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content color="secondary">
+    <div class="container">
+        <h5>{{task.name}}</h5>
+        <br>
+        <div *ngFor="let item of evidences">
+            <ion-card>
+                <img [src]="item.url" alt="">
+                <ion-card-content>
+                    <p>Nombre: {{item.fileName}}</p>
+                    <p>Fecha de entrega: {{item.createdAt | date : "dd/MM/y"}}</p>
+                </ion-card-content>
+                <div class="test">
+                    <ion-button color="primary" (click)="downloadFile(item.url)">
+                        <ion-icon name="arrow-down-outline"></ion-icon>
+                    </ion-button>
+                </div>
+            </ion-card>
+            <br>
+        </div>
+
+    </div>
+</ion-content>

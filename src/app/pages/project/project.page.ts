@@ -9,6 +9,13 @@ import { Task } from 'src/app/models/task.interface';
 import { Team } from 'src/app/models/team.interface';
 import { User } from 'src/app/models/user.interface';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { ModalController, AlertController } from '@ionic/angular';
+import { ModalActivityPage } from '../modal-activity/modal-activity.page';
+import { ModalActivityPageModule } from '../modal-activity/modal-activity.module';
+import { ModalTaskPage } from '../modal-task/modal-task.page';
+import { ModalTaskPageModule } from '../modal-task/modal-task.module';
+import { ModalEvidencegestorPage } from '../modal-evidencegestor/modal-evidencegestor.page';
+import { ModalEvidencegestorPageModule } from "../modal-evidencegestor/modal-evidencegestor.module";
 
 @Component({
   selector: 'app-project',
@@ -32,6 +39,8 @@ export class ProjectPage implements OnInit {
   validate = true;
 
   panelOpenState = false;
+
+  name: string;
 
 
  // delegates: string[]=['Boots', 'Yeye','Pedro', 'Juli','Alexa'];
@@ -106,7 +115,9 @@ automaticClose = false;
                private authService: AuthService,
                private router: Router,
                private router1: Router,
-               public _teamService: TeamService ) {
+               private modalCtrl: ModalController,
+               public _teamService: TeamService,
+               private alertCtrl: AlertController ) {
 
               //  this.information = this.activitiesProject;
                  }
@@ -133,8 +144,10 @@ automaticClose = false;
                                                                                                       this.allstartdates = [];
                                                                                                       this.allenddates = [];
                                                                                                       this.activitiesProject.forEach(activity => {
-                                                                                                        this.allstartdates.push(new Date(activity.start_date['seconds'] * 1000));
-                                                                                                        this.allenddates.push(new Date(activity.end_date['seconds'] * 1000));
+                                                                                                        /* this.allstartdates.push(new Date(activity.start_date['seconds'] * 1000));
+                                                                                                        this.allenddates.push(new Date(activity.end_date['seconds'] * 1000)); */
+                                                                                                        activity.start_date = new Date(activity.start_date['seconds'] * 1000);
+                                                                                                        activity.end_date = new Date(activity.end_date['seconds'] * 1000);
                                                                                                       });
                                                                                                       // tslint:disable-next-line:prefer-for-of
                                                                                                       for (let i = 0; i < this.activitiesProject.length; i++) {
@@ -168,5 +181,180 @@ automaticClose = false;
     this.activitiesProject[index].tasks[childIndex].active = !this.activitiesProject[index].tasks[childIndex].active;
   }
 
+
+  async openActivity() {
+    try {
+      const modal = await this.modalCtrl.create({
+        component: ModalActivityPage,
+        componentProps: {
+          /* members: this.usersAppFilter, */
+          project: this.projectApp,
+          activity: null,
+          result: false
+        }
+      });
+
+      await modal.present();
+
+      const { data } = await modal.onDidDismiss();
+      console.log(data);
+      const alert = await this.alertCtrl.create({
+        header: 'Exito',
+        subHeader: 'Actividad agregada con exito',
+        buttons: ['Aceptar']
+      });
+
+      if ( data != null) {
+        let act: Activity = null;
+        act = data['activity'] ;
+        this._projectService.setActivitiestoProject(this.projectApp.id, act);
+        if (data['result']) { await alert.present(); }
+      }
+
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
+  async editActivity(activityAux: Activity) {
+    try {
+      const modal = await this.modalCtrl.create({
+        component: ModalActivityPage,
+        componentProps: {
+          /* members: this.usersAppFilter, */
+          project: this.projectApp,
+          activity: activityAux,
+          result: false
+        }
+      });
+
+      await modal.present();
+
+      const { data } = await modal.onDidDismiss();
+      console.log(data);
+      const alert = await this.alertCtrl.create({
+        header: 'Exito',
+        subHeader: 'Actividad editada con exito',
+        buttons: ['Aceptar']
+      });
+
+      if ( data != null) {
+        let act: Activity = null;
+        act = data['activity'] ;
+        console.log(act);
+        this._projectService.updateActivity(this.projectApp.id, act.id , act);
+        if (data['result']) { await alert.present(); }
+      }
+
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
+
+
+
+
+  async editTask(activityAux: Activity, taskAux: Task) {
+    try {
+    const modal = await this.modalCtrl.create({
+      component: ModalTaskPage,
+      componentProps: {
+        members: this.delegates,
+        activity: activityAux,
+        task: taskAux,
+        result: false
+      }
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onDidDismiss();
+    console.log(data);
+
+    const alert = await this.alertCtrl.create({
+      header: 'Exito',
+      subHeader: 'Tarea editada con exito',
+      buttons: ['Aceptar']
+    });
+
+    if ( data != null) {
+      let tsk: Task = null;
+      tsk = data['task'] ;
+      this._projectService.updateTask(this.projectApp.id, activityAux.id, tsk.id, tsk);
+      console.log(tsk);
+      if (data['result']) { await alert.present(); }
+    }
+
+  } catch (error) {
+    console.log(error);
+}
+
+
+    /* if ( data != null) {
+      let users: User [] = [];
+      users = data['newMembers'] ;
+      console.log(users) ;
+      this.teamService.addDelegates(this.teamGugo, users);
+    } */
+  }
+
+  async openTask(activityAux: Activity) {
+    try {
+    const modal = await this.modalCtrl.create({
+      component: ModalTaskPage,
+      componentProps: {
+        members: this.delegates,
+        activity: activityAux,
+        newMembers: null
+      }
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onDidDismiss();
+    console.log(data);
+
+    const alert = await this.alertCtrl.create({
+      header: 'Exito',
+      subHeader: 'Tarea agregada con exito',
+      buttons: ['Aceptar']
+    });
+
+    if ( data != null) {
+      let tsk: Task = null;
+      tsk = data['task'] ;
+      this._projectService.setTaskstoActivity(this.projectApp, activityAux.id, tsk);
+      console.log(tsk);
+      if (data['result']) { await alert.present(); }
+    }
+
+  } catch (error) {
+    console.log(error);
+}
+  }
+
+  async openEvidence(taskAux: Task) {
+
+    const modal = await this.modalCtrl.create({
+      component: ModalEvidencegestorPage,
+      componentProps: {
+        /* members: this.usersAppFilter, */
+        task: taskAux
+      }
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onDidDismiss();
+    console.log(data);
+
+    /* if ( data != null) {
+      let users: User [] = [];
+      users = data['newMembers'] ;
+      console.log(users) ;
+      this.teamService.addDelegates(this.teamGugo, users);
+    } */
+  }
 
 }

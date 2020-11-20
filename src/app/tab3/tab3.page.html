@@ -20,32 +20,76 @@
 <ion-content [fullscreen]="true" color="secondary">
     <!-- <div class="background"> -->
     <!-- <ion-list-header class="title">Proyectos</ion-list-header> -->
-    <br>
+    <div class="container1">
+        <div *ngIf=" userApp.manager == true ; else delegate">
+            <ion-list>
+                <ion-item-sliding *ngFor="let project of projectsApp; let i = index">
+                    <ion-item class="container" color='dark' tappable (click)="projectRoute(project.id)">
+                        <ion-icon slot="start" name="clipboard"></ion-icon>
+                        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+                        <ion-label class="container">
+                            <h2>{{project.name}}</h2>
+                            <p style="color: rgb(253, 220, 201);">Cliente: {{ project.client }}</p>
+                            <p>Fecha de inicio: {{project.start_date | date : "dd/MM/y"}}</p>
+                            <p>Fecha de fin: {{project.end_date | date : "dd/MM/y"}}</p>
+                        </ion-label>
+                    </ion-item>
+                    <ion-item-options>
+                        <ion-button color="primary" icon-left (click)="editProject(project)">
+                            <ion-icon slot="icon-only" name="create"></ion-icon>
+                        </ion-button>
+                        <ion-button color="danger" icon-left (click)="deleteProject(project.id)">
+                            <ion-icon slot="icon-only" name="trash"></ion-icon>
+                        </ion-button>
+                    </ion-item-options>
+                </ion-item-sliding>
+            </ion-list>
+            <ion-row style="height: 1mm"></ion-row>
+            <button class="btnNewProject" expand="block" (click)="openNewProject()">Nuevo proyecto</button>
+        </div>
+    </div>
+    <!--  </div> -->
+</ion-content>
+
+<ng-template #delegate>
+    <p>delegado</p>
     <ion-list>
         <ion-item-sliding *ngFor="let project of projectsApp; let i = index">
-            <ion-item class="container" color='dark' tappable (click)="projectRoute(project.id)">
-                <ion-icon slot="start" name="clipboard"></ion-icon>
+            <ion-item class="container" color='dark' tappable>
+                <!-- <ion-icon slot="start" name="clipboard"></ion-icon> -->
                 <ion-icon slot="end" name="arrow-forward"></ion-icon>
-                <ion-label class="container">
-                    <h2>{{project.name}}</h2>
-                    <p style="color: rgb(253, 220, 201);">Cliente: {{ project.client }}</p>
-                    <p>Fecha de inicio: {{allstartdates[i] | date : "dd/MM/y"}}</p>
-                    <p>Fecha de fin: {{allenddates[i] | date : "dd/MM/y"}}</p>
-                </ion-label>
+                <div class="align3">
+                    <div class="align container3">
+                        <ion-avatar id="notification-button1">
+                            <img style="width:45px;height:45px;" [src]="userApp.photoURL">
+                        </ion-avatar>
+                        <h2>{{project.name}}</h2>
+                    </div>
+
+                    <ion-label class="container2">
+                        <p>Fecha de inicio: {{allstartdates[i] | date : "dd/MM/y"}}</p>
+                        <p>Fecha de fin: {{allenddates[i] | date : "dd/MM/y"}}</p>
+                        <p>Actividad: {{ project.client }}</p>
+                        <p>Proyecto: {{ project.client }}</p>
+                        <p>%Avance: {{project.progress}} </p>
+                    </ion-label>
+                    <ion-input type="number" placeholder="Ingrese % de Avance"></ion-input>
+                </div>
+                <br>
             </ion-item>
-            <br>
             <ion-item-options>
-                <ion-button color="primary" icon-left>
+                <ion-button color="primary" icon-left (click)="openEvidence(project.name)">
                     <ion-icon slot="icon-only" name="create"></ion-icon>
                 </ion-button>
-                <ion-button color="danger" icon-left>
+                <!-- <ion-button color="danger" icon-left>
                     <ion-icon slot="icon-only" name="trash"></ion-icon>
-                </ion-button>
+                </ion-button> -->
+
+                <!-- <ion-label class="container2">
+                    <p>Actividad: {{ project.client }}</p>
+                    <p>Proyecto: {{ project.client }}</p>
+                </ion-label> -->
             </ion-item-options>
         </ion-item-sliding>
     </ion-list>
-    <br>
-    <ion-row style="height: 1mm"></ion-row>
-    <button class="btnNewProject" expand="block">Nuevo proyecto</button>
-    <!--  </div> -->
-</ion-content>
+</ng-template>

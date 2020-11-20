@@ -1,0 +1,44 @@
+* {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.box {
+    /* background: #082330; */
+    background: #0C1B22;
+    padding: 10px;
+    color: white;
+}
+
+.align {
+    display: flex;
+    flex-direction: row;
+}
+
+.box ion-title {
+    text-align: center;
+    letter-spacing: 10px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.container {
+    padding: 20px;
+}
+
+.btnGuardar {
+    background: rgb(212, 212, 212);
+    color: black;
+    width: 100%;
+    font-size: 18px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+}
+
+ion-label {
+    color: rgb(212, 212, 212);
+}
+
+ion-input {
+    color: rgb(212, 212, 212);
+}

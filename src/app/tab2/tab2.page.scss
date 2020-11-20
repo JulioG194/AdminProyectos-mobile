@@ -96,6 +96,18 @@ ion-content ion-toolbar {
     font-size: 14px;
 }
 
+.style4 {
+    color: #5c92b1;
+    font-size: 26px;
+    font-weight: bolder;
+}
+
+.style5 {
+    color: white;
+    font-size: 18px;
+}
+
+
 .btnAddTeam {
     background: rgb(212, 212, 212);
     color: black;
@@ -103,5 +115,35 @@ ion-content ion-toolbar {
     font-size: 18px;
     padding: 10px;
     border: none;
-    border-radius: 15px;
+    border-radius: 10px;
+}
+
+.container {
+   padding: 20px;
+}
+
+ion-list {
+    background: #082330;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.title1 {
+    background: #d4d4d4;
+    color: black;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 16px;
+}
+
+.empty {
+    width: 100%;
+    text-align: center;
+    border: 1px solid black;
+    background: rgb(42, 49, 61);
+    color: white;
+    margin: 0px auto;
+    border-bottom-left-radius: 25px;
+    border-top-right-radius: 25px;
+    padding: 10px;
 }

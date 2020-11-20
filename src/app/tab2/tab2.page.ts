@@ -15,6 +15,8 @@ import { ModalTeamPage } from '../pages/modal-team/modal-team.page';
 })
 export class Tab2Page implements OnInit{
 
+  sinTeam = false ; //variable de test utilizada para diseño
+  
   usersApp: User[] ;
   usersAppFilter: User[] = [];
   usersGugo: User[] = [];
@@ -46,6 +48,7 @@ export class Tab2Page implements OnInit{
 
   post = true;
   visability = false;
+
 
   // Variables Auxiliares
   teamsAux: Team[] = [];

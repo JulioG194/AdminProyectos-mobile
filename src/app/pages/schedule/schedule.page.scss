@@ -1,3 +1,23 @@
+* {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.box {
+    /* background: #082330; */
+    background: #0C1B22;
+    padding: 10px;
+    color: white;
+}
+
+.align {
+    display: flex;
+    flex-direction: row;
+}
+
 .scrolling-box {
     overflow-x: scroll;
+}
+
+.container {
+    padding: 20px;
 }

@@ -31,7 +31,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
-    ChartsModule
+    ChartsModule,
   ],
   providers: [
     StatusBar,

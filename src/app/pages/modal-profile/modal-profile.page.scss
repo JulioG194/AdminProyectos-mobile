@@ -1,0 +1,41 @@
+* {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.box {
+    /* background: #082330; */
+    background: #0C1B22;
+    padding: 10px;
+    color: white;
+}
+
+.align {
+    display: flex;
+    flex-direction: row;
+}
+
+.box ion-title {
+    /* text-align: center;
+    letter-spacing: 10px;
+    font-size: 25px;
+    font-weight: bold; */
+}
+
+.container {
+    padding: 20px;
+}
+
+.photo{
+    padding: 10px;
+    text-align: center;
+}
+
+/* .photo img {
+    height: 175px;
+    width: 175px;
+    border-radius: 200px;
+} */
+
+ion-card {
+    border: 0.5px solid black;
+}

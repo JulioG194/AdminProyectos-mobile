@@ -212,13 +212,16 @@ automaticClose = false;
                                                                                                                                               }
                                                                                                                                           }
                                                                                                                                         }
+                                                                                                                                        
                                                                                                                                    };
+                                                                                                                             console.log(this.dataT);
                                                                                                                     });
                                                                                                                     }
+                                                                                                                    
                   });
                 });
     {
-                  setTimeout(() => { this.post = true; }, 1000);
+                  setTimeout(() => { if (this.dataT.length > 1) { this.post = true; } }, 1000);
                 }
   }
 

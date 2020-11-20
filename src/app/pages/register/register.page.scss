@@ -1,0 +1,44 @@
+* {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+ion-header {
+    background: #0C1B22;
+}
+
+.box {
+    /* background: #082330; */
+    background: #0C1B22;
+    color: white;
+    /* height: 100%; */
+}
+
+.align {
+    display: flex;
+    flex-direction: row;
+}
+
+.title{
+    text-align: center;
+    letter-spacing: 15px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.container {
+    /* width: 80%;
+    margin: 0 auto; */
+    padding: 20px;
+}
+
+.space {
+    height: 10px;
+}
+
+.funtion {
+    font-size: 16px;
+}
+
+ion-item {
+    height: 50px;
+}

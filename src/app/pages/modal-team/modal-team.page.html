@@ -1,30 +1,33 @@
 <ion-header traslucent>
     <ion-toolbar>
-        <ion-title>Agregar delegados</ion-title>
-        <ion-buttons slot="end">
-            <ion-button color="primary" (click)="onClose()">Cerrar</ion-button>
-        </ion-buttons>
+        <div class="box align">
+            <ion-title>Amplia tu equipo</ion-title>
+            <ion-buttons slot="end">
+                <ion-button color="primary" (click)="onClose()">
+                    <ion-icon name="close"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </div>
     </ion-toolbar>
 </ion-header>
-
-<ion-content padding>
-    <ion-list-header color="light">
-        LISTA DE DELEGADOS
-    </ion-list-header>
-    <ion-list>
-        <ion-item button *ngFor="let item of members">
-            <ion-avatar item-left="item-left">
-                <img style="width:45px;height:45px;" [src]="item.photoURL"></ion-avatar>
-            <ion-label>
-                <h2>{{ item.displayName }}</h2>
-                <p>{{ item.employment }}</p>
-                <p>{{ item.phoneNumber }}</p>
-            </ion-label>
-
-            <ion-checkbox item-end="item-end" [(ngModel)]="item.check" (ionChange)="onChange(members)"></ion-checkbox>
-        </ion-item>
-    </ion-list>
-    <ion-row style="height: 10mm"></ion-row>
-    <ion-button expand="block" (click)="onSave()">Agregar seleccionados</ion-button>
-
+  
+<ion-content padding color="secondary"> 
+    <div class="container">
+       <!--  <ion-list-header color="light">Selecciona a los usuarios</ion-list-header> -->
+        <ion-list>
+            <ion-item color="dark" button *ngFor="let item of members">
+                <ion-avatar item-left="item-left">
+                    <img style="width:45px;height:45px;" [src]="item.photoURL"></ion-avatar>
+                <ion-label class="container1">
+                    <h2>{{ item.displayName }}</h2>
+                    <p>{{item.email}}</p>
+                    <p>{{ item.employment }}</p>
+                    <!-- <p>{{ item.phoneNumber }}</p> -->
+                </ion-label>
+                <ion-checkbox item-end="item-end" [(ngModel)]="item.check" (ionChange)="onChange(members)"></ion-checkbox>
+            </ion-item>
+        </ion-list>
+        <ion-row style="height: 10mm"></ion-row>
+        <button class="btnAddUser" expand="block" (click)="onSave()">Listo</button>
+    </div>
 </ion-content>

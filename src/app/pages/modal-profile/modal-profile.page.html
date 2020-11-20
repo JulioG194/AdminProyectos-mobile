@@ -1,0 +1,52 @@
+<ion-header traslucent>
+    <ion-toolbar>
+        <div class="box align">
+            <ion-title>Mi Perfil</ion-title>
+            <ion-buttons slot="end">
+                <ion-button color="primary" (click)="onClose()">
+                    <ion-icon name="close"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content color="secondary">
+    <div class="container">
+        <ion-card class="photo" color="secondary">
+            <ion-card-title>{{userApp.employment}}</ion-card-title>
+            <br>
+            <img [src]="userApp.photoURL" alt="">
+            <br>
+            <ion-button>
+                <ion-icon name="camera-outline"></ion-icon>
+            </ion-button>
+            <ion-button color="warning" icon-left (click)="enableEdit()">
+                <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>
+            </ion-button>
+        </ion-card>
+        <ion-item color="secondary">
+            <ion-label position="floating">Nombre</ion-label>
+            <ion-input type="text" name="name" disabled="{{isDisabled}}" [(ngModel)]="userApp.displayName" required></ion-input>
+        </ion-item>
+        <br>
+        <ion-item color="secondary">
+            <ion-label position="floating">Correo electrónico</ion-label>
+            <ion-input type="text" name="email" disabled="true" [(ngModel)]="userApp.email" required></ion-input>
+        </ion-item>
+        <ion-item color="secondary">
+            <ion-label position="floating">Numero celular</ion-label>
+            <ion-input type="text" name="phone" disabled="{{isDisabled}}" [(ngModel)]="userApp.phoneNumber" required></ion-input>
+        </ion-item>
+        <br>
+        <ion-item color="secondary">
+            <ion-label position="floating">Fecha de Nacimiento</ion-label>
+            <ion-datetime name="birthdate" disabled="{{isDisabled}}" displayFormat="DD-MMM-YYYY" pickerFormat="DD-MMM-YY" [(ngModel)]="bDate" required></ion-datetime>
+        </ion-item>
+        <br>
+        <ion-button color="success" disabled="{{isDisabled}}" icon-left (click)="enableEdit()">
+            <ion-icon slot="icon-only" name="save-outline"></ion-icon>
+        </ion-button>
+
+    </div>
+</ion-content>

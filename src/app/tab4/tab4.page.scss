@@ -73,3 +73,17 @@ ion-card {
 .container h2::first-letter {
     text-transform: uppercase;
 }
+
+.container1 {
+    padding: 20px;
+}
+
+ion-list {
+    background: #082330;
+    width: 100%;
+    margin: 0 auto;
+}
+
+ion-item {
+    border: 0.5px solid black;
+}

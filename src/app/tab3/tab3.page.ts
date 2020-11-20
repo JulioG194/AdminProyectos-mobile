@@ -13,6 +13,12 @@ import { EvidenceService } from '../services/evidence.service';
 import { Evidence } from '../models/evidence.interface';
 import { AlertController, NavController } from '@ionic/angular';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { ModalController } from '@ionic/angular';
+import { ModalNewprojectPageModule } from '../pages/modal-newproject/modal-newproject.module';
+import { ModalNewprojectPage } from '../pages/modal-newproject/modal-newproject.page';
+import { ModalEvidencedelegatePage } from '../pages/modal-evidencedelegate/modal-evidencedelegate.page';
+import { ModalEvidencedelegatePageModule } from '../pages/modal-evidencedelegate/modal-evidencedelegate.module';
+
 
 export interface DialogData {
   projectAppId: string;
@@ -53,6 +59,10 @@ export interface StringDate {
 })
 export class Tab3Page implements OnInit {
 
+gestor = true ; //variable de test utilizada para diseño
+empty = true ; //variable de test utilizada para diseño
+name1 : string;
+
   constructor(public authService: AuthService,
               public projectService: ProjectService,
               public teamService: TeamService,
@@ -60,6 +70,7 @@ export class Tab3Page implements OnInit {
               private router: Router,
               private alertCtrl: AlertController,
               private navCtrl: NavController,
+              private modalCtrl: ModalController,
               private screenOrientation: ScreenOrientation) {}
 
               team: string[] = [];
@@ -156,8 +167,10 @@ export class Tab3Page implements OnInit {
                                                                                               this.allstartdates = [];
                                                                                               this.allenddates = [];
                                                                                               this.projectsApp.forEach(project => {
-                                                                                                this.allstartdates.push(new Date(project.start_date['seconds'] * 1000));
-                                                                                                this.allenddates.push(new Date(project.end_date['seconds']* 1000));
+                                                                                                /* this.allstartdates.push(new Date(project.start_date['seconds'] * 1000));
+                                                                                                this.allenddates.push(new Date(project.end_date['seconds']* 1000)); */
+                                                                                                project.start_date = new Date(project.start_date['seconds'] * 1000);
+                                                                                                project.end_date = new Date(project.end_date['seconds'] * 1000);
                                                                                                 // console.log(this.allstartdates);
                                                                                                 // console.log(this.allenddates);
                                                                                                 this.activitiesProjectsApp = [];
@@ -195,8 +208,10 @@ export class Tab3Page implements OnInit {
                                                                                                                    this.allstartdates = [];
                                                                                                                    this.allenddates = [];
                                                                                                                    this.projectsApp.forEach(project => {
-                                                                                                                     this.allstartdates.push(new Date(project.start_date['seconds'] * 1000));
-                                                                                                                     this.allenddates.push(new Date(project.end_date['seconds'] * 1000));
+                                                                                                                     /* this.allstartdates.push(new Date(project.start_date['seconds'] * 1000));
+                                                                                                                     this.allenddates.push(new Date(project.end_date['seconds'] * 1000)); */
+                                                                                                                     project.start_date = new Date(project.start_date['seconds'] * 1000);
+                                                                                                                     project.end_date = new Date(project.end_date['seconds'] * 1000);
                                                                                                                      let userAux: User = {
                                                                                                                       uid: '',
                                                                                                                       displayName: '',
@@ -302,7 +317,7 @@ export class Tab3Page implements OnInit {
               }
 
               async press() {
-                let alert = await this.alertCtrl.create({
+                const alert = await this.alertCtrl.create({
                   header: 'Error',
                   subHeader: 'No has seleccionado ningun delegado',
                   buttons: ['Aceptar']
@@ -313,6 +328,80 @@ export class Tab3Page implements OnInit {
               projectRoute( idProject: string) {
                   // this.navCtrl.navigateRoot( 'tabs/tabs/tab3/project', { animated: true } );
                     this.navCtrl.navigateForward(`tabs/tabs/tab3/project/${idProject}`, { animated: true });
+              }
+
+              async openNewProject() {
+
+                const modal = await this.modalCtrl.create({
+                  component: ModalNewprojectPage,
+                  componentProps: {
+                    user: this.userApp,
+                    newProject: null
+                  }
+                });
+                await modal.present();
+
+                const { data } = await modal.onDidDismiss();
+                console.log(data);
+
+                if ( data != null) {
+                  let project: Project;
+                  project = data['newProject'] ;
+                  console.log(project) ;
+                  this.projectService.addNewProject(project);
+                }
+
+              }
+
+              async editProject(projectAux: Project) {
+
+                const modal = await this.modalCtrl.create({
+                  component: ModalNewprojectPage,
+                  componentProps: {
+                    project: projectAux,
+                    editProject: null
+                  }
+                });
+                await modal.present();
+
+                const { data } = await modal.onDidDismiss();
+                console.log(data);
+
+                if ( data != null) {
+                  let project: Project;
+                  project = data['newProject'] ;
+                  console.log(project) ;
+                  this.projectService.updateProject(project);
+                }
+
+              }
+
+              async openEvidence(name: string) {
+
+                const modal = await this.modalCtrl.create({
+                  component: ModalEvidencedelegatePage,
+                  componentProps: {
+                    /* members: this.usersAppFilter, */
+                    newMembers: null,
+                    task: name
+                  }
+                });
+
+                await modal.present();
+
+                const { data } = await modal.onDidDismiss();
+                console.log(data);
+
+                /* if ( data != null) {
+                  let users: User [] = [];
+                  users = data['newMembers'] ;
+                  console.log(users) ;
+                  this.teamService.addDelegates(this.teamGugo, users);
+                } */
+              }
+
+              deleteProject( projectId: string) {
+                this.projectService.deleteProject(projectId);
               }
 
 }

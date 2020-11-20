@@ -142,7 +142,7 @@ elemento: any;
               //  this.information = this.activitiesProject;
                  }
 
-  ngOnInit() {
+   ngOnInit() {
     // this.scrollToBottom();
     this.authService.getUser(this.authService.userAuth)
                .subscribe(user => {
@@ -194,5 +194,6 @@ elemento: any;
 
 
   }
+
 
 }

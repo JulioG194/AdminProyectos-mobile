@@ -1,0 +1,53 @@
+* {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.box {
+    /* background: #082330; */
+    background: #0C1B22;
+    padding: 10px;
+    color: white;
+}
+
+.align {
+    display: flex;
+    flex-direction: row;
+}
+
+.container {
+    padding: 20px;
+}
+
+ion-list {
+    background: #082330;
+    width: 100%;
+    margin: 0 auto;
+}
+
+ion-item {
+    border: 0.5px solid black;
+}
+
+.container1 {
+    text-align: center;
+}
+
+.container1 h2 {
+    color: #5c92b1;
+    font-size: 18px;
+}
+
+.container1 p{
+    color: rgb(212, 212, 212);
+    font-size: 14px;
+}
+
+.btnAddUser {
+    background: rgb(212, 212, 212);
+    color: black;
+    width: 100%;
+    font-size: 18px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+}

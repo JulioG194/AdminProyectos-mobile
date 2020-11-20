@@ -85,7 +85,7 @@ ion-content ion-toolbar {
 
 ion-list {
     background: #082330;
-    width: 95%;
+    width: 100%;
     margin: 0 auto;
 }
 
@@ -110,3 +110,35 @@ ion-item-sliding {
     width: 100%;
     font-size: 18px;
 }
+
+.container1 {
+    padding: 20px;
+}
+
+.container2 p {
+    color: rgb(212, 212, 212);
+    font-size: 14px;
+}
+.align3 {
+    display: flex;
+    flex-direction: column;
+}
+
+.align3 h4 {
+    margin-bottom: 4%;
+    color: rgb(24, 121, 185);
+}
+
+
+.container3 h2 {
+    color: #5c92b1;
+    font-size: 18px;
+    text-align: left;
+    text-transform: lowercase;
+}
+
+.container3 h2::first-letter {
+    text-transform: uppercase;
+}
+
+

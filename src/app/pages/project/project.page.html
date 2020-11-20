@@ -36,7 +36,7 @@
         <!--  <p style="font-size: 18px; color:#428cff">Actividades del Proyecto</p> -->
         <ion-list-header color="light" class="align1">
             <h5>Actividades</h5>
-            <ion-button color="primary" icon-left>
+            <ion-button color="primary" icon-left (click)="openActivity()">
                 <ion-icon style="color: white;" slot="icon-only" name="add-circle-outline"></ion-icon>
             </ion-button>
         </ion-list-header>
@@ -62,15 +62,15 @@
                             <ion-icon slot="end" name="arrow-down" *ngIf="item.active"></ion-icon>
                             <ion-label class="container3">
                                 <h2>{{item.name}}</h2>
-                                <p>Fecha de Inicio: {{allstartdates[i] | date : "dd/MM/y"}}</p>
-                                <p>Fecha de Fin: {{allenddates[i] | date : "dd/MM/y"}}</p>
+                                <p>Fecha de Inicio: {{item.start_date | date : "dd/MM/y"}}</p>
+                                <p>Fecha de Fin: {{item.end_date | date : "dd/MM/y"}}</p>
                                 <p>%Avance: {{item.percentaje}}</p>
                             </ion-label>
                         </ion-item>
 
 
                         <ion-item-options side="end">
-                            <ion-button color="primary" icon-left>
+                            <ion-button color="primary" icon-left (click)="editActivity(item)">
                                 <ion-icon slot="icon-only" name="create"></ion-icon>
                             </ion-button>
                             <ion-button color="danger" icon-left>
@@ -81,7 +81,15 @@
                     <!--  </ion-item-divider> -->
 
 
-
+                    <div *ngIf="item.tasks?.length == 0 && item.active">
+                        <ion-list-header color="light" class="align2">
+                            <h6>Tareas</h6>
+                            <ion-button color="primary" icon-left (click)="openTask(item)">
+                                <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+                            </ion-button>
+                        </ion-list-header>
+                        <h2>Aun no tiene tareas</h2>
+                    </div>
                     <div *ngIf="item.tasks?.length > 0 && item.active">
                         <!-- <ion-list-header color="light">Tareas</ion-list-header> -->
 
@@ -89,7 +97,7 @@
                         <!--  <p style="font-size: 18px; color:#428cff">Actividades del Proyecto</p> -->
                         <ion-list-header color="light" class="align2">
                             <h6>Tareas</h6>
-                            <ion-button color="primary" icon-left>
+                            <ion-button color="primary" icon-left (click)="openTask(item)">
                                 <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
                             </ion-button>
                         </ion-list-header>
@@ -119,7 +127,7 @@
                                             <ion-icon slot="icon-only" name="checkmark-circle-outline"></ion-icon>
                                         </ion-button>
 
-                                        <ion-button color="warning" icon-left>
+                                        <ion-button color="warning" icon-left (click)="openEvidence(child)">
                                             <ion-icon slot="icon-only" name="folder-open-outline"></ion-icon>
                                         </ion-button>
                                         <!-- <ion-button color="danger" icon-left>
@@ -128,7 +136,7 @@
 
                                     </ion-item-options>
                                     <ion-item-options side="end">
-                                        <ion-button color="primary" icon-left>
+                                        <ion-button color="primary" icon-left (click)="editTask(item, child)">
                                             <ion-icon slot="icon-only" name="create"></ion-icon>
                                         </ion-button>
                                         <!--  <ion-button color="secondary" icon-left>

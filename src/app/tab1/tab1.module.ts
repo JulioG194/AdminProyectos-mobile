@@ -6,18 +6,21 @@ import { FormsModule } from '@angular/forms';
 import { Tab1Page } from './tab1.page';
 import { ChartsModule } from 'ng2-charts';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
-
-
-
+import { ModalProfilePage } from '../pages/modal-profile/modal-profile.page';
+import { ModalProfilePageModule } from '../pages/modal-profile/modal-profile.module';
 
 @NgModule({
+  entryComponents: [
+    ModalProfilePage
+  ],
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
     RouterModule.forChild([{ path: '', component: Tab1Page }]),
-    ChartsModule
+    ChartsModule,
+    ModalProfilePageModule
   ],
   declarations: [Tab1Page]
 })
