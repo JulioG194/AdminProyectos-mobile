@@ -8,7 +8,7 @@ import { ChartsModule } from 'ng2-charts';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 import { ModalProfilePage } from '../pages/modal-profile/modal-profile.page';
 import { ModalProfilePageModule } from '../pages/modal-profile/modal-profile.module';
-
+import { NgCircleProgressModule } from 'ng-circle-progress';
 @NgModule({
   entryComponents: [
     ModalProfilePage
@@ -20,7 +20,16 @@ import { ModalProfilePageModule } from '../pages/modal-profile/modal-profile.mod
     ExploreContainerComponentModule,
     RouterModule.forChild([{ path: '', component: Tab1Page }]),
     ChartsModule,
-    ModalProfilePageModule
+    ModalProfilePageModule,
+    NgCircleProgressModule.forRoot({
+      // set defaults here
+      radius: 100,
+      outerStrokeWidth: 16,
+      innerStrokeWidth: 8,
+      outerStrokeColor: '#78C000',
+      innerStrokeColor: '#C7E596',
+      animationDuration: 300,
+    })
   ],
   declarations: [Tab1Page]
 })

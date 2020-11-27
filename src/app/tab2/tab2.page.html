@@ -15,73 +15,134 @@
             </ion-buttons>
         </div>
     </ion-toolbar>
+    <ion-toolbar color="secondary">
+
+        <ion-segment value="all" color="primary" scrollable="false" mode="android" [(ngModel)]="segmentModel" (ionChange)="segmentChanged($event)">
+
+            <ion-segment-button value="select" style="height: 30px; font-size: 9px; color:white">
+                <ion-label>Seleccionar Equipo
+                </ion-label>
+            </ion-segment-button>
+
+            <ion-segment-button value="view" style="height: 30px; font-size: 9px; color:white">
+                <ion-label>Ver Equipo</ion-label>
+            </ion-segment-button>
+
+            <ion-segment-button value="perProject" style="height: 30px; font-size: 9px; color:white">
+                <ion-label>Ver Equipo por proyecto</ion-label>
+            </ion-segment-button>
+
+        </ion-segment>
+
+    </ion-toolbar>
+
 </ion-header>
 
 
 <ion-content [fullscreen]="true" color="secondary">
-    <!-- <ion-header collapse="condense">
-        <ion-toolbar>
-            <ion-title size="large">Tab 2</ion-title>
-        </ion-toolbar>
-    </ion-header> -->
-    <div class="container">
+    <div class="container" *ngIf="segmentModel === 'select'">
+        <div *ngIf="userGugo.manager == true; else delegate">
+            <div *ngIf="!teamGugo.manager">
+                <div class="container">
+                    <ion-list>
+                        <ion-item color="dark" button *ngFor="let item of usersGugo">
+                            <ion-avatar item-left="item-left">
+                                <img style="width:45px;height:45px;" [src]="item.photoURL"></ion-avatar>
+                            <ion-label class="container1">
+                                <h2>{{ item.displayName }}</h2>
+                                <p style="font-size: 12px;">{{item.email}}</p>
+                                <p>{{ item.phoneNumber }}</p>
+                            </ion-label>
+                            <ion-checkbox item-end="item-end" [(ngModel)]="item.check" (ionChange)="onChange(usersGugo)"></ion-checkbox>
+                        </ion-item>
+                    </ion-list>
+                    <ion-row style="height: 10mm"></ion-row>
+                    <button class="btnAddTeam" expand="block" (click)="addNewTeam()">Agregar a mi equipo</button>
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+    <div class="container" *ngIf="segmentModel === 'view'">
+        <div *ngIf="userGugo.manager == true; else delegate">
+            <div *ngIf="!teamGugo.manager">
+                <div class="container">
+                    <ion-list>
+                        <ion-item-sliding *ngFor="let item of teamGugo.delegates">
+                            <ion-item color="dark" tappable>
+                                <ion-avatar item-left="item-left">
+                                    <img style="width:45px;height:45px;" [src]="item.photoURL"></ion-avatar>
+                                <ion-label class="container1">
+                                    <h2>{{ item.displayName }}</h2>
+                                    <p style="font-size: 12px;">{{item.email}}</p>
+                                    <p>{{ item.phoneNumber }}</p>
+                                </ion-label>
+                                <!-- <ion-checkbox item-end="item-end" [(ngModel)]="item.check" (ionChange)="onChange(usersGugo)"></ion-checkbox> -->
+                            </ion-item>
+                            <ion-item-options>
+                                <ion-button color="danger" icon-left>
+                                    <ion-icon slot="icon-only" name="trash"></ion-icon>
+                                </ion-button>
+                            </ion-item-options>
+                        </ion-item-sliding>
+                    </ion-list>
+                    <ion-row style="height: 10mm"></ion-row>
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+    <div class="container" *ngIf="segmentModel === 'perProject'">
         <div *ngIf="userGugo.manager == true; else delegate">
             <div *ngIf="!teamGugo.manager">
                 <ion-list>
-                    <ion-item *ngFor="let item of usersGugo">
-                        <ion-avatar item-left="item-left">
-                            <img style="width:45px;height:45px;" [src]="item.photoURL">
-                        </ion-avatar>
-                        <ion-label>{{item.employment}}</ion-label>
+                    <ion-item-sliding *ngFor="let project of projectsTeam; let i = index">
+                        <ion-item color='dark' tappable>
+                            <ion-icon slot="end" name="eye"></ion-icon>
+                            <ion-label class="container">
+                                <h2>{{project.name}}</h2>
+                                <!-- <p style="color: rgb(253, 220, 201);">Cliente: {{ project.client }}</p>
+                                    <p>Fecha de inicio: {{project.startDate | date : "dd/MM/y"}}</p>
+                                    <p>Fecha de fin: {{project.endDate | date : "dd/MM/y"}}</p> -->
+                                <br>
+                                <!-- <div *ngIf="project.delegates?.length > 0"> -->
+                                <!-- <div *ngFor="let delegate of project.delegates">
+                                    <ion-avatar item-left="item-left">
+                                        <img style="width:45px;height:45px;" [src]="delegate.photoURL"></ion-avatar>
+                                </div> -->
+                                <!-- <ion-item no-lines> -->
+                                <div scrollX="true" scroll-avatar>
+                                    <ion-avatar>
+                                        <img [src]="delegate.photoURL" alt="hola" style="width:45px;height:45px;" *ngFor="let delegate of project.delegates" class="scroll-item" />
+                                        <ion-label style="font-size: 12px;">Delegados</ion-label>
+                                        <ion-label style="font-size: 8px;" *ngFor="let delegate of project.delegates" class="scroll-item">- {{delegate.displayName}}</ion-label>
+                                    </ion-avatar>
 
-                        <!-- <ion-label>{{item.email}}</ion-label>
-                            <ion-label>{{item.phone_number}}</ion-label>
-                            <ion-label>{{item.employment}}</ion-label> -->
-
-                        <ion-checkbox item-end="item-end" [(ngModel)]="item.check" (ionChange)="onChange(usersGugo)"></ion-checkbox>
-                    </ion-item>
+                                </div>
+                                <!-- </ion-item> -->
+                                <!-- </div> -->
+                            </ion-label>
+                        </ion-item>
+                        <ion-item-options>
+                            <ion-button color="primary" icon-left>
+                                <ion-icon slot="icon-only" name="create"></ion-icon>
+                            </ion-button>
+                            <ion-button color="danger" icon-left>
+                                <ion-icon slot="icon-only" name="trash"></ion-icon>
+                            </ion-button>
+                        </ion-item-options>
+                    </ion-item-sliding>
                 </ion-list>
+                <ion-row style="height: 10mm"></ion-row>
             </div>
-
-            <!-- <div class="container"> -->
-                <div *ngIf="teamGugo.manager">
-                    <!-- <ion-list-header class="title">Mi Equipo</ion-list-header> -->
-                    
-                    <!-- <ion-list> -->
-
-                    <div class="align1" tappable *ngFor="let item of teamGugo.delegates">
-                        <div class="part1">
-                            <ion-avatar item-left="item-left">
-                                <img style="width:35px;height:35px;" [src]="item.photoURL">
-                            </ion-avatar>
-                        </div>
-                        <div class="align2 part2">
-                            <ion-label class="style1">{{item.displayName}}</ion-label>
-                            <ion-label class="style2">{{item.email}}</ion-label>
-                            <ion-label class="style3">{{item.phoneNumber}}</ion-label>
-                            <ion-label class="style3">{{item.employment}}</ion-label>
-                        </div>
-
-                        <!--  <ion-checkbox item-end="item-end" [(ngModel)]="item.check" (ionChange)="onChange(usersGugo)"></ion-checkbox> -->
-                    </div>
-
-                    <!-- </ion-list> -->
-                </div>
-                <!-- <ion-row style="height: 1mm"></ion-row> -->
-                <br>
-            
-                <button class="btnAddTeam" (click)="addTeam()">+ Personas al equipo</button>
-                    <!-- <ion-button class="btnAddTeam" expand="block" (click)="addTeam()">+ Personas al equipo</ion-button> -->
-            
-            <!-- </div> -->
+            <br>
         </div>
-    <!-- <ion-button (click)="team()">Team</ion-button> -->
     </div>
 </ion-content>
 
 <ng-template #delegate>
 
-    <div *ngIf="sinTeam == false; else noTeam">
+    <div *ngIf="true == false; else noTeam">
         <ion-list-header class="title1">
             <ion-label>Tus gestores de proyecto</ion-label>
         </ion-list-header>

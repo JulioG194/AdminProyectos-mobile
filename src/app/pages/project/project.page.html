@@ -26,8 +26,8 @@
             <ion-card-content class="container2">
                 <p>Cliente: {{ projectApp.client }}</p>
                 <p>Tipo: {{ projectApp.type }}</p>
-                <p>Fecha de Inicio: {{projectApp.start_date | date : "dd/MM/y"}}</p>
-                <p>Fecha de Fin: {{projectApp.end_date | date : "dd/MM/y"}}</p>
+                <p>Fecha de Inicio: {{projectApp.startDate | date : "dd/MM/y"}}</p>
+                <p>Fecha de Fin: {{projectApp.endDate | date : "dd/MM/y"}}</p>
                 <p>Descripcion: {{ projectApp.description }}</p>
             </ion-card-content>
         </ion-card>
@@ -62,8 +62,8 @@
                             <ion-icon slot="end" name="arrow-down" *ngIf="item.active"></ion-icon>
                             <ion-label class="container3">
                                 <h2>{{item.name}}</h2>
-                                <p>Fecha de Inicio: {{item.start_date | date : "dd/MM/y"}}</p>
-                                <p>Fecha de Fin: {{item.end_date | date : "dd/MM/y"}}</p>
+                                <p>Fecha de Inicio: {{item.startDate | date : "dd/MM/y"}}</p>
+                                <p>Fecha de Fin: {{item.endDate | date : "dd/MM/y"}}</p>
                                 <p>%Avance: {{item.percentaje}}</p>
                             </ion-label>
                         </ion-item>
@@ -114,8 +114,8 @@
                                                     <img style="width:45px;height:45px;" [src]="child.delegate.photoURL">
                                                 </ion-avatar>
                                                 <ion-label class="container2">
-                                                    <p>Fecha de Inicio: {{child.start_date | date : "dd/MM/y"}}</p>
-                                                    <p>Fecha de Fin: {{child.end_date | date : "dd/MM/y"}}</p>
+                                                    <p>Fecha de Inicio: {{child.startDate | date : "dd/MM/y"}}</p>
+                                                    <p>Fecha de Fin: {{child.endDate | date : "dd/MM/y"}}</p>
                                                     <p>%Avance: {{child.progress}}</p>
                                                 </ion-label>
                                             </div>

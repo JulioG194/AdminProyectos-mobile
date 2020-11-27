@@ -36,8 +36,8 @@ export interface PAT {
   project: Project;
   activity: Activity;
   task: Task;
-  start_date: Date;
-  end_date: Date;
+  startDate: Date;
+  endDate: Date;
   photo?: string;
   manager_name?: string;
 }
@@ -116,8 +116,8 @@ name1 : string;
                 name: '',
                 client: '',
                 description: '',
-                start_date: new Date(),
-                end_date: new Date(),
+                startDate: new Date(),
+                endDate: new Date(),
                 type: '',
                 teamId: '',
                 ownerId: '',
@@ -139,8 +139,8 @@ name1 : string;
                 project: null,
                 activity: null,
                 task: null,
-                start_date: null,
-                end_date: null,
+                startDate: null,
+                endDate: null,
                 photo: ''
               };
               value = '';
@@ -167,14 +167,14 @@ name1 : string;
                                                                                               this.allstartdates = [];
                                                                                               this.allenddates = [];
                                                                                               this.projectsApp.forEach(project => {
-                                                                                                /* this.allstartdates.push(new Date(project.start_date['seconds'] * 1000));
-                                                                                                this.allenddates.push(new Date(project.end_date['seconds']* 1000)); */
-                                                                                                project.start_date = new Date(project.start_date['seconds'] * 1000);
-                                                                                                project.end_date = new Date(project.end_date['seconds'] * 1000);
+                                                                                                /* this.allstartdates.push(new Date(project.startDate['seconds'] * 1000));
+                                                                                                this.allenddates.push(new Date(project.endDate['seconds']* 1000)); */
+                                                                                                project.startDate = new Date(project.startDate['seconds'] * 1000);
+                                                                                                project.endDate = new Date(project.endDate['seconds'] * 1000);
                                                                                                 // console.log(this.allstartdates);
                                                                                                 // console.log(this.allenddates);
                                                                                                 this.activitiesProjectsApp = [];
-                                                                                                this.projectService.getActivities(project).subscribe(activities => {
+                                                                                                this.projectService.getActivities(project.id).subscribe(activities => {
                                                                                                   this.activitiesProjectsApp = activities;
                                                                                                   this.activitiesProjectsApp.forEach(activity => {
                                                                                                     this.tasksActivitiesApp = [];
@@ -208,10 +208,10 @@ name1 : string;
                                                                                                                    this.allstartdates = [];
                                                                                                                    this.allenddates = [];
                                                                                                                    this.projectsApp.forEach(project => {
-                                                                                                                     /* this.allstartdates.push(new Date(project.start_date['seconds'] * 1000));
-                                                                                                                     this.allenddates.push(new Date(project.end_date['seconds'] * 1000)); */
-                                                                                                                     project.start_date = new Date(project.start_date['seconds'] * 1000);
-                                                                                                                     project.end_date = new Date(project.end_date['seconds'] * 1000);
+                                                                                                                     /* this.allstartdates.push(new Date(project.startDate['seconds'] * 1000));
+                                                                                                                     this.allenddates.push(new Date(project.endDate['seconds'] * 1000)); */
+                                                                                                                     project.startDate = new Date(project.startDate['seconds'] * 1000);
+                                                                                                                     project.endDate = new Date(project.endDate['seconds'] * 1000);
                                                                                                                      let userAux: User = {
                                                                                                                       uid: '',
                                                                                                                       displayName: '',
@@ -224,7 +224,7 @@ name1 : string;
                                                                                                                      // console.log(this.allenddates);
 
                                                                                                                     // this.activitiesProjectsApp = [];
-                                                                                                                        this.projectService.getActivities(project).subscribe(activities => {
+                                                                                                                        this.projectService.getActivities(project.id).subscribe(activities => {
                                                                                                                        this.activitiesProjectsApp = activities;
                                                                                                                        console.log(this.activitiesProjectsApp);
                                                                                                                        this.activitiesProjectsApp.forEach(activity => {
@@ -237,24 +237,7 @@ name1 : string;
 
                                                                                                                              if ( task.delegate.email === this.userApp.email ) {
                                                                                                                               if ( task.idActivity === activity.id) {
-                                                                                                                                if ( activity.idProject === project.id ) {
 
-                                                                                                                                  // tslint:disable-next-line:no-shadowed-variable
-
-                                                                                                                                       this.pat = {
-                                                                                                                                        project,
-                                                                                                                                        activity,
-                                                                                                                                        task,
-                                                                                                                                        start_date: new Date(task.start_date['seconds'] * 1000),
-                                                                                                                                        end_date: new Date(task.end_date['seconds'] * 1000),
-                                                                                                                                        photo : userAux.photoURL,
-                                                                                                                                        manager_name: userAux.displayName
-                                                                                                                                      };
-                                                                                                                                       this.pats.push(this.pat);
-
-                                                                                                                                       console.log(this.pat);
-
-                                                                                                                              }
                                                                                                                             }
                                                                                                                          }
                                                                                                                            });
@@ -310,7 +293,7 @@ name1 : string;
               onEnter(idP: string, idA: string, idT: string, value: string) {
                 this.value = value;
                 if ( +this.value > 0 && +this.value <= 100) {
-                  this.projectService.setTaskProgress(idP, idA, idT, +(this.value));
+                  
                 } else {
                   console.log('numero ingresado incorrecto');
                 }
@@ -348,7 +331,7 @@ name1 : string;
                   let project: Project;
                   project = data['newProject'] ;
                   console.log(project) ;
-                  this.projectService.addNewProject(project);
+                  // this.projectService.addNewProject(project);
                 }
 
               }

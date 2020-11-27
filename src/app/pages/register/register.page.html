@@ -10,38 +10,47 @@
 </ion-header>
 
 <ion-content color="secondary">
-    <br>
     <form (ngSubmit)="onRegister( f )" #f="ngForm" class="container">
         <ion-item lines="full">
             <ion-label position="floating">Nombre Completo</ion-label>
             <ion-input type="text" name="name" [(ngModel)]="userRegister.displayName" minlength="2" required></ion-input>
             <ion-icon name="person" slot="end"></ion-icon>
         </ion-item>
-        <div class="space"></div>
+        <div class="space">
+            <p *ngIf="1==0" style="font-size: 8px; color: red;">holaa</p>
+        </div>
         <ion-item lines="full">
             <ion-label position="floating">Correo electrónico</ion-label>
             <ion-input type="text" name="email" [(ngModel)]="userRegister.email" required></ion-input>
             <ion-icon name="mail" slot="end"></ion-icon>
         </ion-item>
-        <div class="space"></div>
+        <div class="space">
+            <p *ngIf="1==0" style="font-size: 8px; color: red;">holaa</p>
+        </div>
         <ion-item lines="full">
             <ion-label position="floating">Contraseña</ion-label>
             <ion-input type="password" name="password" [(ngModel)]="userRegister.password" minlength="6" required></ion-input>
             <ion-icon name="key" slot="end"></ion-icon>
         </ion-item>
-        <div class="space"></div>
+        <div class="space">
+            <p *ngIf="1==0" style="font-size: 8px; color: red;">holaa</p>
+        </div>
         <ion-item lines="full">
             <ion-label position="floating">Confirmar contraseña</ion-label>
             <ion-input type="password" name="re-password" [(ngModel)]="password" minlength="6" required></ion-input>
             <ion-icon name="key" slot="end"></ion-icon>
         </ion-item>
-        <div class="space"></div>
+        <div class="space">
+            <p *ngIf="1==0" style="font-size: 8px; color: red;">holaa</p>
+        </div>
         <ion-item lines="full">
             <ion-label position="floating">Número celular</ion-label>
             <ion-input type="text" name="phone" [(ngModel)]="userRegister.phoneNumber" required></ion-input>
             <ion-icon name="call" slot="end"></ion-icon>
         </ion-item>
-        <div class="space"></div>
+        <div class="space">
+            <p *ngIf="1==0" style="font-size: 8px; color: red;">holaa</p>
+        </div>
         <ion-list>
             <ion-radio-group [(ngModel)]="userRegister.manager" name="manager" required>
                 <ion-list-header>
@@ -59,8 +68,19 @@
 
             </ion-radio-group>
         </ion-list>
-        <!-- <div class="space"></div> -->
-        <br>
+        <div class="space">
+            <p *ngIf="1==0" style="font-size: 8px; color: red;">holaa</p>
+        </div>
+        <ion-item>
+            <ion-label>Uso de la aplicación</ion-label>
+            <ion-select value="selected" interface="action-sheet" cancelText="">
+                <ion-select-option value="Personal">Personal</ion-select-option>
+                <ion-select-option value="Empresa">Empresarial</ion-select-option>
+            </ion-select>
+        </ion-item>
+        <div class="space">
+            <p *ngIf="1==0" style="font-size: 8px; color: red;">holaa</p>
+        </div>
         <ion-row>
             <ion-col>
                 <ion-button type="submit" expand="block">Listo</ion-button>

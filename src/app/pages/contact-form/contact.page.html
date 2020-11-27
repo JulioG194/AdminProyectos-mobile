@@ -1,0 +1,56 @@
+<ion-header>
+    <ion-toolbar color="medium">
+        <div class="box align">
+            <ion-buttons slot="start">
+                <ion-back-button defaultHref="login"></ion-back-button>
+            </ion-buttons>
+            <ion-title class="title">CONTACTO</ion-title>
+        </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content color="secondary">
+    <p style="text-align: center; font-size: 14px;">Recuerda que puedes contactarte con nosotros si deseas registrar a tu empresa o si tienes problemas con tu cuenta</p>
+    <form (ngSubmit)="onRegister( f )" #f="ngForm" class="container">
+        <ion-item lines="full">
+            <ion-label position="floating">Nombre completo</ion-label>
+            <ion-input type="text" name="name" [(ngModel)]="userRegister.displayName" minlength="2" required></ion-input>
+            <ion-icon name="person" slot="end"></ion-icon>
+        </ion-item>
+        <div class="space">
+            <p *ngIf="1==0" style="font-size: 8px; color: red;">holaa</p>
+        </div>
+        <ion-item lines="full">
+            <ion-label position="floating">Correo electrónico</ion-label>
+            <ion-input type="text" name="email" [(ngModel)]="userRegister.email" required></ion-input>
+            <ion-icon name="mail" slot="end"></ion-icon>
+        </ion-item>
+        <div class="space">
+            <p *ngIf="1==0" style="font-size: 8px; color: red;">holaa</p>
+        </div>
+        <ion-item lines="full">
+            <ion-label position="floating">Asunto</ion-label>
+            <ion-input type="text" name="password" [(ngModel)]="userRegister.password" minlength="6" required></ion-input>
+            <ion-icon name="menu-outline" slot="end"></ion-icon>
+        </ion-item>
+        <div class="space">
+            <p *ngIf="1==0" style="font-size: 8px; color: red;">holaa</p>
+        </div>
+        <ion-item>
+            <ion-label>Mensaje</ion-label>
+            <ion-textarea type="text" rows="10" cols="20" placeholder="..."></ion-textarea>
+        </ion-item>
+        <!-- <ion-item lines="full">
+            <ion-label position="floating">Mensaje</ion-label>
+            <textarea type="password" name="re-password" rows="5" [(ngModel)]="password" required></textarea>
+            <ion-icon name="key" slot="end"></ion-icon>
+        </ion-item> -->
+        <div class="space">
+        </div>
+        <ion-row>
+            <ion-col>
+                <ion-button type="submit" expand="block">Enviar</ion-button>
+            </ion-col>
+        </ion-row>
+    </form>
+</ion-content>

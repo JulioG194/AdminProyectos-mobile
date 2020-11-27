@@ -18,6 +18,35 @@ ion-content ion-toolbar {
     color: white;
 }
 
+.state {
+    width: 120px;
+    height: 25px;
+    border: 1px solid black;
+    background-color: rgb(255, 0, 0);
+    color: black;
+    align-items: center;
+}
+
+.state2 {
+    width: 120px;
+    height: 25px;
+    border: 1px solid black;
+    background-color: rgb(50, 205, 50);
+    color: black;
+    align-content: center;
+    text-align: center;
+    padding-left: 10px;
+}
+
+.state3 {
+    width: 120px;
+    height: 25px;
+    border: 1px solid black;
+    background-color: rgb(128, 128, 128);
+    color: black;
+    align-items: center;
+}
+
 .align {
     display: flex;
     flex-direction: row;
@@ -81,7 +110,7 @@ ion-content ion-toolbar {
 .view2 {
     width: 80%;
     border: 1px solid black;
-    padding: 20px;
+    padding: 10px;
     background: rgb(12, 27, 34);
     align-items: center;
     color: white;

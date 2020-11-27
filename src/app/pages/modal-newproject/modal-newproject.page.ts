@@ -26,8 +26,8 @@ export class ModalNewprojectPage implements OnInit, OnDestroy {
     name: '',
     client: '',
     description: '',
-    start_date: null,
-    end_date: null,
+    startDate: null,
+    endDate: null,
     type: '',
     teamId: '',
     ownerId: '',
@@ -68,15 +68,15 @@ export class ModalNewprojectPage implements OnInit, OnDestroy {
                                            });
     if (this.project) {
       this.projectApp = this.project;
-      this.startDate = this.projectApp.start_date.toISOString().slice(0, 10);
-      this.endDate = new Date(this.projectApp.end_date.getTime() - (this.projectApp.end_date.getTimezoneOffset() * 60000 ))
+      this.startDate = this.projectApp.startDate.toISOString().slice(0, 10);
+      this.endDate = new Date(this.projectApp.endDate.getTime() - (this.projectApp.endDate.getTimezoneOffset() * 60000 ))
       .toISOString()
       .split('T')[0];
-      this.startDate = new Date(this.projectApp.start_date.getTime() - (this.projectApp.start_date.getTimezoneOffset() * 60000 ))
+      this.startDate = new Date(this.projectApp.startDate.getTime() - (this.projectApp.startDate.getTimezoneOffset() * 60000 ))
       .toISOString()
       .split('T')[0];
 
-      this.minD = this.projectApp.start_date.toISOString().slice(0, 10);
+      this.minD = this.projectApp.startDate.toISOString().slice(0, 10);
       this.maxD = (new Date()).getFullYear() + 3;
       this.isDisabled = true;
     } else {
@@ -157,17 +157,17 @@ async onSaveProject( form: NgForm ) {
 
   await loading.present();
 
-  // this.projectApp.start_date = new Date(this.startDate);
+  // this.projectApp.startDate = new Date(this.startDate);
 
   const endDateString = this.endDate.split('T')[0];
   const partsEndDate: any = endDateString.split('-');
   const endDate = new Date( partsEndDate[0], partsEndDate[1] - 1, partsEndDate[2]);
-  this.projectApp.end_date = endDate;
+  this.projectApp.endDate = endDate;
 
   const startDateString = this.startDate.split('T')[0];
   const partsStartDate: any = startDateString.split('-');
   const startDate = new Date( partsStartDate[0], partsStartDate[1] - 1, partsStartDate[2]);
-  this.projectApp.start_date = startDate;
+  this.projectApp.startDate = startDate;
   // this.projectService.addNewProject( this.projectApp );
   this.modalCtrl.dismiss({
     newProject: this.projectApp

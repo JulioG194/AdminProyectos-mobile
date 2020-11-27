@@ -57,37 +57,47 @@
         <br>
         <br>
         <!-- <div class="part1"> -->
-    
+
     </div>
 
-    <form (ngSubmit)="onLogin( f2 )" #f2="ngForm" class="part1">
+    <form (ngSubmit)="onLogin()" [formGroup]="loginForm" class="part1">
         <!--  <div class="part1"> -->
-             <div class="container">
-                <ion-item lines="full" color="light">
-                    <ion-label position="floating">Correo electrónico</ion-label>
-                    <ion-input type="text" name="email" [(ngModel)]="userLogin.email" required></ion-input>
-                    <ion-icon name="mail" slot="end"></ion-icon>
-                </ion-item>
-                <br>
-                <ion-item lines="full" color="light">
-                    <ion-label position="floating">Contraseña</ion-label>
-                    <ion-input type="password" name="password" [(ngModel)]="userLogin.password" required></ion-input>
-                    <ion-icon name="key" slot="end"></ion-icon>
-                </ion-item>
-                <br>
-                <ion-row>
-                    <ion-col>
-                        <ion-button type="submit" expand="block">Listo</ion-button>
-                    </ion-col>
-                </ion-row>
-                <ion-row>
-                    <ion-col>
-                        <ion-button color="warning" expand="block" (click)="register()">Obtener cuenta GuGo</ion-button>
-                    </ion-col>
-                </ion-row>
-               
-            </div>
-       <!--   </div> -->
-     </form>
+        <div class="container" style="font-size: 13px">
+            <ion-item lines="full" color="light">
+                <ion-label position="floating">Correo electrónico</ion-label>
+                <ion-input type="email" formControlName="email" placeholder="Ej. user@gmail.com" [(ngModel)]="userLogin.email" required></ion-input>
+                <ion-icon name="mail" slot="end"></ion-icon>
+            </ion-item>
+            <br>
+            <ion-item lines="full" color="light">
+                <ion-label position="floating">Contraseña</ion-label>
+                <ion-input type="password" formControlName="password" [type]="passwordType" [(ngModel)]="userLogin.password" required></ion-input>
+                <ion-icon slot="end" [name]="passwordIcon" class="passwordIcon" (click)='hideShowPassword()'></ion-icon>
+            </ion-item>
+            <br>
+            <ion-row>
+                <ion-col>
+                    <ion-button type="submit" expand="block">Iniciar sesión</ion-button>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-button color="warning" expand="block" (click)="register()">Obtener cuenta GuGo</ion-button>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col style="text-align: center;">
+                    <a style="text-decoration: underline; color: white;" (click)="openResetPassword()">¿Has olvidado tu contraseña?</a>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col style="text-align: center;">
+                    <a style="text-decoration: underline; color: white;" (click)="contact()">Contactarme con soporte</a>
+                </ion-col>
+            </ion-row>
+
+        </div>
+        <!--   </div> -->
+    </form>
     <!--  </div> -->
 </ion-content>

@@ -44,20 +44,20 @@ constructor(  private modalCtrl: ModalController,
     if (this.task) {
       this.taskActivity = this.task;
       console.log(this.taskActivity);
-      // this.startDate = this.activityProject.start_date.toISOString().slice(0, 10);
-      // this.endDate = this.activityProject.end_date.toISOString().slice(0, 10);
-      this.startDate = new Date(this.taskActivity.start_date.getTime() - (this.taskActivity.start_date.getTimezoneOffset() * 60000 ))
+      // this.startDate = this.activityProject.startDate.toISOString().slice(0, 10);
+      // this.endDate = this.activityProject.endDate.toISOString().slice(0, 10);
+      this.startDate = new Date(this.taskActivity.startDate.getTime() - (this.taskActivity.startDate.getTimezoneOffset() * 60000 ))
                   .toISOString()
                   .split('T')[0];
-      this.endDate = new Date(this.taskActivity.end_date.getTime() - (this.taskActivity.end_date.getTimezoneOffset() * 60000 ))
+      this.endDate = new Date(this.taskActivity.endDate.getTime() - (this.taskActivity.endDate.getTimezoneOffset() * 60000 ))
                   .toISOString()
                   .split('T')[0];
-      this.minD = this.activity.start_date.toISOString().slice(0, 10);
-      this.maxD = this.activity.end_date.toISOString().slice(0, 10);
+      this.minD = this.activity.startDate.toISOString().slice(0, 10);
+      this.maxD = this.activity.endDate.toISOString().slice(0, 10);
       this.delegateAux1 = this.taskActivity.delegate;
   } else {
-     this.minD = this.activity.start_date.toISOString().slice(0, 10);
-     this.maxD = this.activity.end_date.toISOString().slice(0, 10);
+     this.minD = this.activity.startDate.toISOString().slice(0, 10);
+     this.maxD = this.activity.endDate.toISOString().slice(0, 10);
   }
   }
 
@@ -103,8 +103,8 @@ constructor(  private modalCtrl: ModalController,
 
     await loading.present();
 
-    this.taskActivity.start_date = new Date(this.startDate);
-    this.taskActivity.end_date = new Date(this.endDate);
+    this.taskActivity.startDate = new Date(this.startDate);
+    this.taskActivity.endDate = new Date(this.endDate);
     this.taskActivity.delegate = this.delegateAux1;
     // this.projectService.addNewProject( this.projectApp );
     await this.modalCtrl.dismiss({

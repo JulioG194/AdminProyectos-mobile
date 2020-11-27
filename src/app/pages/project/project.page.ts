@@ -49,8 +49,8 @@ export class ProjectPage implements OnInit {
     name: '',
     client: '',
     description: '',
-    start_date: new Date(),
-    end_date: new Date(),
+    startDate: new Date(),
+    endDate: new Date(),
     type: '',
     teamId: '',
     ownerId: '',
@@ -99,8 +99,8 @@ allenddatesT: Date[] = [];
 activityAux: Activity = {
   name: '',
   status: '',
-  start_date: null,
-  end_date: null,
+  startDate: null,
+  endDate: null,
   activity_time: 0
 };
 
@@ -128,9 +128,9 @@ automaticClose = false;
     this.authService.getUser(this.authService.userAuth).subscribe(user => {(this.userApp = user); });
     this._projectService.getProject(this.id).subscribe(project => {
                                                                                                 this.projectApp = project;
-                                                                                                this.projectApp.start_date = new Date(this.projectApp.start_date['seconds'] * 1000);
-                                                                                                this.projectApp.end_date = new Date(this.projectApp.end_date['seconds'] * 1000);
-                                                                                                this.differenceTime = Math.abs(this.projectApp.end_date.getTime() - this.projectApp.start_date.getTime());
+                                                                                                this.projectApp.startDate = new Date(this.projectApp.startDate['seconds'] * 1000);
+                                                                                                this.projectApp.endDate = new Date(this.projectApp.endDate['seconds'] * 1000);
+                                                                                                this.differenceTime = Math.abs(this.projectApp.endDate.getTime() - this.projectApp.startDate.getTime());
                                                                                                 this.differenceDays = Math.ceil(this.differenceTime / (1000 * 3600 * 24));
                                                                                                 // console.log(this.differenceDays);
                                                                                                 this._teamService.getTeam(this.projectApp.teamId).subscribe(team => {
@@ -139,15 +139,15 @@ automaticClose = false;
                                                                                                   this.delegates = delegates;
                                                                                                             });
       });
-                                                                                                this._projectService.getActivities(this.projectApp).subscribe( activities => {
+                                                                                                this._projectService.getActivities(this.projectApp.id).subscribe( activities => {
                                                                                                       this.activitiesProject = activities;
                                                                                                       this.allstartdates = [];
                                                                                                       this.allenddates = [];
                                                                                                       this.activitiesProject.forEach(activity => {
-                                                                                                        /* this.allstartdates.push(new Date(activity.start_date['seconds'] * 1000));
-                                                                                                        this.allenddates.push(new Date(activity.end_date['seconds'] * 1000)); */
-                                                                                                        activity.start_date = new Date(activity.start_date['seconds'] * 1000);
-                                                                                                        activity.end_date = new Date(activity.end_date['seconds'] * 1000);
+                                                                                                        /* this.allstartdates.push(new Date(activity.startDate['seconds'] * 1000));
+                                                                                                        this.allenddates.push(new Date(activity.endDate['seconds'] * 1000)); */
+                                                                                                        activity.startDate = new Date(activity.startDate['seconds'] * 1000);
+                                                                                                        activity.endDate = new Date(activity.endDate['seconds'] * 1000);
                                                                                                       });
                                                                                                       // tslint:disable-next-line:prefer-for-of
                                                                                                       for (let i = 0; i < this.activitiesProject.length; i++) {
@@ -156,8 +156,8 @@ automaticClose = false;
                                                                                                                  /// console.log(this.activitiesProject[i]);
                                                                                                                  // tslint:disable-next-line:prefer-for-of
                                                                                                                  for (let j = 0; j < this.activitiesProject[i].tasks.length; j++) {
-                                                                                                                     this.activitiesProject[i].tasks[j].start_date = new Date(this.activitiesProject[i].tasks[j].start_date['seconds'] * 1000);
-                                                                                                                     this.activitiesProject[i].tasks[j].end_date = new Date(this.activitiesProject[i].tasks[j].end_date['seconds'] * 1000);
+                                                                                                                     this.activitiesProject[i].tasks[j].startDate = new Date(this.activitiesProject[i].tasks[j].startDate['seconds'] * 1000);
+                                                                                                                     this.activitiesProject[i].tasks[j].endDate = new Date(this.activitiesProject[i].tasks[j].endDate['seconds'] * 1000);
                                                                                                                     }
                                                                                                         });
                                                                                                         }
@@ -324,7 +324,7 @@ automaticClose = false;
     if ( data != null) {
       let tsk: Task = null;
       tsk = data['task'] ;
-      this._projectService.setTaskstoActivity(this.projectApp, activityAux.id, tsk);
+      this._projectService.setTaskstoActivity(this.projectApp.id, activityAux.id, tsk);
       console.log(tsk);
       if (data['result']) { await alert.present(); }
     }

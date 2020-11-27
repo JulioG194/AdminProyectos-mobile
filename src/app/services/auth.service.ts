@@ -1,23 +1,30 @@
-import { Injectable } from "@angular/core";
-import { User } from "../models/user.interface";
+import { Injectable } from '@angular/core';
+import { User } from '../models/user.interface';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
   AngularFirestoreDocument,
-} from "@angular/fire/firestore";
-import { AngularFireAuth } from "@angular/fire/auth";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
-import * as firebase from "firebase/app";
+} from '@angular/fire/firestore';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { Observable } from 'rxjs';
+import { finalize, map, take } from 'rxjs/operators';
+import * as firebase from 'firebase/app';
+import * as _ from 'lodash';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class AuthService {
   userCollection: AngularFirestoreCollection<User>;
   userDoc: AngularFirestoreDocument<User>;
   users: Observable<User[]>;
   user: Observable<User>;
+  managers: Observable<any[]>;
+  manager: Observable<any>;
+  delegates: Observable<any[]>;
+  delegate: Observable<any>;
+  userCompanyDoc: AngularFirestoreDocument<User>;
 
   usersAuth: User[];
   userAuth: User;
@@ -25,22 +32,24 @@ export class AuthService {
   userToken: string;
   idUser: string;
   photoURL: string;
-
+  companyUser: any;
   windowRef: any;
 
   verificationCode: string;
+  user$: Observable<User>;
+  // profileUrl: Observable<string | null>;
+  profileUrl: string;
 
-  constructor(private afs: AngularFirestore, private auth: AngularFireAuth) {
+  constructor(private afs: AngularFirestore,
+              private auth: AngularFireAuth,
+              private storage: AngularFireStorage) {
     this.loadUsers(afs);
-    this.users.subscribe((users) => {
-      this.usersAuth = users;
-    });
     this.loadStorage();
   }
 
   loadUsers(afs: AngularFirestore) {
-    this.userCollection = afs.collection<User>("users", (ref) =>
-      ref.orderBy("createdAt")
+    this.userCollection = afs.collection<User>('users', (ref) =>
+      ref.orderBy('createdAt')
     );
     this.users = this.userCollection.snapshotChanges().pipe(
       map((actions) => {
@@ -54,7 +63,7 @@ export class AuthService {
   }
 
   loadStorage() {
-    const userLocalStorage = localStorage.getItem("user");
+    const userLocalStorage = localStorage.getItem('user');
     if (userLocalStorage) {
       this.userAuth = JSON.parse(userLocalStorage);
     } else {
@@ -92,7 +101,7 @@ export class AuthService {
 
   async resetPassword(emailPasswd: any) {
     const actionCodeSettings = {
-      url: `http://localhost:4200/#/?email=${emailPasswd}`,
+      url: `http://localhost:4200/?email=${emailPasswd}`,
       handleCodeInApp: true,
     };
     try {
@@ -135,7 +144,7 @@ export class AuthService {
 
   createUser(user: User, uid: string) {
     this.afs
-      .collection("users")
+      .collection('users')
       .doc(uid)
       .set({
         ...user,
@@ -144,7 +153,7 @@ export class AuthService {
 
   getUser(user: any) {
     const { uid } = user;
-    this.userDoc = this.afs.collection("users").doc(uid);
+    this.userDoc = this.afs.collection('users').doc(uid);
     this.user = this.userDoc.snapshotChanges().pipe(
       map((actions) => {
         if (actions.payload.exists === false) {
@@ -159,8 +168,15 @@ export class AuthService {
     return this.user;
   }
 
+  getUserOnce(uid: string) {
+    return this.user$ = this.afs.doc<User>(`users/${uid}`)
+  .valueChanges().pipe(
+    take(1) // Here you can limit to only emit once, using the take operator
+  );
+}
+
   getUserById(uid: string) {
-    this.userDoc = this.afs.collection("users").doc(uid);
+    this.userDoc = this.afs.collection('users').doc(uid);
     this.user = this.userDoc.snapshotChanges().pipe(
       map((actions) => {
         if (actions.payload.exists === false) {
@@ -177,7 +193,7 @@ export class AuthService {
 
   updateUser(user: User) {
     const { uid } = user;
-    this.afs.collection("users").doc(uid).update({
+    this.afs.collection('users').doc(uid).update({
       displayName: user.displayName,
       birthdate: user.birthdate,
       description: user.description,
@@ -185,16 +201,16 @@ export class AuthService {
       photoURL: user.photoURL,
     });
   }
-  setTokenUser(user: User, token: string) {
+  setTokensUser(user: User, token: string) {
     const { uid } = user;
-    this.afs.collection("users").doc(uid).update({
-      token,
+    this.afs.collection('users').doc(uid).update({
+      tokens: firebase.firestore.FieldValue.arrayUnion(token),
     });
   }
 
   getUsers() {
     this.users = this.afs
-      .collection("users")
+      .collection('users')
       .snapshotChanges()
       .pipe(
         map((changes) => {
@@ -209,8 +225,83 @@ export class AuthService {
   }
 
   saveUserOnStorage(user: User) {
-    // localStorage.clear();
     this.userAuth = user;
-    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem('user', JSON.stringify(user));
+  }
+
+
+  getCompanyManager(email: string) {
+    this.managers = this.afs
+      .collection('companies', (ref) => ref.where('managers', 'array-contains', email).limit(1))
+      .snapshotChanges()
+      .pipe(
+        map((changes) => {
+          return changes.map((action) => {
+            const data = action.payload.doc.data() as any;
+            data.ref = action.payload.doc.ref.path;
+            return data;
+          });
+        })
+      );
+    return (this.managers);
+  }
+
+
+  getCompanyByRole(company: string, role: string, email: string ) {
+    if (company === 'Empresa' && role === 'true') {
+      this.getCompanyManager(email).subscribe(data => {
+            const snap = _.head(data);
+            console.log(snap);
+            this.companyUser = {
+              id: snap.cid,
+              name: snap.name,
+              address: snap.address,
+              ref: snap.ref
+            };
+          });
+      } else if ( company === 'Empresa' && role === 'false' ) {
+        this.getCompanyDelegate(email).subscribe(data => {
+            const snap = _.head(data);
+            this.companyUser = {
+              id: snap.cid,
+              name: snap.name,
+              address: snap.address,
+              ref: snap.ref
+            };
+            console.log(company);
+            console.log(_.head(data));
+          });
+      } else {
+        return undefined;
+      }
+  }
+
+
+  getCompanyDelegate(email: string) {
+    this.managers = this.afs
+      .collection('companies', (ref) => ref.where('delegates', 'array-contains', email).limit(1))
+      .snapshotChanges()
+      .pipe(
+        map((changes) => {
+          return changes.map((action) => {
+            const data = action.payload.doc.data() as any;
+            data.ref = action.payload.doc.ref.path;
+            return data;
+          });
+        })
+      );
+    return this.managers;
+  }
+
+  uploadProfile(file: any, uid: string, ) {
+    const filePath = `users/${uid}`;
+    const fileRef = this.storage.ref(filePath);
+    this.storage.upload(filePath, file);
+    const downloadURL = fileRef.getDownloadURL();
+    // fileRef.getDownloadURL().subscribe(
+    //   url => this.profileUrl = url
+    // );
+    // return this.profileUrl;
+    return downloadURL;
   }
 }

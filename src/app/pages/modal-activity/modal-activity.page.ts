@@ -15,7 +15,7 @@ export class ModalActivityPage implements OnInit {
   activityProject: Activity = {
     name: '',
     status: 'Por Realizar',
-    percentaje: 0,
+    progress: 0,
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   };
 
@@ -40,19 +40,19 @@ export class ModalActivityPage implements OnInit {
     if (this.activity) {
         this.activityProject = this.activity;
         console.log(this.activityProject);
-        // this.startDate = this.activityProject.start_date.toISOString().slice(0, 10);
-        // this.endDate = this.activityProject.end_date.toISOString().slice(0, 10);
-        this.startDate = new Date(this.activityProject.start_date.getTime() - (this.activityProject.start_date.getTimezoneOffset() * 60000 ))
+        // this.startDate = this.activityProject.startDate.toISOString().slice(0, 10);
+        // this.endDate = this.activityProject.endDate.toISOString().slice(0, 10);
+        this.startDate = new Date(this.activityProject.startDate.getTime() - (this.activityProject.startDate.getTimezoneOffset() * 60000 ))
                     .toISOString()
                     .split('T')[0];
-        this.endDate = new Date(this.activityProject.end_date.getTime() - (this.activityProject.end_date.getTimezoneOffset() * 60000 ))
+        this.endDate = new Date(this.activityProject.endDate.getTime() - (this.activityProject.endDate.getTimezoneOffset() * 60000 ))
                     .toISOString()
                     .split('T')[0];
-        this.minD = this.project.start_date.toISOString().slice(0, 10);
-        this.maxD = this.project.end_date.toISOString().slice(0, 10);
+        this.minD = this.project.startDate.toISOString().slice(0, 10);
+        this.maxD = this.project.endDate.toISOString().slice(0, 10);
     } else {
-       this.minD = this.project.start_date.toISOString().slice(0, 10);
-       this.maxD = this.project.end_date.toISOString().slice(0, 10);
+       this.minD = this.project.startDate.toISOString().slice(0, 10);
+       this.maxD = this.project.endDate.toISOString().slice(0, 10);
     }
   }
 
@@ -94,18 +94,18 @@ export class ModalActivityPage implements OnInit {
 
     await loading.present();
 
-    // this.activityProject.start_date = new Date(this.startDate);
-    // this.activityProject.end_date = new Date(this.endDate);
+    // this.activityProject.startDate = new Date(this.startDate);
+    // this.activityProject.endDate = new Date(this.endDate);
 
     const endDateString = this.endDate.split('T')[0];
     const partsEndDate: any = endDateString.split('-');
     const endDate = new Date( partsEndDate[0], partsEndDate[1] - 1, partsEndDate[2]);
-    this.activityProject.end_date = endDate;
+    this.activityProject.endDate = endDate;
 
     const startDateString = this.startDate.split('T')[0];
     const partsStartDate: any = startDateString.split('-');
     const startDate = new Date( partsStartDate[0], partsStartDate[1] - 1, partsStartDate[2]);
-    this.activityProject.start_date = startDate;
+    this.activityProject.startDate = startDate;
     // this.projectService.addNewProject( this.projectApp );
     await this.modalCtrl.dismiss({
       activity: this.activityProject,

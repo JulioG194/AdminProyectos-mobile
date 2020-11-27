@@ -16,7 +16,8 @@ import { ModalProfilePageModule } from '../pages/modal-profile/modal-profile.mod
 import { Router } from '@angular/router';
 import { Subscription, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
+import { untilDestroyed } from '@orchestrator/ngx-until-destroyed';
+import * as _ from 'lodash';
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -24,267 +25,390 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class Tab1Page implements OnInit, OnDestroy {
 
-  post = true;
+post = true;
   show = false;
-  userGugo: User = {
-    displayName: '',
-    email: '',
-    password: '',
-    uid: '',
-    birthdate: new Date(),
-    description: '',
-    gender: '',
-    photoURL: '',
-    manager: false,
-    phoneNumber: ''
-  };
-  projects: any [] = ['asdsd'];
-  progressArray: number[] = [];
-  teamAux: Team = {
-  manager: ''
-  };
-  teamAux1: Team[] = [];
+  userGugo: User;
 
+  project: Project;
+  activity: Activity;
+  projectId: string;
+  projectResult: Project;
   projectsApp: Project[] = [];
   activitiesProjectsApp: Activity[] = [];
   tasksActivitiesApp: Task[] = [];
-  results: any[] = [];
+  projectsNumber = 0;
+  activitiesNumber = 0;
+  tasksNumber = 0;
 
+  activitiesStatistics: Activity[] = [];
+  tasksStatistics: Task[] = [];
 
   dataProjects: number[] = [];
-  tareas: Task[] = [];
+  dataActivities: number[] = [];
+  dataTasks: number[] = [];
 
-  view: any[] = [700, 400];
   barData: number[] = [];
-  labelBar: string[] = [];
-  barData1: number[] = [];
-  labelBar1: string[] = [];
-// options
-  showXAxis = true;
-  showYAxis = true;
-  gradient = false;
-  showLegend = true;
-  showXAxisLabel = true;
-  xAxisLabel = 'Porcentaje %';
-  showYAxisLabel = true;
-  yAxisLabel = 'Proyectos';
+  barDataTask: number[] = [];
 
-  colorScheme = {
-      domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
-  };
+  subscriptionGetProjects: Subscription;
+  subscriptionGetActivities: Subscription;
+  isLoading = true;
 
-  userObservable: Subscription;
-  teamObservable: Subscription;
-  projectObservable: Subscription;
-  activityObservable: Subscription;
-  taskObservable: Subscription;
-  private ngUnsubscribe = new Subject();
-  constructor(private authService: AuthService,
-              private projectService: ProjectService,
-              private router: Router,
-              private teamService: TeamService,
-              private modalCtrl: ModalController) {}
+  constructor(
+    private authService: AuthService,
+    private projectService: ProjectService,
+    private modalCtrl: ModalController
+  ) {}
 
-
-  pieChartOptions: ChartOptions = {
+  /* Projects */
+  public pieChartOptions: ChartOptions = {
     responsive: true,
     legend: {
-      position: 'top',
+      position: 'bottom',
+      display: true,
+      align: 'center',
       labels: {
-        fontFamily: '\'Roboto\', sans-serif',
-        fontSize: 10,
+        boxWidth: 10,
+        fontSize: 8
       }
-    }
+    },
+    plugins: {
+      datalabels: {
+        formatter: () => {
+          return '';
+        },
+      },
+    },
   };
 
-  pieChartLabels: Label[] = ['Proyectos sin realizar', 'Proyectos completados', 'Proyectos en proceso'];
-  pieChartData: number[] = [];
-  pieChartType: ChartType = 'pie';
-  pieChartLegend = true;
-  pieChartPlugins = [ pluginDataLabels ];
-  pieChartColors = [
-    {
-      backgroundColor: ['rgba(255,0,0,0.3)', 'rgba(0,255,0,0.3)', 'rgba(0,0,255,0.3)'],
-    },
+  public pieChartLabels: Label[] = [
+    'Sin realizar',
+    'Completados',
+    'En proceso',
   ];
-
-  barChartOptions: ChartOptions = {
-    responsive: true,
-    scales: {
-      yAxes: [{
-          ticks:
-                {
-                  fontSize: 8, fontFamily: '\'Roboto\', sans-serif',
-                  fontColor: '#ffffff',
-                  fontStyle: '500'
-                }
-          }],
-      xAxes: [{
-          ticks: {
-                  fontSize: 8,
-                  fontFamily: '\'Roboto\', sans-serif',
-                  fontColor: '#ffffff',
-                  fontStyle: '500'}
-          }]
-    }
-  };
-
-  barChartLabels: Label[] = [];
-  barChartType: ChartType = 'horizontalBar';
-  barChartLegend = false;
-
-  barChartData: ChartDataSets[] = [
-    {
-      data: this.barData
-    },
-  ];
-
-  barChartColors: Color[] = [
+  public pieChartData: number[] = [];
+  public pieChartType: ChartType = 'pie';
+  public pieChartLegend = true;
+  public pieChartPlugins = [pluginDataLabels];
+  public pieChartColors = [
     {
       backgroundColor: [
-        'blue', 'green', 'red', 'yellow', 'purple', 'grey', 'black', 'magenta', 'blue', 'green', 'red', 'yellow', 'purple', 'grey', 'black', 'magenta'
-      ]
-    }
+        'rgb(255, 0, 0)',
+        'rgb(50, 205, 50)',
+        'rgb(128, 128, 128)',
+      ],
+    },
   ];
+  /* Projects */
 
-  ngOnInit() {
+  /* Activities */
+  public pieChartOptionsAct: ChartOptions = {
+    responsive: true,
+    legend: {
+      position: 'bottom',
+      align: 'center',
+      labels: {
+        boxWidth: 10,
+        fontSize: 8
+      }
+    },
+    plugins: {
+      datalabels: {
+        formatter: () => {
+          return '';
+        },
+      },
+    },
+  };
 
-      this.home();
-   }
+  public pieChartLabelsAct: Label[] = [
+    'Sin realizar',
+    'Completados',
+    'En proceso',
+  ];
+  public pieChartDataAct: number[] = [];
+  public pieChartTypeAct: ChartType = 'pie';
+  public pieChartLegendAct = true;
+  public pieChartPluginsAct = [pluginDataLabels];
+  public pieChartColorsAct = [
+    {
+      backgroundColor: [
+        'rgb(255, 0, 0)',
+        'rgb(50, 205, 50)',
+        'rgb(128, 128, 128)',
+      ],
+    },
+  ];
+  /* Activities */
 
-  ngOnDestroy(): void {
-   this.ngUnsubscribe.next();
-   this.ngUnsubscribe.complete();
-  }
+  /* Tasks */
+  public pieChartOptionsTsk: ChartOptions = {
+    responsive: true,
+    legend: {
+     position: 'bottom',
+      align: 'center',
+      labels: {
+        boxWidth: 10,
+        fontSize: 8
+      }
+    },
+    plugins: {
+      datalabels: {
+        formatter: () => {
+          return '';
+        },
+      },
+    },
+  };
+
+  public pieChartLabelsTsk: Label[] = [
+    'Sin realizar',
+    'Completados',
+    'En proceso',
+  ];
+  public pieChartDataTsk: number[] = [];
+  public pieChartTypeTsk: ChartType = 'pie';
+  public pieChartLegendTsk = true;
+  public pieChartPluginsTsk = [pluginDataLabels];
+  public pieChartColorsTsk = [
+    {
+      backgroundColor: [
+        'rgb(255, 0, 0)',
+        'rgb(50, 205, 50)',
+        'rgb(128, 128, 128)',
+      ],
+    },
+  ];
+  /* Tasks */
+
+  /*chart Activities*/
+  public barChartOptions: ChartOptions = {
+    responsive: true,
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            fontSize: 12,
+            fontFamily: '\'Roboto\', sans-serif',
+            fontColor: '#ffffff',
+            fontStyle: '500',
+            beginAtZero: true,
+            max: 100,
+          },
+        },
+      ],
+      xAxes: [
+        {
+          ticks: {
+            fontSize: 12,
+            fontFamily: '\'Roboto\', sans-serif',
+            fontColor: '#ffffff',
+            fontStyle: '500',
+            beginAtZero: true,
+            max: 100,
+          },
+        },
+      ],
+    },
+  };
+  public barChartLabels: Label[] = [];
+  public barChartType: ChartType = 'horizontalBar';
+  public barChartLegend = false;
+
+  public barChartData: ChartDataSets[] = [{ data: this.barData }];
+
+  public barChartColors: Color[] = [
+    {
+      backgroundColor: [
+        'yellow', 'purple', 'grey', 'white', 'blue', 'green', 'red', 'magenta',
+        'blue', 'green', 'red', 'yellow', 'purple', 'grey', 'white', 'magenta',
+        'yellow', 'purple', 'grey', 'white', 'blue', 'green', 'red', 'magenta',
+        'blue', 'green', 'red', 'yellow', 'purple', 'grey', 'white', 'magenta',
+        'yellow', 'purple', 'grey', 'white', 'blue', 'green', 'red', 'magenta',
+      ],
+    },
+  ];
+  /*chart Activities*/
 
 
-  home() {
-    return this.userObservable =  this.authService
-    .getUser(this.authService.userAuth)
-    .pipe(takeUntil(this.ngUnsubscribe))
-    .subscribe(user => {
-      (this.userGugo = user);
-      if ( this.userGugo.manager === true ) {
-        this.teamObservable = this.teamService
-                .getTeamByUser(this.userGugo)
-                .subscribe(team => {
-                    this.teamAux = team[0];
-                    });
-        this.projectObservable = this.projectService
-                .getProjectByOwner(this.userGugo)
-                .subscribe(projects => {
-                            this.projectsApp = projects;
-                            this.results = [];
-                            this.barData1 = [];
-                            this.barChartLabels = [];
-                            this.barChartData[0].data = [];
-                            this.projectsApp.forEach(project => {
-                                  const gp: any = {
-                                                  name: '',
-                                                  value: 0
-                                                };
-                                  gp.name = project.name;
-                                  gp.value = project.progress;
-                                  this.results.push(gp);
-                                  this.barChartData[0].data.push(gp.value);
-                                  this.barChartLabels.push(gp.name);
+  /*chart Tasks*/
+  public barChartOptionsTask: ChartOptions = {
+    responsive: true,
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            fontSize: 12,
+            fontFamily: '\'Roboto\', sans-serif',
+            fontColor: '#ffffff',
+            fontStyle: '500',
+            beginAtZero: true,
+            max: 100,
+          },
+        },
+      ],
+      xAxes: [
+        {
+          ticks: {
+            fontSize: 12,
+            fontFamily: '\'Roboto\', sans-serif',
+            fontColor: '#ffffff',
+            fontStyle: '500',
+            beginAtZero: true,
+            max: 100,
+          },
+        },
+      ],
+    },
+  };
+  public barChartLabelsTask: Label[] = [];
+  public barChartTypeTask: ChartType = 'horizontalBar';
+  public barChartLegendTask = false;
+
+  public barChartDataTask: ChartDataSets[] = [{ data: this.barDataTask }];
+
+  public barChartColorsTask: Color[] = [
+    {
+      backgroundColor: [
+        'yellow', 'purple', 'grey', 'white', 'blue', 'green', 'red', 'magenta',
+        'blue', 'green', 'red', 'yellow', 'purple', 'grey', 'white', 'magenta',
+        'yellow', 'purple', 'grey', 'white', 'blue', 'green', 'red', 'magenta',
+        'blue', 'green', 'red', 'yellow', 'purple', 'grey', 'white', 'magenta',
+        'yellow', 'purple', 'grey', 'white', 'blue', 'green', 'red', 'magenta',
+      ],
+    },
+  ];
+  /*chart Tasks*/
+
+   getProjects() {
+    this.userGugo = this.authService.userAuth;
+    this.subscriptionGetProjects = this.projectService.getProjectByOwner(this.userGugo).pipe(untilDestroyed(this))
+                        .subscribe(projects => {
+                          projects.map(project => {
+                            project.startDate = new Date(project.startDate['seconds'] * 1000);
+                            project.endDate = new Date(project.endDate['seconds'] * 1000);
+                          });
+                          this.projectsApp = projects;
+                          this.dataProjects = [];
+                          this.activitiesNumber = 0;
+                          this.tasksNumber = 0;
+                          let tasksInprogress = 0;
+                          let tasksOut = 0;
+                          let tasksCompleted = 0;
+                          this.activitiesStatistics = [];
+                          let activitiesInprogress = 0;
+                          let activitiesOut = 0;
+                          let activitiesCompleted = 0;
+                          let projectsInprogress = 0;
+                          let projectsOut = 0;
+                          let projectsCompleted = 0;
+                          for (let index = 0; index < this.projectsApp.length; index++) {
+                          if (this.projectsApp[index].progress === 100) {
+                              projectsCompleted++;
+                          } else if (
+                              this.projectsApp[index].progress > 0 &&
+                              this.projectsApp[index].progress < 100
+                          ) {
+                              projectsInprogress++;
+                          } else if (this.projectsApp[index].progress === 0) {
+                              projectsOut++;
+                          }
+                        }
+                          this.dataProjects.push(projectsOut);
+                          this.dataProjects.push(projectsCompleted);
+                          this.dataProjects.push(projectsInprogress);
+                          this.pieChartData = this.dataProjects;
+                          this.isLoading = false;
+
+                          this.projectsApp.map(proj => {
+                            this.subscriptionGetActivities = this.projectService.getActivities(proj.id).pipe(untilDestroyed(this)).subscribe(acts => {
+                              this.activitiesNumber += acts.length;
+                              acts.map(act => {
+                                this.activitiesStatistics.push(act);
+                                if (act.progress === 100) {
+                                        activitiesCompleted++;
+                                      } else if (
+                                    act.progress > 0 &&
+                                    act.progress < 100
+                                    ) {
+                                    activitiesInprogress++;
+                                    } else if (act.progress === 0) {
+                                    activitiesOut++;
+                                    }
+                                this.projectService.getTasks(proj.id, act.id).pipe(untilDestroyed(this)).subscribe(tsks => {
+                                  this.tasksNumber += tsks.length;
+                                  tsks.map(tsk => {
+                                    this.tasksStatistics.push(tsk);
+                                    if (tsk.progress === 100) {
+                                        tasksCompleted++;
+                                      } else if (
+                                      tsk.progress > 0 &&
+                                      tsk.progress < 100
+                                      ) {
+                                      tasksInprogress++;
+                                      } else if (tsk.progress === 0) {
+                                      tasksOut++;
+                                      }
                                   });
-                            this.dataProjects = [];
-                            let projectsInprogress = 0;
-                            let projectsOut = 0;
-                            let projectsCompleted = 0;
-                            let id: string;
-                            let aux9: number;
-                            // tslint:disable-next-line: prefer-for-of
-                            for (let index = 0; index < this.projectsApp.length; index++) {
-                                this.activitiesProjectsApp = [];
-                                let numeroActs: number;
-                                let aux6: number;
-                                let aux7: number;
-                                let porcentajeActividad: number;
-                                let numeroTasks: number;
-                                let porcentajeTask: number;
-                                let aux3: number;
-                                let aux4: number;
-                                let aux1: number;
-                                this.activityObservable = this.projectService
-                                .getActivities(this.projectsApp[index])
-                                .subscribe(acts => {
-                                        let aux8 = 0;
-                                        this.activitiesProjectsApp = acts;
-                                        numeroActs = this.activitiesProjectsApp.length;
-                                        porcentajeActividad = 100 / numeroActs;
-                                        aux6 = 100 / numeroActs;
-                                        // tslint:disable-next-line:prefer-for-of
-                                        for (let j = 0; j < this.activitiesProjectsApp.length; j++) {
-                                            aux7 = this.activitiesProjectsApp[j].percentaje * aux6;
-                                            aux8 += aux7;
-                                            this.taskObservable = this.projectService.getTasks(this.activitiesProjectsApp[j].idProject,
-                                                                         this.activitiesProjectsApp[j].id)
-                                            .subscribe(tasks => {
-                                                       let aux2 = 0;
-                                                       this.tasksActivitiesApp = tasks;
-                                                       if ( this.tasksActivitiesApp.length === 0 ) {
-                                                          try {
-                                                            this.projectService
-                                                            .setActivityProgress(
-                                                              this.projectsApp[index].id,
-                                                              this.activitiesProjectsApp[j].id,
-                                                              0);
-                                                               } catch (error) {
-                                                                 console.log(error);
-                                                               }
-                                                      } else {
-                                                             numeroTasks = this.tasksActivitiesApp.length;
-                                                             porcentajeTask = 100 / numeroTasks;
-                                                            // tslint:disable-next-line:prefer-for-of
-                                                             for (let k = 0; k < this.tasksActivitiesApp.length; k++) {
-                                                                 aux1 = this.tasksActivitiesApp[k].progress * porcentajeTask;
-                                                                 aux2 += aux1;
-                                                                 aux3 = aux2 / 100;
-                                                                 aux4 = +(aux3.toFixed(2));
-                                                                 id = this.tasksActivitiesApp[k].idActivity;
-                                                              }
-                                                             try {
-                                                                  this.projectService
-                                                                  .setActivityProgress(this.projectsApp[index].id,
-                                                                                        id,
-                                                                                        aux4 );
-                                                               } catch (error) {
-                                                                  console.log(error);
-                                                               }
-                                                        }
-                                                       });
-                                                      }
-                                        aux9 = +((aux8 / 100).toFixed(2));
-                                        try {
-                                              this.projectService
-                                              .setProjectProgress( this.projectsApp[index].id , aux9 );
-                                         } catch (error) {
-                                           console.log(error);
-                                         }
+                                  this.dataTasks.push(tasksOut);
+                                  this.dataTasks.push(tasksCompleted);
+                                  this.dataTasks.push(tasksInprogress);
+                                  this.pieChartDataTsk = _.takeRight(this.dataTasks, 3);
                                 });
-                                if ( this.projectsApp[index].progress === 100 ) {
-                                    projectsCompleted++;
-                                } else if ( (this.projectsApp[index].progress > 0) && (this.projectsApp[index].progress < 100) ) {
-                                    projectsInprogress++;
-                                } else if (this.projectsApp[index].progress === 0) {
-                                    projectsOut++;
-                                }
-                             }
-                            this.dataProjects.push(projectsOut);
-                            this.dataProjects.push(projectsCompleted);
-                            this.dataProjects.push(projectsInprogress);
-                            this.pieChartData = this.dataProjects;
-});
-}});
+                              });
+                              this.dataActivities.push(activitiesOut);
+                              this.dataActivities.push(activitiesCompleted);
+                              this.dataActivities.push(activitiesInprogress);
+                              this.pieChartDataAct = _.takeRight(this.dataActivities, 3);
+                            });
+                          });
+                        });
   }
 
-  doRefresh(event) {
-    setTimeout(() => {
-         this.home();
-         event.target.complete();
-          }, 2000);
+  projectsChangeAction(project: string) {
+    this.projectId = project;
+    this.getActivities(project);
+    this.barChartDataTask[0].data = [];
+    this.barChartLabelsTask = [];
+  }
+
+  activitiesChangeAction(activity: string) {
+    this.getTasks(this.projectId, activity);
+  }
+
+  getActivities(projectId: string) {
+  this.projectService.getActivities(projectId).pipe(untilDestroyed(this)).subscribe(activities => {
+                          activities.map(activity => {
+                            activity.startDate = new Date(activity.startDate['seconds'] * 1000);
+                            activity.endDate = new Date(activity.endDate['seconds'] * 1000);
+                          });
+                          this.activitiesProjectsApp = activities;
+                          this.barChartData[0].data = [];
+                          this.barChartLabels = [];
+                          this.activitiesProjectsApp.forEach((act) => {
+                            this.barChartData[0].data.push(act.progress);
+                            this.barChartLabels.push(act.name);
+                          });
+                          // this.isLoading = false;
+                        });
+  }
+
+
+  getTasks(projectId: string, activityId: string) {
+  this.projectService.getTasks(projectId, activityId).pipe(untilDestroyed(this)).subscribe(tasks => {
+                          tasks.map(task => {
+                            task.startDate = new Date(task.startDate['seconds'] * 1000);
+                            task.endDate = new Date(task.endDate['seconds'] * 1000);
+                          });
+                          this.tasksActivitiesApp = tasks;
+                          this.barChartDataTask[0].data = [];
+                          this.barChartLabelsTask = [];
+                          this.tasksActivitiesApp.forEach((tsk) => {
+                            this.barChartDataTask[0].data.push(tsk.progress);
+                            this.barChartLabelsTask.push(tsk.name);
+                          });
+                          // this.isLoading = false;
+                        });
   }
 
   async openProfile() {
@@ -311,11 +435,13 @@ export class Tab1Page implements OnInit, OnDestroy {
     } */
   }
 
-  logout() {
-    this.authService.logout();
-    this.router.navigateByUrl('/register').then(() => {
-      location.reload();
-    });
+  ngOnInit() {
+    this.getProjects();
+  }
+
+  ngOnDestroy() {
+      // this.subscriptionGetProjects.unsubscribe();
+      // this.subscriptionGetActivities.unsubscribe();
   }
 
 }

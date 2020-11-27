@@ -21,16 +21,16 @@
         <br>
         <ion-item color="secondary">
             <ion-label position="floating">Fecha de inicio</ion-label>
-            <ion-datetime name="start_date" displayFormat="DD-MMM-YYYY" pickerFormat="DD-MMM-YY" [(ngModel)]="startDate" [min]="minD" [max]="maxD" required></ion-datetime>
+            <ion-datetime name="startDate" displayFormat="DD-MMM-YYYY" pickerFormat="DD-MMM-YY" [(ngModel)]="startDate" [min]="minD" [max]="maxD" required></ion-datetime>
         </ion-item>
         <br>
         <ion-item color="secondary">
             <ion-label position="floating">Fecha de fin</ion-label>
-            <ion-datetime name="end_date" displayFormat="DD-MMM-YYYY" pickerFormat="DD-MMM-YY" [(ngModel)]="endDate" [min]="minD" [max]="maxD" required></ion-datetime>
+            <ion-datetime name="endDate" displayFormat="DD-MMM-YYYY" pickerFormat="DD-MMM-YY" [(ngModel)]="endDate" [min]="minD" [max]="maxD" required></ion-datetime>
         </ion-item>
 
         <ion-row style="height: 10mm"></ion-row>
-        <span *ngIf="f.submitted && (f.controls['name'].errors || f.controls['start_date'].errors || f.controls['end_date'].errors)" style="color:red;"> Todos los campos (*) deben ser llenados</span>
+        <span *ngIf="f.submitted && (f.controls['name'].errors || f.controls['startDate'].errors || f.controls['endDate'].errors)" style="color:red;"> Todos los campos (*) deben ser llenados</span>
         <button class="btnGuardar" expand="block" type="submit">Guardar</button>
     </form>
 </ion-content>

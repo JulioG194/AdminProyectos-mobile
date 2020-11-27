@@ -9,11 +9,11 @@ import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.page.html',
-  styleUrls: ['./register.page.scss'],
+  selector: 'app-contact',
+  templateUrl: './contact.page.html',
+  styleUrls: ['./contact.page.scss'],
 })
-export class RegisterPage implements OnInit {
+export class ContactPage implements OnInit {
   userRegister: User = {
     uid: '',
     displayName: '',

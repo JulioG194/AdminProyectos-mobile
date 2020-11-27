@@ -7,6 +7,7 @@ import { Tab2Page } from './tab2.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 import { ModalTeamPage } from '../pages/modal-team/modal-team.page';
 import { ModalTeamPageModule } from '../pages/modal-team/modal-team.module';
+import { TooltipsModule } from 'ionic-tooltips';
 
 @NgModule({
   entryComponents: [
@@ -18,7 +19,8 @@ import { ModalTeamPageModule } from '../pages/modal-team/modal-team.module';
     FormsModule,
     ExploreContainerComponentModule,
     RouterModule.forChild([{ path: '', component: Tab2Page }]),
-    ModalTeamPageModule
+    ModalTeamPageModule,
+    TooltipsModule.forRoot()
   ],
   declarations: [Tab2Page]
 })

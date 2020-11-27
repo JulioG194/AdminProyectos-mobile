@@ -45,8 +45,8 @@ export class ChatPage implements OnInit {
     name: '',
     client: '',
     description: '',
-    start_date: new Date(),
-    end_date: new Date(),
+    startDate: new Date(),
+    endDate: new Date(),
     type: '',
     teamId: '',
     ownerId: '',
@@ -107,8 +107,8 @@ allenddatesT: Date[] = [];
 activityAux: Activity = {
   name: '',
   status: '',
-  start_date: null,
-  end_date: null,
+  startDate: null,
+  endDate: null,
   activity_time: 0
 };
 

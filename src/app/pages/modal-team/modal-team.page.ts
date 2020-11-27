@@ -33,7 +33,7 @@ export class ModalTeamPage implements OnInit {
         isChecked = true;
         this.visability = true;
         this.newMemb.push(users[i]);
-      }
+      } 
     }
     if (isChecked === false) {
       this.visability = false;
