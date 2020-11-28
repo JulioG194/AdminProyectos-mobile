@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Router, RouterEvent, NavigationEnd } from '@angular/router';
 import { ModalController, AlertController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
@@ -12,6 +12,8 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class ModalProfilePage implements OnInit {
 
+  imgURI: string = null;
+  @ViewChild('pwaphoto', {static: false}) pwaphoto: ElementRef;
   mainObservable: Subscription;
   userApp: User = {
     displayName: '',
@@ -42,6 +44,50 @@ isDisabled = true;
 
   enableEdit() {
     this.isDisabled = !this.isDisabled;
+  }
+
+  openPWAPhotoPicker() {
+    if (this.pwaphoto == null) {
+      return;
+    }
+
+    this.pwaphoto.nativeElement.click();
+  }
+
+  uploadPWA() {
+
+    if (this.pwaphoto == null) {
+      return;
+    }
+
+    const fileList: FileList = this.pwaphoto.nativeElement.files;
+
+    if (fileList && fileList.length > 0) {
+      this.firstFileToBase64(fileList[0]).then((result: string) => {
+        this.imgURI = result;
+      }, (err: any) => {
+        // Ignore error, do nothing
+        this.imgURI = null;
+      });
+    }
+  }
+
+  private firstFileToBase64(fileImage: File): Promise<{}> {
+    return new Promise((resolve, reject) => {
+      let fileReader: FileReader = new FileReader();
+      if (fileReader && fileImage != null) {
+        fileReader.readAsDataURL(fileImage);
+        fileReader.onload = () => {
+          resolve(fileReader.result);
+        };
+
+        fileReader.onerror = (error) => {
+          reject(error);
+        };
+      } else {
+        reject(new Error('No file found'));
+      }
+    });
   }
 
 }

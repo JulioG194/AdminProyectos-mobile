@@ -60,7 +60,12 @@ addNewChat( chat: Chat ) {
 }
 
 getChats( userId: string) {
-  this.chatsUsers = this.afs.collection('chats').doc(userId).collection('messages', ref => ref.orderBy('createdAt')).snapshotChanges().pipe(
+  this.chatsUsers = this.afs.collection('chats')
+                              .doc(userId)
+                              .collection('messages', 
+                                            ref => ref.orderBy('createdAt'))
+                                            .snapshotChanges()
+                                            .pipe(
     map(changes => {
       return changes.map(action => {
         const data = action.payload.doc.data() as Chat;

@@ -14,6 +14,10 @@
     flex-direction: row;
 }
 
+div#pwa {
+    visibility: hidden;
+}
+
 .box ion-title {
     /* text-align: center;
     letter-spacing: 10px;
@@ -25,10 +29,11 @@
     padding: 20px;
 }
 
-.photo{
+.photo {
     padding: 10px;
     text-align: center;
 }
+
 
 /* .photo img {
     height: 175px;

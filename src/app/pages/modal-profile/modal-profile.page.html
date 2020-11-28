@@ -49,4 +49,17 @@
         </ion-button>
 
     </div>
+
+    <h2>Take a photo or use the gallery</h2>
+
+    <button ion-button (click)="openPWAPhotoPicker()">Let's go!</button>
+
+    <div *ngIf="imgURI != null">
+        <img [src]="imgURI" #imageSrc style="width: 200px;">
+    </div>
+
+    <div id="pwa">
+        <input type="file" id="pwaphoto" #pwaphoto accept="image/x-png,image/jpeg" (change)="uploadPWA()">
+    </div>
+
 </ion-content>

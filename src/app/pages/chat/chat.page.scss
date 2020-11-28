@@ -1,4 +1,4 @@
-*{
+* {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
@@ -17,10 +17,7 @@
         transition: all 250ms ease-in-out !important;
         border-radius: 10px !important;
         margin-bottom: 4px !important;
-        /* background: #387ef5 !important; */
         color: white !important;
-      /*   border-style: solid;
-        border-width: 1px; */
     }
     ion-item {
         right: 0;
@@ -65,11 +62,11 @@
     flex-direction: row;
 }
 
-.msgRx p{
+.msgRx p {
     color: white;
 }
 
-.msgTx p{
+.msgTx p {
     color: #5c92b1;
-   /*  color: #17b4b4; */
+    /*  color: #17b4b4; */
 }
