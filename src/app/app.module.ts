@@ -19,6 +19,8 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireFunctionsModule } from '@angular/fire/functions';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
 
 
 @NgModule({
@@ -33,9 +35,11 @@ import { AngularFireFunctionsModule } from '@angular/fire/functions';
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
+    AngularFireMessagingModule,
     ChartsModule,
     ReactiveFormsModule,
     AngularFireFunctionsModule,
+    ServiceWorkerModule.register('combined-sw.js', { enabled: environment.production }),
   ],
   providers: [
     StatusBar,

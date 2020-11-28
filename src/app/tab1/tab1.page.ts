@@ -365,14 +365,15 @@ post = true;
                         });
   }
 
-  projectsChangeAction(project: string) {
+  projectsChangeAction(project: any) {
     this.projectId = project;
     this.getActivities(project);
     this.barChartDataTask[0].data = [];
     this.barChartLabelsTask = [];
   }
 
-  activitiesChangeAction(activity: string) {
+  activitiesChangeAction(activity: any) {
+    console.log(activity)
     this.getTasks(this.projectId, activity);
   }
 

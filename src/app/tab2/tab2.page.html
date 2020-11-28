@@ -142,7 +142,7 @@
 
 <ng-template #delegate>
 
-    <div *ngIf="true == false; else noTeam">
+    <div *ngIf="userGugo.manager == false; else noTeam">
         <ion-list-header class="title1">
             <ion-label>Tus gestores de proyecto</ion-label>
         </ion-list-header>
