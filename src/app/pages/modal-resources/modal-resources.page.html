@@ -1,0 +1,36 @@
+<ion-header traslucent>
+    <ion-toolbar>
+        <div class="box align">
+            <ion-title>ACTIVIDAD</ion-title>
+            <ion-buttons slot="end">
+                <ion-button color="primary" (click)="onClose()">
+                    <ion-icon name="close"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding color="secondary">
+    <form (ngSubmit)="onSaveActivity( f )" #f="ngForm" class="container">
+
+        <ion-item color="secondary">
+            <ion-label position="floating">Nombre</ion-label>
+            <ion-input type="text" name="name" [(ngModel)]="activityProject.name" required></ion-input>
+        </ion-item>
+        <br>
+        <ion-item color="secondary">
+            <ion-label position="floating">Fecha de inicio</ion-label>
+            <ion-datetime name="startDate" displayFormat="DD-MMM-YYYY" pickerFormat="DD-MMM-YY" [(ngModel)]="startDate" [min]="minD" [max]="maxD" required></ion-datetime>
+        </ion-item>
+        <br>
+        <ion-item color="secondary">
+            <ion-label position="floating">Fecha de fin</ion-label>
+            <ion-datetime name="endDate" displayFormat="DD-MMM-YYYY" pickerFormat="DD-MMM-YY" [(ngModel)]="endDate" [min]="minD" [max]="maxD" required></ion-datetime>
+        </ion-item>
+
+        <ion-row style="height: 10mm"></ion-row>
+        <span *ngIf="f.submitted && (f.controls['name'].errors || f.controls['startDate'].errors || f.controls['endDate'].errors)" style="color:red;"> Todos los campos (*) deben ser llenados</span>
+        <button class="btnGuardar" expand="block" type="submit">Guardar</button>
+    </form>
+</ion-content>

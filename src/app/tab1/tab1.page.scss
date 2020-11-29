@@ -116,3 +116,35 @@ ion-content ion-toolbar {
     color: white;
     margin: 0 auto;
 }
+
+.align4 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+   // margin-left: -10px;
+}
+
+.rol {
+    margin-top: -15px;
+}
+
+ion-card-title {
+    text-align: center;
+}
+
+.container1 {
+    align-items: center;
+    padding: 10px;
+    width: 80%;
+    margin: 0 auto;
+    background: rgb(247,160,120);
+
+}
+
+.align2 {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    justify-content: space-evenly;
+}

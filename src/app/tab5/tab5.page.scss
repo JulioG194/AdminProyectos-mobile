@@ -88,3 +88,15 @@ ion-list {
     color: rgb(212, 212, 212);
     font-size: 14px;
 }
+
+.align4 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+   // margin-left: -10px;
+}
+
+.rol {
+    margin-top: -15px;
+}

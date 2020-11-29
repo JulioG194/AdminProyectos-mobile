@@ -2,6 +2,10 @@
     <ion-toolbar>
         <div class="box align">
             <ion-title class="gugo">GuGo</ion-title>
+            <div class="align4">
+                <p>Versión Móvil</p>
+                <p class="rol">Gestor</p>
+            </div>
             <ion-buttons slot="end">
                 <ion-button id="notification-button">
                     <ion-badge id="notifications-badge" color="primary">5</ion-badge>
@@ -30,9 +34,9 @@
     <br>
     <ion-card class="welcome-card view2">
         <ion-card-header>
-            <ion-card-subtitle>Total Proyectos {{projectsApp.length}}</ion-card-subtitle>
-            <ion-card-subtitle>Total Actividades {{activitiesNumber}}</ion-card-subtitle>
-            <ion-card-subtitle>Total Tareas {{tasksNumber}}</ion-card-subtitle>
+            <ion-card-subtitle>Total Proyectos: {{projectsApp.length}}</ion-card-subtitle>
+            <ion-card-subtitle>Total Actividades: {{activitiesNumber}}</ion-card-subtitle>
+            <ion-card-subtitle>Total Tareas: {{tasksNumber}}</ion-card-subtitle>
         </ion-card-header>
     </ion-card>
     <br>
@@ -118,6 +122,22 @@
 
 
     <!--  </div> -->
+
+    <ion-card class="container1" >
+        <div class="align2">
+            <h4>Proyectos</h4>
+            <img style="height: 100px; width: 100px;" src="../../../assets/img/pdf.png" alt="">
+        </div>
+        
+        <ion-card-content>
+            Forma tu equipo de trabajo para poder crear proyectos. 
+            En el menu lateral se tiene la opcion "Mi equipo", aqui podrás seleccionar 
+            las personas con las que vas trabajar dentro de tus proyectos y
+             asignarles distintas tareas.
+        </ion-card-content>
+        
+    </ion-card>
+
 </ion-content>
 <ion-footer>
 

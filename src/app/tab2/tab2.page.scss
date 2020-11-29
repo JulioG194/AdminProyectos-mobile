@@ -228,3 +228,29 @@ ion-infinite-scroll[scroll-avatar] {
  ::-webkit-scrollbar {
     display: none;
 }
+
+.align4 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+   // margin-left: -10px;
+}
+
+.rol {
+    margin-top: -15px;
+}
+
+.container2{
+    border: 1px solid black;
+    background-color: #0C1B22;
+   /*  background: rgb(42, 49, 61); */
+    text-align: center;
+    padding: 10px;
+}
+
+.item {
+    border: none;
+    align-items: center;
+    justify-content: space-between;
+}

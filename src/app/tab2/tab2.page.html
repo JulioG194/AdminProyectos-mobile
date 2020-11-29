@@ -2,6 +2,10 @@
     <ion-toolbar>
         <div class="box align">
             <ion-title>Mi Equipo</ion-title>
+            <div class="align4">
+                <p>Versión Móvil</p>
+                <p class="rol">Gestor</p>
+            </div>
             <ion-buttons slot="end">
                 <ion-button id="notification-button">
                     <ion-badge id="notifications-badge" color="primary">5</ion-badge>
@@ -15,26 +19,26 @@
             </ion-buttons>
         </div>
     </ion-toolbar>
-    <ion-toolbar color="secondary">
+    <!-- <ion-toolbar color="secondary"> -->
 
         <ion-segment value="all" color="primary" scrollable="false" mode="android" [(ngModel)]="segmentModel" (ionChange)="segmentChanged($event)">
 
-            <ion-segment-button value="select" style="height: 30px; font-size: 9px; color:white">
+            <ion-segment-button value="select" style="font-size: 10.5px; color:white">
                 <ion-label>Seleccionar Equipo
                 </ion-label>
             </ion-segment-button>
 
-            <ion-segment-button value="view" style="height: 30px; font-size: 9px; color:white">
+            <ion-segment-button value="view" style="font-size: 10.5px; color:white">
                 <ion-label>Ver Equipo</ion-label>
             </ion-segment-button>
 
-            <ion-segment-button value="perProject" style="height: 30px; font-size: 9px; color:white">
+            <ion-segment-button value="perProject" style="font-size: 10.5px; color:white">
                 <ion-label>Ver Equipo por proyecto</ion-label>
             </ion-segment-button>
 
         </ion-segment>
 
-    </ion-toolbar>
+   <!--  </ion-toolbar> -->
 
 </ion-header>
 
@@ -95,43 +99,34 @@
     <div class="container" *ngIf="segmentModel === 'perProject'">
         <div *ngIf="userGugo.manager == true; else delegate">
             <div *ngIf="!teamGugo.manager">
-                <ion-list>
-                    <ion-item-sliding *ngFor="let project of projectsTeam; let i = index">
-                        <ion-item color='dark' tappable>
-                            <ion-icon slot="end" name="eye"></ion-icon>
-                            <ion-label class="container">
-                                <h2>{{project.name}}</h2>
-                                <!-- <p style="color: rgb(253, 220, 201);">Cliente: {{ project.client }}</p>
-                                    <p>Fecha de inicio: {{project.startDate | date : "dd/MM/y"}}</p>
-                                    <p>Fecha de fin: {{project.endDate | date : "dd/MM/y"}}</p> -->
-                                <br>
-                                <!-- <div *ngIf="project.delegates?.length > 0"> -->
-                                <!-- <div *ngFor="let delegate of project.delegates">
-                                    <ion-avatar item-left="item-left">
-                                        <img style="width:45px;height:45px;" [src]="delegate.photoURL"></ion-avatar>
-                                </div> -->
-                                <!-- <ion-item no-lines> -->
-                                <div scrollX="true" scroll-avatar>
-                                    <ion-avatar>
-                                        <img [src]="delegate.photoURL" alt="hola" style="width:45px;height:45px;" *ngFor="let delegate of project.delegates" class="scroll-item" />
-                                        <ion-label style="font-size: 12px;">Delegados</ion-label>
-                                        <ion-label style="font-size: 8px;" *ngFor="let delegate of project.delegates" class="scroll-item">- {{delegate.displayName}}</ion-label>
-                                    </ion-avatar>
-
-                                </div>
+                <ion-list class="container2" >
+                    <div  color="dark"  *ngFor="let project of projectsTeam; let i = index">
+                        <ion-icon style="font-size: 25px; text-align: right;" slot="icon-only" name="eye"></ion-icon>
+                        <ion-label><h2>{{project.name}}</h2></ion-label>
+                        <!-- <ion-item style="margin: 0 auto;" color='dark' tappable> -->
+                            <ion-item color="dark" class="aling item" *ngFor="let delegate of project.delegates">
+                                <!-- <ion-label class="aling" *ngFor="let delegate of project.delegates"> -->
+                                    <!-- <div> -->
+                                        <ion-avatar>
+                                            <img [src]="delegate.photoURL" alt="hola" style="width:45px;height:45px;"/>
+                                        </ion-avatar> &nbsp;&nbsp;&nbsp;&nbsp;
+                                   <!--  </div> -->
+                                    <ion-label style="font-size: 12px;">{{delegate.displayName}}</ion-label>
+                                <!-- </ion-label> -->
                                 <!-- </ion-item> -->
                                 <!-- </div> -->
-                            </ion-label>
-                        </ion-item>
-                        <ion-item-options>
+                            </ion-item>
+                            
+                        <!-- </ion-item> -->
+                        <!-- <ion-item-options>
                             <ion-button color="primary" icon-left>
                                 <ion-icon slot="icon-only" name="create"></ion-icon>
                             </ion-button>
                             <ion-button color="danger" icon-left>
                                 <ion-icon slot="icon-only" name="trash"></ion-icon>
                             </ion-button>
-                        </ion-item-options>
-                    </ion-item-sliding>
+                        </ion-item-options> -->
+                    </div>
                 </ion-list>
                 <ion-row style="height: 10mm"></ion-row>
             </div>
