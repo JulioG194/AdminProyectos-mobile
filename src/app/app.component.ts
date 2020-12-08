@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { MessagingService } from './services/messaging.service';
 // import { AngularFireMessaging } from '@angular/fire/messaging';
 import { Storage } from '@ionic/storage';
+import { AngularFireMessaging } from '@angular/fire/messaging';
 
 @Component({
   selector: 'app-root',
@@ -28,7 +29,8 @@ export class AppComponent {
     private router: Router,
     private navCtrl: NavController,
     private msgService: MessagingService,
-    private storage: Storage
+    private storage: Storage,
+    private afMessaging: AngularFireMessaging
   ) {
     this.initializeApp();
     this.items = localStorage.length;
@@ -69,6 +71,13 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.msgService.requestPermission();
+      this.afMessaging.messages.subscribe((payload: any) => {
+      console.log('new message received. ', payload);
+      const { notification } = payload;
+      const { body, title } = notification;
+      // this.snackBar.open(body, 'OK', { duration: 2000 });
+      // this.msgService.success(body);
+    });
     });
   }
 
