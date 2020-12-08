@@ -12,7 +12,6 @@
 <ion-content color="secondary">
     <br>
     <div class="align2">
-        <!-- <ion-list> -->
         <div color="secondary">
             <div class="bodyt" style="height: 200px;">
                 <svg viewBox="0 0 800 600">
@@ -57,7 +56,6 @@
         <br>
         <br>
         <!-- <div class="part1"> -->
-
     </div>
 
     <form (ngSubmit)="onLogin()" [formGroup]="loginForm" class="part1">
@@ -83,6 +81,17 @@
             <ion-row>
                 <ion-col>
                     <ion-button color="warning" expand="block" (click)="register()">Obtener cuenta GuGo</ion-button>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <!-- <ion-button color="warning" expand="block" (click)="register()">Obtener cuenta GuGo</ion-button> -->
+                    <h2>{{deferredPrompt}}</h2>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-button color="success" expand="block" *ngIf="showBtn" (click)="add_to_home($event)">Instalar GuGo-Mobile</ion-button>
                 </ion-col>
             </ion-row>
             <ion-row>

@@ -39,6 +39,7 @@ post = true;
   projectsNumber = 0;
   activitiesNumber = 0;
   tasksNumber = 0;
+  onlineOffline: boolean = navigator.onLine;
 
   activitiesStatistics: Activity[] = [];
   tasksStatistics: Task[] = [];

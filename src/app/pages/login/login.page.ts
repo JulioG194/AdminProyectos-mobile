@@ -22,7 +22,7 @@ export class LoginPage implements OnInit {
     private validators: ValidatorService
   ) {}
    storagePhoto =
-    'https://firebasestorage.googleapis.com/v0/b/tesis-adminproyectos.appspot.com/o/login.png?alt=media&token=ce8a16cb-009c-4d41-b9c0-c493bd8a355b';
+    'https://firebasestorage.googleapis.com/v0/b/epn-gugo.appspot.com/o/iconfinder-3-avatar-2754579_120516.png?alt=media&token=ca4223d0-47c4-44c9-a84d-3486af99ae74';
   serverTimeStamp = firebase.firestore.FieldValue.serverTimestamp();
   userRegister: User = {
     uid: '',
@@ -40,8 +40,8 @@ export class LoginPage implements OnInit {
   userLogin: User = {
     uid: '',
     displayName: '',
-    email: 'alexferg631@gmail.com',
-    password: '1234Epn!',
+    email: '',
+    password: '',
   };
 
   password = '';
@@ -56,12 +56,42 @@ export class LoginPage implements OnInit {
   passwordType = 'password';
   passwordIcon = 'eye-off';
 
+
+  showBtn = false;
+  deferredPrompt;
+
   ngOnInit() {
+    // this.navCtrl.setDirection(this.navCtrl.get)
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.compose([Validators.required, this.validators.patternValidator()])]
     });
+  }
 
+  ionViewWillEnter() {
+     console.log('holi');
+     window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      this.deferredPrompt = e;
+      this.showBtn = true;
+    });
+     window.addEventListener('appinstalled', (event) => {
+     window.location.reload();
+     this.showBtn = false;
+    });
+  }
+
+  add_to_home(e) {
+    this.deferredPrompt.prompt();
+    this.deferredPrompt.userChoice
+      .then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          alert('Gugo Mobile se va a instalar');
+        } else {
+          alert('Recuerda volver para instalar Gugo Mobile');
+        }
+        this.deferredPrompt = null;
+      });
   }
 
   get loginFormControl() {
@@ -101,34 +131,6 @@ export class LoginPage implements OnInit {
     }
   }
 
-  // Metodo para el ingreso de usuarios a la aplicacion
-  // onLogin(form: NgForm) {
-  //   if (form.invalid) {
-  //     return;
-  //   }
-
-  //   Swal.fire({
-  //     allowOutsideClick: false,
-  //     text: "Espere por favor...",
-  //   });
-  //   Swal.showLoading();
-
-  //   this.authService.login(this.userLogin).subscribe(
-  //     (resp) => {
-  //       setTimeout(() => {
-  //         Swal.close();
-  //         this.navCtrl.navigateRoot("tabs/tabs/tab1", { animated: true });
-  //       }, 1000);
-  //     },
-  //     (err) => {
-  //       Swal.fire(
-  //         "Error al autenticar",
-  //         this.respError2(err.error.error.message),
-  //         "error"
-  //       );
-  //     }
-  //   );
-  // }
   loadingLoginRegister() {
       Swal.fire({
         allowOutsideClick: false,
@@ -148,8 +150,6 @@ export class LoginPage implements OnInit {
 
     try {
       const user = await this.authService.login(this.userLogin);
-      const { emailVerified } = user;
-      //if (emailVerified) {
       this.authService.getUser(user).subscribe((userObs) => {
           const loginUser = userObs;
           this.authService.saveUserOnStorage(loginUser);
@@ -174,15 +174,6 @@ export class LoginPage implements OnInit {
         icon: 'success',
         title: 'Ingreso Exitoso'
         });
-      // } else {
-      //   Swal.fire({
-      //     icon: 'info',
-      //     title: 'Verifique su cuenta',
-      //     text: 'Para iniciar sesion verifique su cuenta',
-      //     showCloseButton: true,
-      //     confirmButtonText: 'Listo!'
-      //   });
-      // }
     } catch (error) {
       Swal.close();
       Swal.fire({
@@ -194,16 +185,6 @@ export class LoginPage implements OnInit {
       });
     }
   }
-
-  // Metodo complementario cuando existe un problema en el ingreso a la aplicacion
-  // respError2(respuesta: string) {
-  //   if (respuesta === 'EMAIL_NOT_FOUND') {
-  //     respuesta = 'Correo electrónico no encontrado';
-  //   } else {
-  //     respuesta = 'Contraseña incorrecta';
-  //   }
-  //   return respuesta;
-  // }
 
   modalError(error: any) {
     const { code } = error;

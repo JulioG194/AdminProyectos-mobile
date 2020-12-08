@@ -6,7 +6,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { Router } from '@angular/router';
 import { MessagingService } from './services/messaging.service';
-import { AngularFireMessaging } from '@angular/fire/messaging';
+// import { AngularFireMessaging } from '@angular/fire/messaging';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,9 @@ export class AppComponent {
   post = 'false';
   items = 0;
   intro: any;
+  deferredPrompt: Event;
+  onlineOffline: boolean = navigator.onLine;
+  usuario: any;
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -24,26 +28,33 @@ export class AppComponent {
     private router: Router,
     private navCtrl: NavController,
     private msgService: MessagingService,
-    private afMessaging: AngularFireMessaging
+    private storage: Storage
   ) {
     this.initializeApp();
-
     this.items = localStorage.length;
     console.log(this.items);
-    const usuario = localStorage.getItem('user');
-    const token = localStorage.getItem('token');
-    this.intro = localStorage.getItem('intro');
-    console.log(this.intro)
+    console.log(this.onlineOffline);
 
-    if (usuario) {
+    this.usuario = localStorage.getItem('user');
+    // const token = localStorage.getItem('token');
+    this.intro = localStorage.getItem('intro');
+
+    window.addEventListener('offline', () => {
+        console.log('estoy offline');
+        this.storage.get('usuario').then((val) => {
+        this.usuario = val;
+        console.log('usuario online', this.usuario);
+      });
+
+        window.addEventListener('online', () => {
+          this.usuario = localStorage.getItem('user');
+          console.log('estoy online');
+          console.log('usuario online', this.usuario);
+      });
+  });
+
+    if (this.usuario) {
       this.navCtrl.navigateRoot('tabs/tabs/tab1', { animated: true });
-      this.afMessaging.messages.subscribe((payload: any) => {
-      console.log('new message received. ', payload);
-      const { notification } = payload;
-      const { body, title } = notification;
-      // this.snackBar.open(body, 'OK', { duration: 2000 });
-      // this.msgService.success(body);
-    });
     } else {
       if (this.intro) {
         this.router.navigate(['login']);
@@ -66,6 +77,9 @@ export class AppComponent {
     this.post = 'true';
     this.intro = localStorage.getItem('intro');
     this.items = localStorage.length;
+    this.router.navigateByUrl('login', {skipLocationChange: true}).then(() => {
     this.router.navigate(['login']);
+    });
+    window.location.reload();
   }
 }

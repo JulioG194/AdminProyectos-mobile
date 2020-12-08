@@ -14,7 +14,6 @@ white,
 rgb(231, 221, 129),
 rgb(79, 116, 71),
 rgb(88, 93, 94);
-
 .bodyt {
     /* background: hsl(200,70,11); */
     background-size: .15em 100%;
@@ -25,8 +24,7 @@ rgb(88, 93, 94);
     font-size: .35em;
 }
 
-.text--line2 {
-}
+.text--line2 {}
 
 svg {
     position: absolute;
@@ -77,7 +75,7 @@ ion-header {
     flex-direction: row;
 }
 
-.title{
+.title {
     text-align: center;
     letter-spacing: 15px;
     font-size: 25px;
@@ -89,7 +87,7 @@ ion-header {
     flex-direction: column;
     height: 250px;
     /* justify-content: space-between; */
-   /*  height: 50%; */
+    /*  height: 50%; */
 }
 
 .part1 {
@@ -98,6 +96,7 @@ ion-header {
     /* position: fixed; */
     align-items: flex-end;
 }
+
 
 /* ion-item {
     height: 50%;
@@ -108,7 +107,6 @@ ion-header {
     margin: 0 auto; */
     padding: 20px;
 }
-
 
 .singIn {
     background: #4a696d;

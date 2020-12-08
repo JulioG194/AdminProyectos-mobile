@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 
 /* import { ModalActivityPageRoutingModule } from './modal-activity-routing.module'; */
 
-import { ModalActivityPage } from './modal-activity.page';
+import { ModalActivityPage } from './modal-resources.page';
 
 @NgModule({
   imports: [

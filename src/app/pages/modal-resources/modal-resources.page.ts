@@ -7,8 +7,8 @@ import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-modal-activity',
-  templateUrl: './modal-activity.page.html',
-  styleUrls: ['./modal-activity.page.scss'],
+  templateUrl: './modal-resources.page.html',
+  styleUrls: ['./modal-resources.page.scss'],
 })
 export class ModalActivityPage implements OnInit {
 

@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { finalize, map, take } from 'rxjs/operators';
 import * as firebase from 'firebase/app';
 import * as _ from 'lodash';
+import { Storage } from '@ionic/storage';
 
 @Injectable({
   providedIn: 'root',
@@ -42,7 +43,8 @@ export class AuthService {
 
   constructor(private afs: AngularFirestore,
               private auth: AngularFireAuth,
-              private storage: AngularFireStorage) {
+              private storage: AngularFireStorage,
+              private storageIonic: Storage) {
     this.loadUsers(afs);
     this.loadStorage();
   }
@@ -66,9 +68,25 @@ export class AuthService {
     const userLocalStorage = localStorage.getItem('user');
     if (userLocalStorage) {
       this.userAuth = JSON.parse(userLocalStorage);
+      console.log(this.userAuth);
     } else {
       this.userAuth = null;
     }
+    window.addEventListener('offline', () => {
+        console.log('estoy offline');
+        this.storageIonic.get('usuario').then((val) => {
+        this.userAuth = JSON.parse(val);
+        console.log('usuario offline', this.userAuth);
+      });
+
+        window.addEventListener('online', () => {
+          const userLocal = localStorage.getItem('user');
+          this.userAuth = JSON.parse(userLocal);
+          console.log('estoy online');
+          console.log('usuario online', this.userAuth);
+      });
+  });
+
   }
 
   async register(userAuth: User) {
@@ -227,6 +245,7 @@ export class AuthService {
   saveUserOnStorage(user: User) {
     this.userAuth = user;
     localStorage.setItem('user', JSON.stringify(user));
+    this.storageIonic.set('usuario', JSON.stringify(user));
   }
 
 
@@ -250,7 +269,7 @@ export class AuthService {
   getCompanyByRole(company: string, role: string, email: string ) {
     if (company === 'Empresa' && role === 'true') {
       this.getCompanyManager(email).subscribe(data => {
-            const snap = _.head(data);
+            const snap: any = _.head(data);
             console.log(snap);
             this.companyUser = {
               id: snap.cid,
@@ -261,7 +280,7 @@ export class AuthService {
           });
       } else if ( company === 'Empresa' && role === 'false' ) {
         this.getCompanyDelegate(email).subscribe(data => {
-            const snap = _.head(data);
+            const snap: any = _.head(data);
             this.companyUser = {
               id: snap.cid,
               name: snap.name,
