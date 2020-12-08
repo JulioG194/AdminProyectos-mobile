@@ -15,3 +15,19 @@ firebase.initializeApp({
 });
 
 const messaging = firebase.messaging();
+
+self.addEventListener('push', event => {
+  const notification = event.data.json();
+  console.log(notification)
+  self.registration.showNotification(notification.title, notification);
+});
+
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  console.log('event', event);
+  if (event.action === 'ok') {
+    event.waitUntil(
+      client.openWindow(event.notification.data.url)
+    );
+  }
+});
