@@ -1,22 +1,17 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { LoadingController } from '@ionic/angular';
 import { Label, Color } from 'ng2-charts';
 import { ChartType, ChartOptions, ChartDataSets } from 'chart.js';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import { AuthService } from '../services/auth.service';
 import { ProjectService } from '../services/project.service';
-import { TeamService } from '../services/team.service';
 import { User } from '../models/user.interface';
-import { Team } from '../models/team.interface';
 import { Project } from '../models/project.interface';
 import { Activity } from '../models/activity.interface';
 import { Task } from '../models/task.interface';
 import { ModalController } from '@ionic/angular';
 import { ModalProfilePage } from '../pages/modal-profile/modal-profile.page';
-import { ModalProfilePageModule } from '../pages/modal-profile/modal-profile.module';
-import { Router } from '@angular/router';
 import { Subscription, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { untilDestroyed } from '@orchestrator/ngx-until-destroyed';
 import * as _ from 'lodash';
 @Component({
   selector: 'app-tab1',
@@ -25,10 +20,9 @@ import * as _ from 'lodash';
 })
 export class Tab1Page implements OnInit, OnDestroy {
 
-post = true;
+  post = true;
   show = false;
   userGugo: User;
-
   project: Project;
   activity: Activity;
   projectId: string;
@@ -54,14 +48,15 @@ post = true;
   subscriptionGetProjects: Subscription;
   subscriptionGetActivities: Subscription;
   isLoading = true;
+  subscriptions: Subscription[] = [];
 
   constructor(
     private authService: AuthService,
     private projectService: ProjectService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    public loadingController: LoadingController
   ) {}
 
-  /* Projects */
   public pieChartOptions: ChartOptions = {
     responsive: true,
     legend: {
@@ -100,9 +95,7 @@ post = true;
       ],
     },
   ];
-  /* Projects */
 
-  /* Activities */
   public pieChartOptionsAct: ChartOptions = {
     responsive: true,
     legend: {
@@ -140,9 +133,7 @@ post = true;
       ],
     },
   ];
-  /* Activities */
 
-  /* Tasks */
   public pieChartOptionsTsk: ChartOptions = {
     responsive: true,
     legend: {
@@ -180,9 +171,7 @@ post = true;
       ],
     },
   ];
-  /* Tasks */
 
-  /*chart Activities*/
   public barChartOptions: ChartOptions = {
     responsive: true,
     scales: {
@@ -229,10 +218,7 @@ post = true;
       ],
     },
   ];
-  /*chart Activities*/
 
-
-  /*chart Tasks*/
   public barChartOptionsTask: ChartOptions = {
     responsive: true,
     scales: {
@@ -279,11 +265,15 @@ post = true;
       ],
     },
   ];
-  /*chart Tasks*/
 
-   getProjects() {
+   async getProjects() {
     this.userGugo = this.authService.userAuth;
-    this.subscriptionGetProjects = this.projectService.getProjectByOwner(this.userGugo).pipe(untilDestroyed(this))
+    const loading = await this.loadingController.create({
+      message: 'Por favor, espere...',
+      translucent: true,
+    });
+    await loading.present();
+    this.subscriptions.push(this.projectService.getProjectByOwner(this.userGugo)
                         .subscribe(projects => {
                           projects.map(project => {
                             project.startDate = new Date(project.startDate['seconds'] * 1000);
@@ -319,10 +309,12 @@ post = true;
                           this.dataProjects.push(projectsCompleted);
                           this.dataProjects.push(projectsInprogress);
                           this.pieChartData = this.dataProjects;
-                          this.isLoading = false;
+                          loading.dismiss();
 
                           this.projectsApp.map(proj => {
-                            this.subscriptionGetActivities = this.projectService.getActivities(proj.id).pipe(untilDestroyed(this)).subscribe(acts => {
+                          this.subscriptions.push(this.projectService
+                            .getActivities(proj.id)
+                            .subscribe(acts => {
                               this.activitiesNumber += acts.length;
                               acts.map(act => {
                                 this.activitiesStatistics.push(act);
@@ -336,7 +328,9 @@ post = true;
                                     } else if (act.progress === 0) {
                                     activitiesOut++;
                                     }
-                                this.projectService.getTasks(proj.id, act.id).pipe(untilDestroyed(this)).subscribe(tsks => {
+                                this.subscriptions.push(this.projectService
+                                  .getTasks(proj.id, act.id)
+                                  .subscribe(tsks => {
                                   this.tasksNumber += tsks.length;
                                   tsks.map(tsk => {
                                     this.tasksStatistics.push(tsk);
@@ -355,15 +349,15 @@ post = true;
                                   this.dataTasks.push(tasksCompleted);
                                   this.dataTasks.push(tasksInprogress);
                                   this.pieChartDataTsk = _.takeRight(this.dataTasks, 3);
-                                });
+                                }));
                               });
                               this.dataActivities.push(activitiesOut);
                               this.dataActivities.push(activitiesCompleted);
                               this.dataActivities.push(activitiesInprogress);
                               this.pieChartDataAct = _.takeRight(this.dataActivities, 3);
-                            });
+                            }));
                           });
-                        });
+                        }));
   }
 
   projectsChangeAction(project: any) {
@@ -374,12 +368,12 @@ post = true;
   }
 
   activitiesChangeAction(activity: any) {
-    console.log(activity)
     this.getTasks(this.projectId, activity);
   }
 
   getActivities(projectId: string) {
-  this.projectService.getActivities(projectId).pipe(untilDestroyed(this)).subscribe(activities => {
+  this.subscriptions.push(this.projectService.getActivities(projectId)
+                      .subscribe(activities => {
                           activities.map(activity => {
                             activity.startDate = new Date(activity.startDate['seconds'] * 1000);
                             activity.endDate = new Date(activity.endDate['seconds'] * 1000);
@@ -391,13 +385,14 @@ post = true;
                             this.barChartData[0].data.push(act.progress);
                             this.barChartLabels.push(act.name);
                           });
-                          // this.isLoading = false;
-                        });
+                        }));
   }
 
 
   getTasks(projectId: string, activityId: string) {
-  this.projectService.getTasks(projectId, activityId).pipe(untilDestroyed(this)).subscribe(tasks => {
+    this.subscriptions.push(this.projectService
+                          .getTasks(projectId, activityId)
+                          .subscribe(tasks => {
                           tasks.map(task => {
                             task.startDate = new Date(task.startDate['seconds'] * 1000);
                             task.endDate = new Date(task.endDate['seconds'] * 1000);
@@ -409,41 +404,38 @@ post = true;
                             this.barChartDataTask[0].data.push(tsk.progress);
                             this.barChartLabelsTask.push(tsk.name);
                           });
-                          // this.isLoading = false;
-                        });
+                        }));
+  }
+
+  doRefresh(event) {
+    this.getProjects();
+    setTimeout(() => {
+      event.target.complete();
+    }, 800);
   }
 
   async openProfile() {
-
     const modal = await this.modalCtrl.create({
       component: ModalProfilePage,
       componentProps: {
-        /* members: this.usersAppFilter, */
         user: this.userGugo,
         newProfile: null
       }
     });
-
     await modal.present();
-
     const { data } = await modal.onDidDismiss();
-    console.log(data);
-
-    /* if ( data != null) {
-      let users: User [] = [];
-      users = data['newMembers'] ;
-      console.log(users) ;
-      this.teamService.addDelegates(this.teamGugo, users);
-    } */
+    this.userGugo = this.authService.userAuth;
   }
 
   ngOnInit() {
     this.getProjects();
   }
-
-  ngOnDestroy() {
-      // this.subscriptionGetProjects.unsubscribe();
-      // this.subscriptionGetActivities.unsubscribe();
+  ionViewWillEnter() {
+    this.getProjects();
   }
+  ionViewWillLeave() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+  ngOnDestroy() {}
 
 }

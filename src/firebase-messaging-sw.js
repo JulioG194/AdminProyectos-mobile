@@ -14,20 +14,23 @@ firebase.initializeApp({
   measurementId: "G-HVGBC6KN2T"
 });
 
-const messaging = firebase.messaging();
+// const messaging = firebase.messaging();
 
 self.addEventListener('push', event => {
   const notification = event.data.json();
   console.log(notification)
-  self.registration.showNotification(notification.title, notification);
+  const data = JSON.parse(notification.data.notification);
+  console.log(data);
+  self.registration.showNotification(notification.notification.title, data);
 });
 
 self.addEventListener('notificationclick', event => {
   event.notification.close();
-  console.log('event', event);
+  console.log('event', event.notification);
   if (event.action === 'ok') {
+    console.log(event.action);
     event.waitUntil(
-      client.openWindow(event.notification.data.url)
+      clients.openWindow(event.notification.data.click_action)
     );
   }
 });

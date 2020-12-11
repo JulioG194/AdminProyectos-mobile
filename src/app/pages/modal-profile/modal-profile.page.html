@@ -16,9 +16,9 @@
         <ion-card class="photo" color="secondary">
             <ion-card-title>{{userApp.employment}}</ion-card-title>
             <br>
-            <img [src]="userApp.photoURL" alt="">
+            <img [src]="photoProfile" alt="">
             <br>
-            <ion-button>
+            <ion-button (click)="openPWAPhotoPicker()">
                 <ion-icon name="camera-outline"></ion-icon>
             </ion-button>
             <ion-button color="warning" icon-left (click)="enableEdit()">
@@ -47,16 +47,15 @@
         <ion-button color="success" disabled="{{isDisabled}}" icon-left (click)="enableEdit()">
             <ion-icon slot="icon-only" name="save-outline"></ion-icon>
         </ion-button>
-
     </div>
 
-    <h2>Take a photo or use the gallery</h2>
-
-    <button ion-button (click)="openPWAPhotoPicker()">Let's go!</button>
-
-    <div *ngIf="imgURI != null">
-        <img [src]="imgURI" #imageSrc style="width: 200px;">
+    <div style="text-align: center;">
+        <ion-button expand="round" color="danger" icon-left (click)="logout()">
+            <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+        </ion-button>
     </div>
+
+
 
     <div id="pwa">
         <input type="file" id="pwaphoto" #pwaphoto accept="image/x-png,image/jpeg" (change)="uploadPWA()">

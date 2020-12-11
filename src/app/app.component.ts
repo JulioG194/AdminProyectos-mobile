@@ -1,15 +1,9 @@
 import { Component } from '@angular/core';
-
-import { Platform, NavController } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-
 import { Router } from '@angular/router';
 import { MessagingService } from './services/messaging.service';
-// import { AngularFireMessaging } from '@angular/fire/messaging';
-import { Storage } from '@ionic/storage';
-import { AngularFireMessaging } from '@angular/fire/messaging';
-
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -20,50 +14,28 @@ export class AppComponent {
   items = 0;
   intro: any;
   deferredPrompt: Event;
-  onlineOffline: boolean = navigator.onLine;
   usuario: any;
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private router: Router,
-    private navCtrl: NavController,
     private msgService: MessagingService,
-    private storage: Storage,
-    private afMessaging: AngularFireMessaging
   ) {
     this.initializeApp();
     this.items = localStorage.length;
-    console.log(this.items);
-    console.log(this.onlineOffline);
-
-    this.usuario = localStorage.getItem('user');
-    // const token = localStorage.getItem('token');
     this.intro = localStorage.getItem('intro');
 
     window.addEventListener('offline', () => {
-        console.log('estoy offline');
-        this.storage.get('usuario').then((val) => {
-        this.usuario = val;
-        console.log('usuario online', this.usuario);
-      });
-
-        window.addEventListener('online', () => {
+          this.usuario = localStorage.getItem('user');
+          console.log('estoy offline');
+          console.log('usuario online', this.usuario);
+  });
+    window.addEventListener('online', () => {
           this.usuario = localStorage.getItem('user');
           console.log('estoy online');
           console.log('usuario online', this.usuario);
       });
-  });
-
-    if (this.usuario) {
-      this.navCtrl.navigateRoot('tabs/tabs/tab1', { animated: true });
-    } else {
-      if (this.intro) {
-        this.router.navigate(['login']);
-      } else {
-        this.post = 'false';
-      }
-    }
   }
 
   initializeApp() {
@@ -71,13 +43,16 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.msgService.requestPermission();
-      this.afMessaging.messages.subscribe((payload: any) => {
-      console.log('new message received. ', payload);
-      const { notification } = payload;
-      const { body, title } = notification;
-      // this.snackBar.open(body, 'OK', { duration: 2000 });
-      // this.msgService.success(body);
-    });
+      this.usuario = localStorage.getItem('user');
+      if (this.usuario) {
+      console.log('Bienvenido');
+    } else {
+      if (this.intro) {
+        this.router.navigate(['login']);
+      } else {
+        this.post = 'false';
+      }
+    }
     });
   }
 

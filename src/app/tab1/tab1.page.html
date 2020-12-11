@@ -23,117 +23,112 @@
 
 
 <ion-content [fullscreen]="true" class="main" color="secondary">
-    <!-- <div class="background"> -->
-    <!-- <h5 class="title">Bienvenid@</h5> -->
-    <!-- <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
-    </ion-refresher> -->
-
+    </ion-refresher>
     <ion-list-header class="title">Bienvenid@ {{userGugo.displayName}}</ion-list-header>
     <br>
-    <br>
-    <ion-card class="welcome-card view2">
-        <ion-card-header>
-            <ion-card-subtitle>Total Proyectos: {{projectsApp.length}}</ion-card-subtitle>
-            <ion-card-subtitle>Total Actividades: {{activitiesNumber}}</ion-card-subtitle>
-            <ion-card-subtitle>Total Tareas: {{tasksNumber}}</ion-card-subtitle>
-        </ion-card-header>
-    </ion-card>
-    <br>
-    <ion-card class="welcome-card view2">
-        <ion-card-header>
-            <ion-card-subtitle>Estadísticas Proyectos</ion-card-subtitle>
-            <!-- <ion-card-title>Visualizacion</ion-card-title> -->
-        </ion-card-header>
-        <ion-card-content>
-            <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins" [colors]="pieChartColors" [legend]="pieChartLegend"></canvas>
-        </ion-card-content>
-    </ion-card>
-    <br>
-    <!-- <ion-list-header>POR PROYECTOS</ion-list-header> -->
-    <ion-card class="welcome-card view2">
-        <ion-card-header>
-            <ion-card-subtitle>Estadísticas Actividades</ion-card-subtitle>
-        </ion-card-header>
-        <ion-card-content>
-            <canvas baseChart [data]="pieChartDataAct" [labels]="pieChartLabelsAct" [chartType]="pieChartTypeAct" [options]="pieChartOptionsAct" [plugins]="pieChartPluginsAct" [colors]="pieChartColorsAct" [legend]="pieChartLegendAct"></canvas>
-        </ion-card-content>
-    </ion-card>
-    <br>
-    <ion-card class="welcome-card view2">
-        <ion-card-header>
-            <ion-card-subtitle>Estadísticas Tareas</ion-card-subtitle>
-            <!-- <ion-card-title>Visualizacion</ion-card-title> -->
-        </ion-card-header>
-        <ion-card-content>
-            <canvas baseChart [data]="pieChartDataTsk" [labels]="pieChartLabelsTsk" [chartType]="pieChartTypeTsk" [options]="pieChartOptionsTsk" [plugins]="pieChartPluginsTsk" [colors]="pieChartColorsTsk" [legend]="pieChartLegendTsk"></canvas>
-        </ion-card-content>
-    </ion-card>
-    <br>
-    <ion-card class="welcome-card view2">
-        <ion-card-header>
-            <ion-card-subtitle>Lista Proyectos</ion-card-subtitle>
-            <!-- <ion-card-title>Visualizacion</ion-card-title> -->
-            <ion-item>
-                <ion-select placeholder="Seleccione un proyecto" value="selected" interface="action-sheet" (ionChange)="projectsChangeAction(project)" name="project" [(ngModel)]="project" cancelText="">
-                    <ion-select-option *ngFor="let project of projectsApp" [value]="project.id">{{ project.name }} - {{ project.progress}}%</ion-select-option>
-                </ion-select>
-            </ion-item>
-        </ion-card-header>
-    </ion-card>
-    <br>
-    <ion-card class="welcome-card view2">
-        <ion-card-header>
-            <ion-card-subtitle>Porcentaje de Actividades</ion-card-subtitle>
-            <!-- <ion-card-title>Visualizacion</ion-card-title> -->
-        </ion-card-header>
-        <ion-card-content>
-            <canvas baseChart width="50px" height="15px" [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [colors]="barChartColors" [legend]="barChartLegend" [chartType]="barChartType"></canvas>
-        </ion-card-content>
-    </ion-card>
-    <br>
-    <ion-card class="welcome-card view2">
-        <ion-card-header>
-            <ion-card-subtitle>Lista de Actividades</ion-card-subtitle>
-            <!-- <ion-card-title>Visualizacion</ion-card-title> -->
-            <ion-item>
-                <ion-select placeholder="Seleccione una actividad" value="selected2" interface="action-sheet" (ionChange)="activitiesChangeAction(activity)" name="activity" [(ngModel)]="activity" cancelText="">
-                    <ion-select-option *ngFor="let activity of activitiesProjectsApp" [value]="activity.id">{{ activity.name }} - {{ activity.progress}}%</ion-select-option>
-                </ion-select>
-            </ion-item>
-        </ion-card-header>
-    </ion-card>
-    <br>
-    <ion-card class="welcome-card view2">
-        <ion-card-header>
-            <ion-card-subtitle>Porcentaje de Tareas</ion-card-subtitle>
-            <!-- <ion-card-title>Visualizacion</ion-card-title> -->
-        </ion-card-header>
-        <ion-card-content>
-            <canvas baseChart width="50px" height="15px" [datasets]="barChartDataTask" [labels]="barChartLabelsTask" [options]="barChartOptionsTask" [colors]="barChartColorsTask" [legend]="barChartLegendTask" [chartType]="barChartTypeTask"></canvas>
-        </ion-card-content>
-    </ion-card>
-    <br>
-    <ion-card class="welcome-card view2">
-        <ion-card-header>
-            <ion-card-subtitle>Estadísticas Tareas</ion-card-subtitle>
-        </ion-card-header>
-    </ion-card>
+    <div *ngIf="projectsApp.length > 0">
+        <ion-card class="welcome-card view2">
+            <ion-card-header>
+                <ion-card-subtitle>Total Proyectos: {{projectsApp.length}}</ion-card-subtitle>
+                <ion-card-subtitle>Total Actividades: {{activitiesNumber}}</ion-card-subtitle>
+                <ion-card-subtitle>Total Tareas: {{tasksNumber}}</ion-card-subtitle>
+            </ion-card-header>
+        </ion-card>
+        <br>
+        <ion-card class="welcome-card view2">
+            <ion-card-header>
+                <ion-card-subtitle>Estadísticas Proyectos</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins" [colors]="pieChartColors" [legend]="pieChartLegend">
+                </canvas>
+            </ion-card-content>
+        </ion-card>
+        <br>
+        <ion-card class="welcome-card view2">
+            <ion-card-header>
+                <ion-card-subtitle>Estadísticas Actividades</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+                <canvas baseChart [data]="pieChartDataAct" [labels]="pieChartLabelsAct" [chartType]="pieChartTypeAct" [options]="pieChartOptionsAct" [plugins]="pieChartPluginsAct" [colors]="pieChartColorsAct" [legend]="pieChartLegendAct">
+                </canvas>
+            </ion-card-content>
+        </ion-card>
+        <br>
+        <ion-card class="welcome-card view2">
+            <ion-card-header>
+                <ion-card-subtitle>Estadísticas Tareas</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+                <canvas baseChart [data]="pieChartDataTsk" [labels]="pieChartLabelsTsk" [chartType]="pieChartTypeTsk" [options]="pieChartOptionsTsk" [plugins]="pieChartPluginsTsk" [colors]="pieChartColorsTsk" [legend]="pieChartLegendTsk">
+                </canvas>
+            </ion-card-content>
+        </ion-card>
+        <br>
+        <ion-card class="welcome-card view2">
+            <ion-card-header>
+                <ion-card-subtitle>Lista Proyectos</ion-card-subtitle>
+                <ion-item>
+                    <ion-select placeholder="Seleccione un proyecto" value="selected" interface="action-sheet" (ionChange)="projectsChangeAction(project)" name="project" [(ngModel)]="project" cancelText="">
+                        <ion-select-option *ngFor="let project of projectsApp" [value]="project.id">{{ project.name }} - {{ project.progress}}%
+                        </ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-card-header>
+        </ion-card>
+        <br>
+        <ion-card class="welcome-card view2">
+            <ion-card-header>
+                <ion-card-subtitle>Porcentaje de Actividades</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+                <canvas baseChart width="50px" height="15px" [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [colors]="barChartColors" [legend]="barChartLegend" [chartType]="barChartType">
+                </canvas>
+            </ion-card-content>
+        </ion-card>
+        <br>
+        <ion-card class="welcome-card view2">
+            <ion-card-header>
+                <ion-card-subtitle>Lista de Actividades</ion-card-subtitle>
+                <ion-item>
+                    <ion-select placeholder="Seleccione una actividad" value="selected2" interface="action-sheet" (ionChange)="activitiesChangeAction(activity)" name="activity" [(ngModel)]="activity" cancelText="">
+                        <ion-select-option *ngFor="let activity of activitiesProjectsApp" [value]="activity.id">{{ activity.name }} - {{ activity.progress}}%
+                        </ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-card-header>
+        </ion-card>
+        <br>
+        <ion-card class="welcome-card view2">
+            <ion-card-header>
+                <ion-card-subtitle>Porcentaje de Tareas</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+                <canvas baseChart width="50px" height="15px" [datasets]="barChartDataTask" [labels]="barChartLabelsTask" [options]="barChartOptionsTask" [colors]="barChartColorsTask" [legend]="barChartLegendTask" [chartType]="barChartTypeTask">
+                </canvas>
+            </ion-card-content>
+        </ion-card>
+        <br>
+        <br>
+    </div>
 
 
-    <!--  </div> -->
+    <div *ngIf="projectsApp.length === 0">
+        <ion-card class="container1">
+            <div class="align2">
+                <h4 style="color: white;">Proyectos</h4>
+                <img style="height: 100px; width: 100px;" src="../../../assets/img/pdf.png" alt="">
+            </div>
 
-    <ion-card class="container1">
-        <div class="align2">
-            <h4>Proyectos</h4>
-            <img style="height: 100px; width: 100px;" src="../../../assets/img/pdf.png" alt="">
-        </div>
+            <ion-card-content style="color: white;">
+                Forma tu equipo de trabajo para poder crear proyectos. En el menu lateral se tiene la opcion "Mi equipo", aqui podrás seleccionar las personas con las que vas trabajar dentro de tus proyectos y asignarles distintas tareas.
+            </ion-card-content>
 
-        <ion-card-content>
-            Forma tu equipo de trabajo para poder crear proyectos. En el menu lateral se tiene la opcion "Mi equipo", aqui podrás seleccionar las personas con las que vas trabajar dentro de tus proyectos y asignarles distintas tareas.
-        </ion-card-content>
+        </ion-card>
+    </div>
 
-    </ion-card>
 
 </ion-content>
 <ion-footer>

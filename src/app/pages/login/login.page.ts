@@ -21,21 +21,6 @@ export class LoginPage implements OnInit {
     private fb: FormBuilder,
     private validators: ValidatorService
   ) {}
-   storagePhoto =
-    'https://firebasestorage.googleapis.com/v0/b/epn-gugo.appspot.com/o/iconfinder-3-avatar-2754579_120516.png?alt=media&token=ca4223d0-47c4-44c9-a84d-3486af99ae74';
-  serverTimeStamp = firebase.firestore.FieldValue.serverTimestamp();
-  userRegister: User = {
-    uid: '',
-    displayName: '',
-    email: '',
-    employment: '',
-    description: '',
-    gender: '',
-    photoURL: this.storagePhoto,
-    birthdate: new Date(),
-    phoneNumber: '',
-    createdAt: this.serverTimeStamp,
-  };
 
   userLogin: User = {
     uid: '',
@@ -48,20 +33,16 @@ export class LoginPage implements OnInit {
   hide = true;
   hidePasswd = true;
 
-  registerForm: FormGroup;
   loginForm: FormGroup;
   submitted = false;
   selected = '';
   registered: any;
   passwordType = 'password';
   passwordIcon = 'eye-off';
-
-
   showBtn = false;
-  deferredPrompt;
+  deferredPrompt: any;
 
   ngOnInit() {
-    // this.navCtrl.setDirection(this.navCtrl.get)
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.compose([Validators.required, this.validators.patternValidator()])]
@@ -69,13 +50,12 @@ export class LoginPage implements OnInit {
   }
 
   ionViewWillEnter() {
-     console.log('holi');
      window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       this.deferredPrompt = e;
       this.showBtn = true;
     });
-     window.addEventListener('appinstalled', (event) => {
+     window.addEventListener('appinstalled', (e) => {
      window.location.reload();
      this.showBtn = false;
     });

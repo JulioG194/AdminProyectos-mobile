@@ -22,7 +22,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireFunctionsModule } from '@angular/fire/functions';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
-
+import { FCM } from 'cordova-plugin-fcm-with-dependecy-updated/ionic/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -50,6 +50,7 @@ import { AngularFireMessagingModule } from '@angular/fire/messaging';
     ScreenOrientation,
     ThemeService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    FCM
   ],
   bootstrap: [AppComponent]
 })

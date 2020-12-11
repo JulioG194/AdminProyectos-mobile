@@ -11,7 +11,8 @@ import { Observable } from 'rxjs';
 import { finalize, map, take } from 'rxjs/operators';
 import * as firebase from 'firebase/app';
 import * as _ from 'lodash';
-import { Storage } from '@ionic/storage';
+
+
 
 @Injectable({
   providedIn: 'root',
@@ -43,8 +44,7 @@ export class AuthService {
 
   constructor(private afs: AngularFirestore,
               private auth: AngularFireAuth,
-              private storage: AngularFireStorage,
-              private storageIonic: Storage) {
+              private storageService: AngularFireStorage) {
     this.loadUsers(afs);
     this.loadStorage();
   }
@@ -68,25 +68,10 @@ export class AuthService {
     const userLocalStorage = localStorage.getItem('user');
     if (userLocalStorage) {
       this.userAuth = JSON.parse(userLocalStorage);
-      console.log(this.userAuth);
+      // console.log(this.userAuth);
     } else {
       this.userAuth = null;
     }
-    window.addEventListener('offline', () => {
-        console.log('estoy offline');
-        this.storageIonic.get('usuario').then((val) => {
-        this.userAuth = JSON.parse(val);
-        console.log('usuario offline', this.userAuth);
-      });
-
-        window.addEventListener('online', () => {
-          const userLocal = localStorage.getItem('user');
-          this.userAuth = JSON.parse(userLocal);
-          console.log('estoy online');
-          console.log('usuario online', this.userAuth);
-      });
-  });
-
   }
 
   async register(userAuth: User) {
@@ -155,9 +140,11 @@ export class AuthService {
     await firebase.auth().currentUser.sendEmailVerification();
   }
 
-  async logout() {
+  async logout(uid: string) {
     await this.auth.auth.signOut();
-    localStorage.clear();
+    // localStorage.clear();
+    localStorage.removeItem('user');
+    this.removeToken(uid);
   }
 
   createUser(user: User, uid: string) {
@@ -245,7 +232,6 @@ export class AuthService {
   saveUserOnStorage(user: User) {
     this.userAuth = user;
     localStorage.setItem('user', JSON.stringify(user));
-    this.storageIonic.set('usuario', JSON.stringify(user));
   }
 
 
@@ -312,15 +298,42 @@ export class AuthService {
     return this.managers;
   }
 
-  uploadProfile(file: any, uid: string, ) {
-    const filePath = `users/${uid}`;
-    const fileRef = this.storage.ref(filePath);
-    this.storage.upload(filePath, file);
-    const downloadURL = fileRef.getDownloadURL();
-    // fileRef.getDownloadURL().subscribe(
-    //   url => this.profileUrl = url
-    // );
-    // return this.profileUrl;
-    return downloadURL;
+  uploadProfilePhoto(uid: string, photoURL: string) {
+    this.afs.collection('users').doc(uid).update({
+      photoURL
+    });
+  }
+
+   removeToken(uid: string) {
+    const token = localStorage.getItem('fcm');
+    this.afs.collection('users').doc(uid).update({
+      tokens: firebase.firestore.FieldValue.arrayRemove(token)
+    });
+  }
+
+  setPhotoProfile(uid: string, file: File) {
+    return new Promise((resolve, reject) => {
+      const filePath = `users/${uid}`;
+      const ref = this.storageService.ref(filePath);
+      const upload = ref.put(file);
+      const sub = upload.snapshotChanges().pipe(
+        finalize( async () => {
+          try {
+            const photoURL = await ref.getDownloadURL().toPromise();
+            this.uploadProfilePhoto(uid, photoURL);
+            const user = localStorage.getItem('user');
+            const usuario = JSON.parse(user);
+            usuario.photoURL = photoURL;
+            localStorage.setItem('user', JSON.stringify(usuario));
+            this.userAuth = usuario;
+            resolve({ photoURL });
+          } catch (err) {
+            reject(err);
+          }
+          sub.unsubscribe();
+        })
+      ).subscribe((data) => {
+      });
+    });
   }
 }

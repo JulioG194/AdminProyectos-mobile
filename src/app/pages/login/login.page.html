@@ -50,29 +50,34 @@
                 </svg>
             </div>
         </div>
-        <!-- </div> -->
-        <!-- </ion-list> -->
         <br>
-        <br>
-        <br>
-        <!-- <div class="part1"> -->
+        <!-- <br>
+        <br> -->
     </div>
 
     <form (ngSubmit)="onLogin()" [formGroup]="loginForm" class="part1">
-        <!--  <div class="part1"> -->
         <div class="container" style="font-size: 13px">
             <ion-item lines="full" color="light">
                 <ion-label position="floating">Correo electrónico</ion-label>
                 <ion-input type="email" formControlName="email" placeholder="Ej. user@gmail.com" [(ngModel)]="userLogin.email" required></ion-input>
                 <ion-icon name="mail" slot="end"></ion-icon>
             </ion-item>
-            <br>
+            <div class="space">
+                <p *ngIf="(loginFormControl.email.touched || submitted) && loginFormControl.email.errors?.required" style="font-size: 9px; color: red;">Correo electrónico obligatorio </p>
+                <p *ngIf="loginFormControl.email.touched && loginFormControl.email.errors?.email" style="font-size: 9px; color: red;">Ingrese un correo electrónico válido</p>
+            </div>
+            <div class="space"></div>
             <ion-item lines="full" color="light">
                 <ion-label position="floating">Contraseña</ion-label>
                 <ion-input type="password" formControlName="password" [type]="passwordType" [(ngModel)]="userLogin.password" required></ion-input>
                 <ion-icon slot="end" [name]="passwordIcon" class="passwordIcon" (click)='hideShowPassword()'></ion-icon>
             </ion-item>
-            <br>
+            <div class="space">
+                <p *ngIf="(loginFormControl.password.touched || submitted) && loginFormControl.password.errors?.required" style="font-size: 9px; color: red;">Contraseña Obligatoria</p>
+                <!-- <p *ngIf="submitted && loginFormControl.password.errors?.invalidPassword" style="font-size: 9px; color: red;">La contraseña debe tener un mínimo de 6 caracteres, al menos 1 letra mayúscula, 1 letra minúscula y 1 número</p> -->
+            </div>
+            <div class="space"></div>
+            <!-- <br> -->
             <ion-row>
                 <ion-col>
                     <ion-button type="submit" expand="block">Iniciar sesión</ion-button>
@@ -81,12 +86,6 @@
             <ion-row>
                 <ion-col>
                     <ion-button color="warning" expand="block" (click)="register()">Obtener cuenta GuGo</ion-button>
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col>
-                    <!-- <ion-button color="warning" expand="block" (click)="register()">Obtener cuenta GuGo</ion-button> -->
-                    <h2>{{deferredPrompt}}</h2>
                 </ion-col>
             </ion-row>
             <ion-row>
@@ -106,7 +105,5 @@
             </ion-row>
 
         </div>
-        <!--   </div> -->
     </form>
-    <!--  </div> -->
 </ion-content>

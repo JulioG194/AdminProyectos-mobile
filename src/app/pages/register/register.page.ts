@@ -3,161 +3,209 @@ import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import * as firebase from 'firebase/app';
 import { User } from 'src/app/models/user.interface';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
-
+import { ValidatorService } from 'src/app/services/validators.service';
+import * as _ from 'lodash';
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private fb: FormBuilder,
+    private validators: ValidatorService
+  ) {}
+
+   storagePhoto =
+    'https://firebasestorage.googleapis.com/v0/b/epn-gugo.appspot.com/o/uni-avtar.jpg?alt=media&token=04e188b6-35cb-4bc0-bd5e-9f100307878f';
+  serverTimeStamp = firebase.firestore.FieldValue.serverTimestamp();
   userRegister: User = {
     uid: '',
     displayName: '',
     email: '',
-    password: '',
     employment: '',
     description: '',
     gender: '',
-    photoURL:
-      'https://bauerglobalbrigades.files.wordpress.com/2018/10/no-photo7.png',
+    photoURL: this.storagePhoto,
     birthdate: new Date(),
     phoneNumber: '',
-    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    createdAt: this.serverTimeStamp,
   };
   password = '';
 
   section = true;
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private navCtrl: NavController
-  ) {}
 
-  ngOnInit() {}
+  registerForm: FormGroup;
+  submitted = false;
+  selected = '';
+  registered: any;
+  passwordType = 'password';
+  passwordIcon = 'eye-off';
+  passwordTypeConfirm = 'password';
+  passwordIconConfirm = 'eye-off';
 
-  // Metodo par registrar nuevos usuarios
-  //  onRegister( form: NgForm ) {
+  ngOnInit() {
+    this.registerForm = this.fb.group({
+      fullName: ['', Validators.compose([Validators.required, this.validators.noWhitespaceValidator()])],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.compose([Validators.required, this.validators.patternValidator()])],
+      confirmPassword: ['', [Validators.required]],
+      phoneNumber: ['', Validators.compose([ Validators.required,
+        this.validators.patternPhoneValidator(),
+        Validators.minLength(10), Validators.maxLength(10)])],
+      role: ['', Validators.required],
+      app: ['', Validators.required]
+    },
+     {
+        validator: this.validators.MatchPassword('password', 'confirmPassword'),
+      }
+    );
+  }
 
-  //   if ( form.invalid ) { return; }
+  get registerFormControl() {
+    return this.registerForm.controls;
+  }
 
-  //   if ( this.userRegister.password !== this.password) {
-  //     Swal.fire('Error registro', 'Las contraseñas no coinciden' , 'error'  );
+  hideShowPassword() {
+     this.passwordType = this.passwordType === 'text' ? 'password' : 'text';
+     this.passwordIcon = this.passwordIcon === 'eye-off' ? 'eye' : 'eye-off';
+ }
 
-  //     return;
-  //   }
+ hideShowPasswordConfirm() {
+     this.passwordTypeConfirm = this.passwordTypeConfirm === 'text' ? 'password' : 'text';
+     this.passwordIconConfirm = this.passwordIconConfirm === 'eye-off' ? 'eye' : 'eye-off';
+ }
 
-  //   Swal.fire({
-  //     allowOutsideClick: false,
-  //     text: 'Espere por favor...'
-  //   });
-  //   Swal.showLoading();
-
-  //   if ( form.value.manager === 'true' ) {
-  //      this.userRegister.manager = true;
-  //      this.userRegister.employment = 'Gestor de proyectos';
-  //   } else {
-  //     this.userRegister.manager = false;
-  //     this.userRegister.employment = 'Tecnico asistente';
-  //   }
-
-  //   this.authService.register( this.userRegister )
-  //   .subscribe( resp => {
-
-  //     Swal.close();
-
-  //     this.authService.addNewUser(this.userRegister, resp.localId);
-  //     // this.router.navigateByUrl('/dashboard');
-
-  //     Swal.fire({
-  //     allowOutsideClick: false,
-  //     icon: 'success',
-  //     title: 'Registrado con exito',
-  //     text: 'Ahora puedes acceder a la aplicacion',
-  //     position: 'center',
-  //     showConfirmButton: false,
-  //     timer: 1500
-  //   });
-
-  //     form.reset();
-  //     // this.post1 = true;
-  //     // this.router.navigateByUrl('/login');
-  //     this.navCtrl.navigateRoot( 'tabs/tabs/tab1', { animated: true } );
-  //   }, (err) => {
-  //     Swal.fire('Error al registrar', this.respError(err.error.error.message), 'error'  );
-
-  //   });
-  // }
-  async onRegister(form: NgForm) {
-    try {
-      if (form.invalid) {
+  async onRegister() {
+     try {
+       this.submitted = true;
+       if (!this.registerForm.valid) {
         return;
       }
+       const role = this.registerForm.value.role;
+       const company = this.selected;
+       const email = this.registerForm.value.email;
 
-      if (this.userRegister.password !== this.password) {
-        Swal.fire({
-          allowOutsideClick: false,
-          icon: 'error',
-          text: 'Las contraseñas no coinciden',
-        });
-        return;
+       this.loadingLoginRegister();
+
+       this.setEmployment(role);
+
+       if (company === 'Empresa' && role === 'true') {
+        this.authService.getCompanyManager(email).subscribe(async (data) => {
+            const snap = _.head(data);
+            if (snap) {
+              this.userRegister.company = {
+              id: snap.cid,
+              name: snap.name,
+              address: snap.address,
+              ref: snap.ref
+            };
+              await this.sucessRegister(role);
+            } else {
+              this.failedRegister();
+            }
+          });
       }
-      Swal.fire({
-        allowOutsideClick: false,
-        text: 'Espere por favor...',
-      });
-      Swal.showLoading();
 
-      this.setEmployment(form);
-      const userReg = await this.authService.register(this.userRegister);
-      const { uid } = userReg;
-      delete this.userRegister.password;
-      this.userRegister.uid = uid;
-      this.authService.createUser(this.userRegister, uid);
-
-      await this.authService.verifyEmail();
-
-      Swal.fire({
-        icon: 'success',
-        title: 'Registrado con exito',
-        text: 'Por favor verifica tu cuenta para poder iniciar',
-        position: 'center',
-      });
-
-      form.reset();
-      this.router.navigate(['login']);
-      this.section = true;
-    } catch (error) {
-      console.log(error);
+       if ( company === 'Empresa' && role === 'false' ) {
+        this.authService.getCompanyDelegate(email).subscribe(async (data) => {
+            const snap = _.head(data);
+            if (snap) {
+            this.userRegister.company = {
+              id: snap.cid,
+              name: snap.name,
+              address: snap.address,
+              ref: snap.ref
+            };
+            await this.sucessRegister(role);
+            } else {
+              this.failedRegister();
+            }
+          });
+       }
+       if ( company === 'Personal' ) {
+           await this.sucessRegister(role);
+       }
+    }  catch (error) {
       this.userRegister.manager = null;
+      console.log(error);
       Swal.close();
       Swal.fire({
         icon: 'error',
         title: 'Error al autenticar',
         text: this.modalError(error),
+        confirmButtonText: 'Listo!'
       });
     }
   }
 
-  setEmployment(form: NgForm) {
-    if (form.value.manager === 'true') {
+  async sucessRegister(role: any) {
+    try {
+      const userReg = await this.authService.register(this.userRegister);
+      const { uid } = userReg;
+      delete this.userRegister.password;
+      this.userRegister.uid = uid;
+      this.userRegister.tokens = [];
+      if (role === 'false') {
+        this.userRegister.assignedTasks = 0;
+      }
+      this.authService.createUser(this.userRegister, uid);
+      Swal.fire({
+        icon: 'success',
+        title: 'Registrado con exito, ahora puede iniciar sesion',
+        position: 'center',
+        showCloseButton: true,
+        confirmButtonText: 'Listo'
+      });
+      this.registerForm.reset();
+      this.router.navigateByUrl('/login');
+    } catch (error) {
+      console.log(error);
+      Swal.close();
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al autenticar',
+        text: this.modalError(error),
+        confirmButtonText: 'Listo'
+      });
+    }
+  }
+
+  failedRegister() {
+      Swal.fire({
+              icon: 'error',
+              title: 'Usuario no encontrado',
+              text: 'Por favor verifique su correo, rol o comuniquese con la empresa a la que pertenece',
+              position: 'center',
+              showCloseButton: true,
+              confirmButtonText: 'Listo!'
+              });
+      this.userRegister.manager = null;
+  }
+
+ setEmployment(value: string) {
+    if (value === 'true') {
       this.userRegister.manager = true;
       this.userRegister.employment = 'Gestor de proyectos';
     } else {
       this.userRegister.manager = false;
-      this.userRegister.employment = 'Tecnico asistente';
+      this.userRegister.employment = 'Delegado en poyectos';
     }
   }
 
-  // Metodo complementario cuando existe un problema en el registro
-  respError(respuesta: string) {
-    if (respuesta === 'EMAIL_EXISTS') {
-      respuesta = 'Correo electrónico existente';
-    }
-    return respuesta;
+  loadingLoginRegister() {
+      Swal.fire({
+        allowOutsideClick: false,
+        text: 'Espere por favor...',
+        timer: 4000
+      });
+      Swal.showLoading();
   }
 
   modalError(error: any) {

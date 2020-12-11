@@ -10,49 +10,54 @@
 </ion-header>
 
 <ion-content color="secondary">
-    <form (ngSubmit)="onRegister( f )" #f="ngForm" class="container">
+    <form (ngSubmit)="onRegister()" [formGroup]="registerForm" class="container">
         <ion-item lines="full">
             <ion-label position="floating">Nombre Completo</ion-label>
-            <ion-input type="text" name="name" [(ngModel)]="userRegister.displayName" minlength="2" required></ion-input>
+            <ion-input type="text" formControlName="fullName" [(ngModel)]="userRegister.displayName" minlength="2" required></ion-input>
             <ion-icon name="person" slot="end"></ion-icon>
         </ion-item>
         <div class="space">
-            <!-- <p *ngIf="1==0" style="font-size: 8px; color: red;">holaa</p> -->
+            <p *ngIf="(registerFormControl.fullName.touched || submitted) && registerFormControl.fullName.errors?.required" style="font-size: 8px; color: red;">Nombre completo obligatorio</p>
+            <p *ngIf="registerFormControl.fullName.touched && registerFormControl.fullName.errors?.whitespace" style="font-size: 8px; color: red;">No se admite espacios en blanco</p>
         </div>
         <ion-item lines="full">
             <ion-label position="floating">Correo electrónico</ion-label>
-            <ion-input type="text" name="email" [(ngModel)]="userRegister.email" required></ion-input>
+            <ion-input type="text" formControlName="email" [(ngModel)]="userRegister.email" required></ion-input>
             <ion-icon name="mail" slot="end"></ion-icon>
         </ion-item>
         <div class="space">
-            <!-- <p *ngIf="1==0" style="font-size: 8px; color: red;">holaa</p> -->
+            <p *ngIf="(registerFormControl.email.touched || submitted) && registerFormControl.email.errors?.required" style="font-size: 8px; color: red;">Correo electrónico obligatorio</p>
+            <p *ngIf="registerFormControl.email.touched && registerFormControl.email.errors?.email" style="font-size: 8px; color: red;">Por favor ingrese un correo electrónico válido</p>
         </div>
         <ion-item lines="full">
             <ion-label position="floating">Contraseña</ion-label>
-            <ion-input type="password" name="password" [(ngModel)]="userRegister.password" minlength="6" required></ion-input>
-            <ion-icon name="key" slot="end"></ion-icon>
+            <ion-input type="password" formControlName="password" [type]="passwordType" [(ngModel)]="userRegister.password" required></ion-input>
+            <ion-icon slot="end" [name]="passwordIcon" class="passwordIcon" (click)='hideShowPassword()'></ion-icon>
         </ion-item>
         <div class="space">
-            <!-- <p *ngIf="1==0" style="font-size: 8px; color: red;">holaa</p> -->
+            <p *ngIf="(registerFormControl.password.touched || submitted) && registerFormControl.password.errors?.required" style="font-size: 8px; color: red;">Contraseña obligatoria</p>
+            <p *ngIf="registerFormControl.password.touched && registerFormControl.password.errors?.invalidPassword" style="font-size: 8px; color: red;">La contraseña debe tener un mínimo de 6 caracteres, al menos 1 letra mayúscula, 1 letra minúscula y 1 número</p>
         </div>
         <ion-item lines="full">
             <ion-label position="floating">Confirmar contraseña</ion-label>
-            <ion-input type="password" name="re-password" [(ngModel)]="password" minlength="6" required></ion-input>
-            <ion-icon name="key" slot="end"></ion-icon>
+            <ion-input type="password" formControlName="confirmPassword" [type]="passwordTypeConfirm" required></ion-input>
+            <ion-icon slot="end" [name]="passwordIconConfirm" class="passwordIcon" (click)='hideShowPasswordConfirm()'></ion-icon>
         </ion-item>
         <div class="space">
-            <!-- <p *ngIf="1==0" style="font-size: 8px; color: red;">holaa</p> -->
+            <p *ngIf="(registerFormControl.confirmPassword.touched || submitted) && registerFormControl.confirmPassword.errors?.required" style="font-size: 8px; color: red;">Contraseña obligatoria</p>
+            <p *ngIf="registerFormControl.confirmPassword.touched && registerFormControl.confirmPassword.errors?.passwordMismatch" style="font-size: 8px; color: red;">Las contraseñas no coinciden</p>
         </div>
         <ion-item lines="full">
             <ion-label position="floating">Número celular</ion-label>
-            <ion-input type="text" name="phone" [(ngModel)]="userRegister.phoneNumber" required></ion-input>
+            <ion-input type="text" formControlName="phoneNumber" [(ngModel)]="userRegister.phoneNumber" maxlength="10" required></ion-input>
             <ion-icon name="call" slot="end"></ion-icon>
         </ion-item>
         <div class="space">
-            <!-- <p *ngIf="1==0" style="font-size: 8px; color: red;">holaa</p> -->
+            <p *ngIf="(registerFormControl.phoneNumber.touched || submitted) && registerFormControl.phoneNumber.errors?.required" style="font-size: 8px; color: red;">Número celular obligatorio</p>
+            <p *ngIf="registerFormControl.phoneNumber.touched && registerFormControl.phoneNumber.errors?.invalidPhoneNumber" style="font-size: 8px; color: red;">El número telefónico debe tener 10 caracteres y solo contener númerosn</p>
         </div>
         <ion-list>
-            <ion-radio-group [(ngModel)]="userRegister.manager" name="manager" required>
+            <ion-radio-group [(ngModel)]="userRegister.manager" formControlName="role" required>
                 <ion-list-header>
                     <ion-label class="funtion">¿Qué función desempeña?</ion-label>
                 </ion-list-header>
@@ -69,17 +74,17 @@
             </ion-radio-group>
         </ion-list>
         <div class="space">
-            <!-- <p *ngIf="1==0" style="font-size: 8px; color: red;">holaa</p> -->
+            <p *ngIf="(submitted) && registerFormControl.role.errors?.required" style="font-size: 8px; color: red;">Función desempeñada obligatoria</p>
         </div>
         <ion-item>
             <ion-label>Uso de la aplicación</ion-label>
-            <ion-select value="selected" interface="action-sheet" cancelText="">
+            <ion-select [(ngModel)]="selected" formControlName="app" interface="action-sheet" cancelText="">
                 <ion-select-option value="Personal">Personal</ion-select-option>
                 <ion-select-option value="Empresa">Empresarial</ion-select-option>
             </ion-select>
         </ion-item>
         <div class="space">
-            <!-- <p *ngIf="1==0" style="font-size: 8px; color: red;">holaa</p> -->
+            <p *ngIf="(submitted) && registerFormControl.app.errors?.required" style="font-size: 8px; color: red;">Uso de la app obligatoria</p>
         </div>
         <ion-row>
             <ion-col>

@@ -146,6 +146,7 @@ name1 : string;
               value = '';
 
               ngOnInit() {
+                console.log('yo solo me ejecuto una vez tab 3');
                 // this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
                 this.authService.getUser(this.authService.userAuth).subscribe(user => {(this.userApp = user, this.idUser = user.uid);
                                                                                        if ( this.userApp.manager === true ) {

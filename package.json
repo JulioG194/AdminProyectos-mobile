@@ -36,6 +36,7 @@
         "angularfire2": "^5.4.2",
         "chart.js": "^2.9.3",
         "chartjs-plugin-datalabels": "^0.7.0",
+        "cordova-plugin-fcm-with-dependecy-updated": "^7.6.0",
         "cordova-plugin-screen-orientation": "^3.0.2",
         "core-js": "^2.5.4",
         "d3": "^5.15.0",
@@ -89,7 +90,8 @@
     "description": "An Ionic project",
     "cordova": {
         "plugins": {
-            "cordova-sqlite-storage": {}
+            "cordova-sqlite-storage": {},
+            "cordova-plugin-fcm-with-dependecy-updated": {}
         }
     }
 }

@@ -95,14 +95,10 @@ segmentModel = 'select';
               private modalCtrl: ModalController ) {}
 
   ngOnInit() {
-
-    // this.getTeam();
-    // // tslint:disable-next-line:prefer-for-of
-    // for (let i = 0; i < this.usersGugo.length; i++) {
-    //   this.usersGugo[i].check = false;
-    // }
+    console.log('yo solo me ejecuto una vez tab2');
     this.isLoading = true;
     this.userGugo = this.authService.userAuth;
+    console.log(this.userGugo);
     if (this.userGugo.manager) {
         if (this.userGugo.company) {
             this.getLocalCompany();
@@ -120,6 +116,11 @@ segmentModel = 'select';
       }
     }
 
+  }
+
+  ionViewWillEnter() {
+      console.log('yo siempre me ejeuto en tab 2');
+      this.userGugo = this.authService.userAuth;
   }
 
   ngOnDestroy() { }
@@ -170,6 +171,8 @@ segmentModel = 'select';
   getTeamDelegate() {
     this.authService.getUser(this.authService.userAuth).pipe(untilDestroyed(this)).subscribe(usr => {
         this.userGugo = usr;
+        console.log(this.userGugo);
+        if (this.userGugo.teams) {
         this.userGugo.teams.map(team => {
       this.managers = [];
       this.partners = [];
@@ -193,6 +196,7 @@ segmentModel = 'select';
         });
       });
     });
+  }
     });
   }
 

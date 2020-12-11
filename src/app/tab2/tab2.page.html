@@ -21,24 +21,24 @@
     </ion-toolbar>
     <!-- <ion-toolbar color="secondary"> -->
 
-        <ion-segment value="all" color="primary" scrollable="false" mode="android" [(ngModel)]="segmentModel" (ionChange)="segmentChanged($event)">
+    <ion-segment value="all" color="primary" scrollable="false" mode="android" [(ngModel)]="segmentModel" (ionChange)="segmentChanged($event)">
 
-            <ion-segment-button value="select" style="font-size: 10.5px; color:white">
-                <ion-label>Seleccionar Equipo
-                </ion-label>
-            </ion-segment-button>
+        <ion-segment-button value="select" style="font-size: 10.5px; color:white">
+            <ion-label>Seleccionar Equipo
+            </ion-label>
+        </ion-segment-button>
 
-            <ion-segment-button value="view" style="font-size: 10.5px; color:white">
-                <ion-label>Ver Equipo</ion-label>
-            </ion-segment-button>
+        <ion-segment-button value="view" style="font-size: 10.5px; color:white">
+            <ion-label>Ver Equipo</ion-label>
+        </ion-segment-button>
 
-            <ion-segment-button value="perProject" style="font-size: 10.5px; color:white">
-                <ion-label>Ver Equipo por proyecto</ion-label>
-            </ion-segment-button>
+        <ion-segment-button value="perProject" style="font-size: 10.5px; color:white">
+            <ion-label>Ver Equipo por proyecto</ion-label>
+        </ion-segment-button>
 
-        </ion-segment>
+    </ion-segment>
 
-   <!--  </ion-toolbar> -->
+    <!--  </ion-toolbar> -->
 
 </ion-header>
 
@@ -54,8 +54,8 @@
                                 <img style="width:45px;height:45px;" [src]="item.photoURL"></ion-avatar>
                             <ion-label class="container1">
                                 <h2>{{ item.displayName }}</h2>
-                                <p style="font-size: 12px;">{{item.email}}</p>
-                                <p>{{ item.phoneNumber }}</p>
+                                <p style="font-size: 12px; color: black;">{{item.email}}</p>
+                                <p style="color: black;">{{ item.phoneNumber }}</p>
                             </ion-label>
                             <ion-checkbox item-end="item-end" [(ngModel)]="item.check" (ionChange)="onChange(usersGugo)"></ion-checkbox>
                         </ion-item>
@@ -99,24 +99,26 @@
     <div class="container" *ngIf="segmentModel === 'perProject'">
         <div *ngIf="userGugo.manager == true; else delegate">
             <div *ngIf="!teamGugo.manager">
-                <ion-list class="container2" >
-                    <div  color="dark"  *ngFor="let project of projectsTeam; let i = index">
+                <ion-list class="container2">
+                    <div color="dark" *ngFor="let project of projectsTeam; let i = index">
                         <ion-icon style="font-size: 25px; text-align: right;" slot="icon-only" name="eye"></ion-icon>
-                        <ion-label><h2>{{project.name}}</h2></ion-label>
+                        <ion-label>
+                            <h2>{{project.name}}</h2>
+                        </ion-label>
                         <!-- <ion-item style="margin: 0 auto;" color='dark' tappable> -->
-                            <ion-item color="dark" class="aling item" *ngFor="let delegate of project.delegates">
-                                <!-- <ion-label class="aling" *ngFor="let delegate of project.delegates"> -->
-                                    <!-- <div> -->
-                                        <ion-avatar>
-                                            <img [src]="delegate.photoURL" alt="hola" style="width:45px;height:45px;"/>
-                                        </ion-avatar> &nbsp;&nbsp;&nbsp;&nbsp;
-                                   <!--  </div> -->
-                                    <ion-label style="font-size: 12px;">{{delegate.displayName}}</ion-label>
-                                <!-- </ion-label> -->
-                                <!-- </ion-item> -->
-                                <!-- </div> -->
-                            </ion-item>
-                            
+                        <ion-item color="dark" class="aling item" *ngFor="let delegate of project.delegates">
+                            <!-- <ion-label class="aling" *ngFor="let delegate of project.delegates"> -->
+                            <!-- <div> -->
+                            <ion-avatar>
+                                <img [src]="delegate.photoURL" alt="hola" style="width:45px;height:45px;" />
+                            </ion-avatar> &nbsp;&nbsp;&nbsp;&nbsp;
+                            <!--  </div> -->
+                            <ion-label style="font-size: 12px;">{{delegate.displayName}}</ion-label>
+                            <!-- </ion-label> -->
+                            <!-- </ion-item> -->
+                            <!-- </div> -->
+                        </ion-item>
+
                         <!-- </ion-item> -->
                         <!-- <ion-item-options>
                             <ion-button color="primary" icon-left>
