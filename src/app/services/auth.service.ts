@@ -41,6 +41,7 @@ export class AuthService {
   user$: Observable<User>;
   // profileUrl: Observable<string | null>;
   profileUrl: string;
+  updated = false;
 
   constructor(private afs: AngularFirestore,
               private auth: AngularFireAuth,
@@ -69,6 +70,11 @@ export class AuthService {
     if (userLocalStorage) {
       this.userAuth = JSON.parse(userLocalStorage);
       // console.log(this.userAuth);
+      this.getUser(this.userAuth).subscribe(usr => {
+      console.log(usr);
+      this.userAuth = usr;
+    });
+      this.updated = true;
     } else {
       this.userAuth = null;
     }
@@ -298,10 +304,27 @@ export class AuthService {
     return this.managers;
   }
 
-  uploadProfilePhoto(uid: string, photoURL: string) {
+  uploadProfilePhoto(uid: string, manager: boolean, photoURL: string) {
+    console.log(manager);
     this.afs.collection('users').doc(uid).update({
       photoURL
     });
+    if (manager) {
+        this.afs.collection('teams').doc(uid).update({
+            photoURL
+      });
+    } else {
+      this.getUserOnce(uid).subscribe(usr => {
+        const user = usr;
+        const teams = user.teams;
+        teams.forEach(team => {
+          this.afs.collection('teams').doc(team).collection('delegates').doc(uid).update({
+            photoURL
+      });
+      });
+      });
+
+    }
   }
 
    removeToken(uid: string) {
@@ -311,16 +334,17 @@ export class AuthService {
     });
   }
 
-  setPhotoProfile(uid: string, file: File) {
+  setPhotoProfile(uid: string, manager: boolean, file: File) {
     return new Promise((resolve, reject) => {
-      const filePath = `users/${uid}`;
+      const id = this.afs.createId();
+      const filePath = `users/${uid}/${id}`;
       const ref = this.storageService.ref(filePath);
       const upload = ref.put(file);
       const sub = upload.snapshotChanges().pipe(
         finalize( async () => {
           try {
             const photoURL = await ref.getDownloadURL().toPromise();
-            this.uploadProfilePhoto(uid, photoURL);
+            this.uploadProfilePhoto(uid, manager, photoURL);
             const user = localStorage.getItem('user');
             const usuario = JSON.parse(user);
             usuario.photoURL = photoURL;

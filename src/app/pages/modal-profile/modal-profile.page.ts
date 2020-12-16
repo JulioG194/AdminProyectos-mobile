@@ -67,7 +67,7 @@ photoProfile: string;
     const fileList: FileList = this.pwaphoto.nativeElement.files;
     if (fileList && fileList.length > 0) {
       const file = fileList[0];
-      this.authService.setPhotoProfile(this.userApp.uid, file);
+      this.authService.setPhotoProfile(this.userApp.uid, this.userApp.manager, file);
       this.firstFileToBase64(fileList[0]).then((result: string) => {
       this.imgURI = result;
       this.photoProfile = this.imgURI;

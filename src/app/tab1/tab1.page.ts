@@ -11,7 +11,7 @@ import { Activity } from '../models/activity.interface';
 import { Task } from '../models/task.interface';
 import { ModalController } from '@ionic/angular';
 import { ModalProfilePage } from '../pages/modal-profile/modal-profile.page';
-import { Subscription, Subject } from 'rxjs';
+import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
 @Component({
   selector: 'app-tab1',
@@ -423,15 +423,30 @@ export class Tab1Page implements OnInit, OnDestroy {
       }
     });
     await modal.present();
-    const { data } = await modal.onDidDismiss();
     this.userGugo = this.authService.userAuth;
   }
 
   ngOnInit() {
     this.getProjects();
+    console.log(this.authService.updated);
+    if (this.authService.updated) {
+      this.authService.getUser(this.userGugo).subscribe(usr => {
+      this.userGugo = usr;
+    });
+      this.authService.updated = false;
+      console.log(this.authService.updated);
+    }
   }
   ionViewWillEnter() {
     this.getProjects();
+    console.log(this.authService.updated);
+    if (this.authService.updated) {
+      this.authService.getUser(this.userGugo).subscribe(usr => {
+      this.userGugo = usr;
+    });
+      this.authService.updated = false;
+      console.log(this.authService.updated);
+    }
   }
   ionViewWillLeave() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());

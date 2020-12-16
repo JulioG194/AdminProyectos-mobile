@@ -7,6 +7,7 @@ import * as firebase from 'firebase/app';
 import { User } from 'src/app/models/user.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { ValidatorService } from 'src/app/services/validators.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -41,6 +42,8 @@ export class LoginPage implements OnInit {
   passwordIcon = 'eye-off';
   showBtn = false;
   deferredPrompt: any;
+
+  subscriptions: Subscription[] = [];
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -130,7 +133,7 @@ export class LoginPage implements OnInit {
 
     try {
       const user = await this.authService.login(this.userLogin);
-      this.authService.getUser(user).subscribe((userObs) => {
+      this.subscriptions.push(this.authService.getUser(user).subscribe((userObs) => {
           const loginUser = userObs;
           this.authService.saveUserOnStorage(loginUser);
           const token = localStorage.getItem('fcm');
@@ -138,7 +141,7 @@ export class LoginPage implements OnInit {
           if (token) {
             this.authService.setTokensUser(loginUser, token);
           }
-        });
+        }));
       Swal.close();
       const Toast = Swal.mixin({
         toast: true,
@@ -185,4 +188,9 @@ export class LoginPage implements OnInit {
         break;
     }
   }
+
+  ionViewWillLeave() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
 }

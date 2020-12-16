@@ -4,14 +4,15 @@
             <ion-title>Mi Equipo</ion-title>
             <div class="align4">
                 <p>Versión Móvil</p>
-                <p class="rol">Gestor</p>
+                <p *ngIf="userGugo.manager == true" class="rol">Gestor</p>
+                <p *ngIf="userGugo.manager == false" class="rol">Delegado</p>
             </div>
             <ion-buttons slot="end">
                 <ion-button id="notification-button">
                     <ion-badge id="notifications-badge" color="primary">5</ion-badge>
                     <ion-icon name="notifications"></ion-icon>
                 </ion-button>
-                <ion-button id="notification-button1">
+                <ion-button id="notification-button1" (click)="openProfile()">
                     <ion-avatar id="notification-button1">
                         <img [src]="userGugo.photoURL">
                     </ion-avatar>
@@ -19,11 +20,10 @@
             </ion-buttons>
         </div>
     </ion-toolbar>
-    <!-- <ion-toolbar color="secondary"> -->
 
-    <ion-segment value="all" color="primary" scrollable="false" mode="android" [(ngModel)]="segmentModel" (ionChange)="segmentChanged($event)">
+    <ion-segment [value]="segmentModel" color="primary" scrollable="false" mode="android" [(ngModel)]="segmentModel" (ionChange)="segmentChanged($event)">
 
-        <ion-segment-button value="select" style="font-size: 10.5px; color:white">
+        <ion-segment-button value="select" *ngIf="userGugo.manager == true" style="font-size: 10.5px; color:white">
             <ion-label>Seleccionar Equipo
             </ion-label>
         </ion-segment-button>
@@ -38,8 +38,6 @@
 
     </ion-segment>
 
-    <!--  </ion-toolbar> -->
-
 </ion-header>
 
 
@@ -47,15 +45,15 @@
     <div class="container" *ngIf="segmentModel === 'select'">
         <div *ngIf="userGugo.manager == true; else delegate">
             <div *ngIf="!teamGugo.manager">
-                <div class="container">
+                <div class="container" *ngIf="usersGugo.length > 0; else noDelegatesToAdd">
                     <ion-list>
                         <ion-item color="dark" button *ngFor="let item of usersGugo">
                             <ion-avatar item-left="item-left">
                                 <img style="width:45px;height:45px;" [src]="item.photoURL"></ion-avatar>
                             <ion-label class="container1">
                                 <h2>{{ item.displayName }}</h2>
-                                <p style="font-size: 12px; color: black;">{{item.email}}</p>
-                                <p style="color: black;">{{ item.phoneNumber }}</p>
+                                <p style="font-size: 12px; color:white;">{{item.email}}</p>
+                                <p style="color: white;">{{ item.phoneNumber }}</p>
                             </ion-label>
                             <ion-checkbox item-end="item-end" [(ngModel)]="item.check" (ionChange)="onChange(usersGugo)"></ion-checkbox>
                         </ion-item>
@@ -72,6 +70,7 @@
             <div *ngIf="!teamGugo.manager">
                 <div class="container">
                     <ion-list>
+                        <p style="font-size: xx-small; color: tomato;">Desliza hacia la izquierda para eliminar el delegado de tu equipo</p>
                         <ion-item-sliding *ngFor="let item of teamGugo.delegates">
                             <ion-item color="dark" tappable>
                                 <ion-avatar item-left="item-left">
@@ -81,7 +80,6 @@
                                     <p style="font-size: 12px;">{{item.email}}</p>
                                     <p>{{ item.phoneNumber }}</p>
                                 </ion-label>
-                                <!-- <ion-checkbox item-end="item-end" [(ngModel)]="item.check" (ionChange)="onChange(usersGugo)"></ion-checkbox> -->
                             </ion-item>
                             <ion-item-options>
                                 <ion-button color="danger" icon-left>
@@ -97,101 +95,122 @@
         </div>
     </div>
     <div class="container" *ngIf="segmentModel === 'perProject'">
-        <div *ngIf="userGugo.manager == true; else delegate">
-            <div *ngIf="!teamGugo.manager">
-                <ion-list class="container2">
-                    <div color="dark" *ngFor="let project of projectsTeam; let i = index">
-                        <ion-icon style="font-size: 25px; text-align: right;" slot="icon-only" name="eye"></ion-icon>
-                        <ion-label>
-                            <h2>{{project.name}}</h2>
+        <div *ngIf="projectsTeam.length > 0; else noProjects">
+            <ion-list>
+                <ion-card color='dark' tappable *ngFor="let project of projectsTeam; let i = index">
+                    <ion-card-header>
+                        <ion-label class="container">
+                            <h2 style="text-transform: uppercase">{{project.name}}</h2>
+                            <div>
+                                <div style="text-align: end;">
+                                    <p style="text-align: center; font-size: smaller; color: tomato;">Recursos: {{project.resources}}</p>
+                                    <p style="text-align: center; font-size: smaller; color: olive;">Comentarios: {{project.comments}}</p>
+                                    <ion-button color="primary" icon-left>
+                                        <ion-icon slot="end" name="eye"></ion-icon>
+                                    </ion-button>
+                                </div>
+                            </div>
                         </ion-label>
-                        <!-- <ion-item style="margin: 0 auto;" color='dark' tappable> -->
-                        <ion-item color="dark" class="aling item" *ngFor="let delegate of project.delegates">
-                            <!-- <ion-label class="aling" *ngFor="let delegate of project.delegates"> -->
-                            <!-- <div> -->
-                            <ion-avatar>
-                                <img [src]="delegate.photoURL" alt="hola" style="width:45px;height:45px;" />
-                            </ion-avatar> &nbsp;&nbsp;&nbsp;&nbsp;
-                            <!--  </div> -->
-                            <ion-label style="font-size: 12px;">{{delegate.displayName}}</ion-label>
-                            <!-- </ion-label> -->
-                            <!-- </ion-item> -->
-                            <!-- </div> -->
-                        </ion-item>
+                    </ion-card-header>
 
-                        <!-- </ion-item> -->
-                        <!-- <ion-item-options>
-                            <ion-button color="primary" icon-left>
-                                <ion-icon slot="icon-only" name="create"></ion-icon>
-                            </ion-button>
-                            <ion-button color="danger" icon-left>
-                                <ion-icon slot="icon-only" name="trash"></ion-icon>
-                            </ion-button>
-                        </ion-item-options> -->
-                    </div>
-                </ion-list>
-                <ion-row style="height: 10mm"></ion-row>
-            </div>
-            <br>
+                    <ion-card-content>
+                        <p style="color: sienna; font-size: smaller;">Delegados:</p>
+                        <div *ngIf="project.delegates.length > 0; else noDelegates">
+                            <ion-item color="dark" *ngFor="let delegate of project.delegates">
+                                <ion-avatar>
+                                    <img [src]="delegate.photoURL" alt="hola" style="width:35px;height:35px;" />
+                                </ion-avatar>
+                                <ion-label style="font-size: smaller;">{{delegate.displayName}}</ion-label>
+                            </ion-item>
+                        </div>
+                    </ion-card-content>
+                </ion-card>
+            </ion-list>
         </div>
     </div>
 </ion-content>
 
 <ng-template #delegate>
-
-    <div *ngIf="userGugo.manager == false; else noTeam">
-        <ion-list-header class="title1">
-            <ion-label>Tus gestores de proyecto</ion-label>
-        </ion-list-header>
-        <ion-list>
-            <div *ngFor="let item of delegatesAux1">
-                <ion-item color="dark" button *ngIf="item.manager == true">
-                    <div class="part1">
-                        <ion-avatar *ngIf="item.manager == true" item-left="item-left">
-                            <img style="width:35px;height:35px;" [src]="item.photoURL">
-                        </ion-avatar>
-                    </div>
-                    <div class="align2 part2">
-                        <ion-label class="style1" *ngIf="item.manager == true">{{ item.displayName }}</ion-label>
-                        <ion-label class="style2">{{item.email}}</ion-label>
-                        <ion-label class="style3" *ngIf="item.manager == true">{{ item.phoneNumber }}</ion-label>
-                        <!-- <ion-label class="style3" *ngIf="item.manager == true">{{ item.employment }}</ion-label> -->
-                    </div>
-                </ion-item>
-            </div>
-        </ion-list>
+    <div *ngIf="managers.length > 0; else noTeam">
+        <div *ngIf="managers.length > 0">
+            <ion-list-header class="title1">
+                <ion-label>Tus gestores de proyecto</ion-label>
+            </ion-list-header>
+            <ion-list>
+                <div *ngFor="let manager of managers">
+                    <ion-item color="dark" button>
+                        <div class="part1">
+                            <ion-avatar item-left="item-left">
+                                <img style="width:35px;height:35px;" [src]="manager.photoURL">
+                            </ion-avatar>
+                        </div>
+                        <div class="align2 part2">
+                            <ion-label class="style1">{{ manager.displayName }}</ion-label>
+                            <ion-label class="style2">{{ manager.email }}</ion-label>
+                            <ion-label class="style3">{{ manager.phoneNumber }}</ion-label>
+                        </div>
+                    </ion-item>
+                </div>
+            </ion-list>
+        </div>
         <br>
         <div class="center">
             <ion-list-header class="title1" style="align-items: center;">
                 <ion-label> Tus compañeros de proyectos</ion-label>
             </ion-list-header>
+            <div *ngIf="partnersAll.length == 0">
+                <p style="color: white;">Aún no tienes compañeros </p>
+            </div>
         </div>
         <ion-list>
-            <div *ngFor="let item of delegatesAux1">
-                <ion-item color="dark" button *ngIf="item.manager != true">
+            <div *ngFor="let partner of partnersAll">
+                <ion-item color="dark" button>
                     <div class="part1">
-                        <ion-avatar *ngIf="item.manager != true" item-left="item-left">
-                            <img style="width:45px;height:45px;" [src]="item.photoURL">
+                        <ion-avatar item-left="item-left">
+                            <img style="width:35px;height:35px;" [src]="partner.photoURL">
                         </ion-avatar>
                     </div>
                     <div class="align2 part2">
-                        <ion-label class="style1" *ngIf="item.manager != true">{{ item.displayName }}</ion-label>
-                        <ion-label class="style2" class="style2">{{item.email}}</ion-label>
-                        <ion-label class="style3" *ngIf="item.manager != true">{{ item.phoneNumber }}</ion-label>
-                        <ion-label class="style3" *ngIf="item.manager != true">{{ item.employment }}</ion-label>
+                        <ion-label class="style1">{{ partner.displayName }}</ion-label>
+                        <ion-label class="style2">{{ partner.email}}</ion-label>
+                        <ion-label class="style3">{{ partner.phoneNumber }}</ion-label>
+                        <ion-label class="style3">{{ partner.employment }}</ion-label>
                     </div>
                 </ion-item>
             </div>
         </ion-list>
     </div>
+</ng-template>
 
-    <ng-template #noTeam>
-        <br>
-        <div class="empty">
-            <h4 class="style4">No existe registro !!!</h4><br>
-            <h6 class="style5">Usted aun no ha sido asignado a ningun equipo</h6><br>
-            <p class="style5">Muy pronto será asignado a uno</p>
-        </div>
-    </ng-template>
+<ng-template #noTeam>
+    <br>
+    <div class="empty">
+        <h4 class="style4">No existe registro !!!</h4><br>
+        <h6 class="style5">Usted aun no ha sido asignado a ningun equipo</h6><br>
+        <p class="style5">Muy pronto será asignado a uno</p>
+    </div>
+</ng-template>
 
+<ng-template #noProjects>
+    <br>
+    <div class="empty">
+        <h4 class="style4">No existen proyectos</h4><br>
+        <h6 class="style5">Usted aun no ha sido asignado a algun proyecto</h6><br>
+        <p class="style5">Muy pronto será asignado a uno</p>
+    </div>
+</ng-template>
+
+<ng-template #noDelegates>
+    <br>
+    <div class="empty">
+        <h4 class="style4">No existen delegados aun</h4><br>
+    </div>
+</ng-template>
+
+
+<ng-template #noDelegatesToAdd>
+    <br>
+    <div class="empty">
+        <h4 class="style4">No existen delegados para agregar</h4><br>
+    </div>
 </ng-template>

@@ -4,15 +4,13 @@ import { Team } from '../models/team.interface';
 import { TeamService } from '../services/team.service';
 import { AuthService } from '../services/auth.service';
 import { ProjectService } from '../services/project.service';
-import { NavController, ModalController } from '@ionic/angular';
-import { ModalTeamPageModule } from '../pages/modal-team/modal-team.module';
-import { ModalTeamPage } from '../pages/modal-team/modal-team.page';
+import { NavController, ModalController, LoadingController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Project } from '../models/project.interface';
-import { untilDestroyed } from '@orchestrator/ngx-until-destroyed';
 import * as _ from 'lodash';
 import { take } from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import { ModalProfilePage } from '../pages/modal-profile/modal-profile.page';
 
 @Component({
   selector: 'app-tab2',
@@ -91,49 +89,49 @@ segmentModel = 'select';
   constructor(private teamService: TeamService,
               private authService: AuthService,
               private projectService: ProjectService,
-              private navCtrl: NavController,
-              private modalCtrl: ModalController ) {}
+              private modalCtrl: ModalController,
+              public loadingController: LoadingController ) {}
 
   ngOnInit() {
-    console.log('yo solo me ejecuto una vez tab2');
-    this.isLoading = true;
+      this.initData();
+  }
+
+  ionViewWillEnter() {
+      this.initData();
+  }
+
+  initData() {
+    // this.isLoading = true;
+    this.segmentModel = 'view';
     this.userGugo = this.authService.userAuth;
-    console.log(this.userGugo);
     if (this.userGugo.manager) {
         if (this.userGugo.company) {
             this.getLocalCompany();
             this.getProjectsTeam();
         } else {
-            console.log('no pertence a una empresa');
             this.getDelegatesUncompany();
         }
     } else {
       if (this.userGugo.company) {
           this.getTeamDelegate();
       } else {
-        console.log('no pertence a una empresa');
         this.getTeamDelegate();
       }
     }
-
-  }
-
-  ionViewWillEnter() {
-      console.log('yo siempre me ejeuto en tab 2');
-      this.userGugo = this.authService.userAuth;
   }
 
   ngOnDestroy() { }
 
   getLocalCompany() {
-    this.userGugo = this.authService.userAuth;
-    this.teamService.getUsersCompany(this.userGugo.company.id).pipe(untilDestroyed(this)).subscribe(users => {
+    // this.userGugo = this.authService.userAuth;
+    this.teamService.getUsersCompany(this.userGugo.company.id)
+                    .subscribe(users => {
      const usersGugoArray = _.reject(users, {uid: this.userGugo.uid});
-     this.teamService.getTeamByUser(this.userGugo).pipe(untilDestroyed(this)).subscribe(teams => {
+     this.teamService.getTeamByUser(this.userGugo).subscribe(teams => {
        if (teams.length > 0) {
          const {id} = _.head(teams);
          this.teamId = id;
-         this.teamService.getDelegatesId(this.teamId).pipe(untilDestroyed(this)).subscribe(delegates => {
+         this.teamService.getDelegatesId(this.teamId).subscribe(delegates => {
          this.usersGugo = _.xorBy(usersGugoArray, delegates, 'uid');
          this.teamGugo.delegates = delegates;
          this.isLoading = false;
@@ -147,8 +145,9 @@ segmentModel = 'select';
   }
 
   getProjectsTeam() {
-    this.userGugo = this.authService.userAuth;
-    this.projectService.getProjectByOwner(this.userGugo).pipe(untilDestroyed(this)).subscribe(projs => {
+    // this.userGugo = this.authService.userAuth;
+    this.projectService.getProjectByOwner(this.userGugo)
+                       .subscribe(projs => {
       this.projectsTeam = projs;
       this.projectsTeam.map(proj => {
         // proj.delegates = _.uniqBy(proj.delegates, 'uid');
@@ -168,15 +167,20 @@ segmentModel = 'select';
     });
   }
 
-  getTeamDelegate() {
-    this.authService.getUser(this.authService.userAuth).pipe(untilDestroyed(this)).subscribe(usr => {
-        this.userGugo = usr;
-        console.log(this.userGugo);
-        if (this.userGugo.teams) {
+  async getTeamDelegate() {
+    const loading = await this.loadingController.create({
+      message: 'Por favor, espere...',
+      translucent: true,
+    });
+    await loading.present();
+    // this.authService.getUser(this.authService.userAuth).subscribe(usr => {
+       // this.userGugo = usr;
+       // console.log(this.userGugo);
+    if (this.userGugo.teams) {
         this.userGugo.teams.map(team => {
       this.managers = [];
       this.partners = [];
-      this.teamService.getTeam(team).pipe(untilDestroyed(this)).subscribe(tm => {
+      this.teamService.getTeam(team).subscribe(tm => {
         const user: User = {
           uid: tm.manager,
           email: tm.email,
@@ -186,34 +190,37 @@ segmentModel = 'select';
           photoURL: tm.photoURL
         };
         this.managers.push(user);
-        this.teamService.getDelegatesId(team).pipe(untilDestroyed(this)).subscribe(del => {
+        this.managers = _.uniqBy(this.managers, 'uid');
+        this.teamService.getDelegatesId(team).subscribe(del => {
           del.map(d => {
             this.partners.push(d);
           });
           const uniq = _.uniqBy(this.partners, 'uid');
           const withoutHost = _.reject(uniq, {uid: this.userGugo.uid});
           this.partnersAll = withoutHost;
+          loading.dismiss();
         });
       });
     });
+  } else {
+      loading.dismiss();
   }
-    });
+   // });
   }
 
   getDelegatesUncompany() {
-      this.userGugo = this.authService.userAuth;
-      this.teamService.getDelegatesUncompany().pipe(untilDestroyed(this))
-                                              .subscribe(usrs => {
+      // this.userGugo = this.authService.userAuth;
+      this.teamService.getDelegatesUncompany()
+                      .subscribe(usrs => {
               const arrayUsers = usrs.filter(usr => usr !== undefined);
               console.log(arrayUsers);
               this.teamService.getTeamByUser(this.userGugo)
-                                .pipe(untilDestroyed(this)).subscribe(teams => {
+                                .subscribe(teams => {
                                       console.log(teams);
                                       if (teams.length > 0) {
                                        const {id} = _.head(teams);
                                        this.teamId = id;
                                        this.teamService.getDelegatesId(this.teamId)
-                                                           .pipe(untilDestroyed(this))
                                                            .subscribe(delegates => {
                                                              this.usersGugo = _.xorBy(arrayUsers, delegates, 'uid');
                                                              this.teamGugo.delegates = delegates;
@@ -257,17 +264,9 @@ segmentModel = 'select';
     });
   }
 
-  segmentChanged(event) {
-    console.log(this.segmentModel);
-
-    console.log(event);
-  }
-
   onChange( users: User[]) {
     this.selectedUsers = [];
-    console.log('onChange', users);
     let isChecked = false;
-    // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < users.length; i++) {
       if (users[i].check === true) {
         isChecked = true;
@@ -278,34 +277,28 @@ segmentModel = 'select';
     if (isChecked === false) {
       this.visability = false;
     }
-    console.log(this.selectedUsers);
   }
 
-  profile() {
-     this.navCtrl.navigateRoot( 'tabs/tabs/tab2/profile', { animated: true } );
-  }
-
-  // async addTeam() {
-
-  //   const modal = await this.modalCtrl.create({
-  //     component: ModalTeamPage,
-  //     componentProps: {
-  //       members: this.usersAppFilter,
-  //       newMembers: null
-  //     }
-  //   });
-
-  //   await modal.present();
-
-  //   const { data } = await modal.onDidDismiss();
-  //   console.log(data);
-  //   if ( data != null) {
-  //     let users: User [] = [];
-  //     users = data['newMembers'] ;
-  //     console.log(users) ;
-  //     this.teamService.addDelegates(this.teamGugo, users);
-  //   }
+  // profile() {
+  //    this.navCtrl.navigateRoot( 'tabs/tabs/tab2/profile', { animated: true } );
   // }
+
+  segmentChanged($event) {
+    console.log($event);
+  }
+
+  async openProfile() {
+    const modal = await this.modalCtrl.create({
+      component: ModalProfilePage,
+      componentProps: {
+        user: this.userGugo,
+        newProfile: null
+      }
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    this.userGugo = this.authService.userAuth;
+  }
 
   async addNewTeam() {
   if ( this.selectedUsers.length > 0) {

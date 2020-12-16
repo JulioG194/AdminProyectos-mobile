@@ -118,13 +118,17 @@ ion-content ion-toolbar {
 }
 
 .container {
-    padding: 20px;
+    padding: 0.5px;
 }
 
 ion-list {
     background: #082330;
     width: 100%;
     margin: 0 auto;
+}
+
+ion-header ion-segment {
+    --background: #082330;
 }
 
 .title1 {

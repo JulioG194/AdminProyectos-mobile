@@ -22,7 +22,6 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     ChartsModule,
     ModalProfilePageModule,
     NgCircleProgressModule.forRoot({
-      // set defaults here
       radius: 100,
       outerStrokeWidth: 16,
       innerStrokeWidth: 8,
