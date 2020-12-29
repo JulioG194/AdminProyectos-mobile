@@ -36,13 +36,14 @@ ion-content ion-toolbar {
     width: 60px;
     height: 40px;
     top: 0.5px;
+    border-radius: 100%;
 }
 
 #notifications-badge {
     background-color: blue($color: #000000);
     position: absolute;
     top: 0px;
-    right: -4px;
+    right: 3px;
     border-radius: 100%;
 }
 
@@ -257,4 +258,18 @@ ion-infinite-scroll[scroll-avatar] {
     border: none;
     align-items: center;
     justify-content: space-between;
+}
+
+ion-toolbar {
+    --background: #000707;
+}
+
+ion-title {
+    color: white;
+    font-size: 30px;
+}
+
+ion-icon {
+    color: white;
+    font-size: 30px;
 }

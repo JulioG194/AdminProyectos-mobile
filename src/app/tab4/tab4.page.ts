@@ -8,7 +8,8 @@ import { Project } from '../models/project.interface';
 import { ProjectService } from '../services/project.service';
 import { TeamService } from '../services/team.service';
 import { AuthService } from '../services/auth.service';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
+import { ModalProfilePage } from '../pages/modal-profile/modal-profile.page';
 
 
 @Component({
@@ -104,10 +105,11 @@ minDate = new Date();
 
 automaticClose = false;
   constructor(private screenOrientation: ScreenOrientation,
-              private _projectService: ProjectService,
-              private _teamService: TeamService,
-              private _authService: AuthService,
-              private navCtrl: NavController) {
+              private projectService: ProjectService,
+              private teamService: TeamService,
+              private authService: AuthService,
+              private navCtrl: NavController,
+              private modalCtrl: ModalController) {
     // get current
   // console.log(this.screenOrientation.type); // logs the current orientation, example: 'landscape'
 
@@ -137,20 +139,20 @@ automaticClose = false;
      };
 
  ngOnInit() {
-  this._authService.getUser(this._authService.userAuth)
+  this.authService.getUser(this.authService.userAuth)
   .subscribe(user => {(this.userApp = user, this.idUser = user.uid);
-                      this._teamService.getTeamByUser(this.userApp)
+                      this.teamService.getTeamByUser(this.userApp)
                       .subscribe(team => {
                                           this.teamsObservable = team;
                                           this.teamsObservable.map((a: Team) =>
                                           this.teamAux = a);
                                           this.teamAux.delegates = [];
-                                          this._teamService.getDelegates(this.teamAux)
+                                          this.teamService.getDelegates(this.teamAux)
                                           .subscribe(delegates => {
                                                                   this.teamAux.delegates = delegates;
                                                                               });
                                           this.projectApp.teamId = this.teamAux.id;
-                                          this._projectService.getProjectByOwner(this.userApp)
+                                          this.projectService.getProjectByOwner(this.userApp)
                                           .subscribe(projects => {
                                                                 this.projectsAux = projects;
                                                                 this.difDyas = [];
@@ -179,6 +181,20 @@ setLandscape() {
   // set to landscape
   this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
 }
+
+ async openProfile() {
+    const modal = await this.modalCtrl.create({
+      component: ModalProfilePage,
+      componentProps: {
+        user: this.userApp,
+        newProfile: null
+      }
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    this.userApp = this.authService.userAuth;
+  }
+  
 setPortrait() {
   // set to portrait
   this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
@@ -199,21 +215,21 @@ toggleSection(index, idProject: string) {
 
   if ( this.projectsAux[index].active ) {
     this.dataT = [];
-    this._authService.getUser(this._authService.userAuth).subscribe(user => {(this.userApp = user); });
-    this._projectService.getProject(idProject).subscribe(project => {
+    this.authService.getUser(this.authService.userAuth).subscribe(user => {(this.userApp = user); });
+    this.projectService.getProject(idProject).subscribe(project => {
                                                                                                           this.projectApp = project;
                                                                                                           this.projectApp.startDate = new Date(this.projectApp.startDate['seconds'] * 1000);
                                                                                                           this.projectApp.endDate = new Date(this.projectApp.endDate['seconds'] * 1000);
                                                                                                          /*  this.differenceTime = Math.abs(this.projectApp.endDate.getTime() - this.projectApp.startDate.getTime());
                                                                                                           this.differenceDays = Math.ceil(this.differenceTime / (1000 * 3600 * 24));
                                                                                                           console.log(this.differenceDays); */
-                                                                                                          this._teamService.getTeam(this.projectApp.teamId).subscribe(team => {
+                                                                                                          this.teamService.getTeam(this.projectApp.teamId).subscribe(team => {
                                                                                                           this.team = team;
-                                                                                                          this._teamService.getDelegates(this.team).subscribe(delegates => {
+                                                                                                          this.teamService.getDelegates(this.team).subscribe(delegates => {
                                                                                                             this.delegates = delegates;
                                                                                                                       });
                 });
-                                                                                                          this._projectService.getActivities(this.projectApp.id).subscribe( activities => {
+                                                                                                          this.projectService.getActivities(this.projectApp.id).subscribe( activities => {
                                                                                                                 this.activitiesProject = activities;
                                                                                                                 this.data = [];
                                                                                                                 /* this.allstartdates = [];
@@ -225,7 +241,7 @@ toggleSection(index, idProject: string) {
                                                                                                                 // this.data = [];
                                                                                                                 // tslint:disable-next-line:prefer-for-of
                                                                                                                 for (let i = 0; i < this.activitiesProject.length; i++) {
-                                                                                                                        this._projectService.getTasks(this.projectApp.id, this.activitiesProject[i].id).subscribe(tasks => {
+                                                                                                                        this.projectService.getTasks(this.projectApp.id, this.activitiesProject[i].id).subscribe(tasks => {
                                                                                                                            this.activitiesProject[i].tasks = tasks;
                                                                                                                            // console.log(this.activitiesProject[i]);
                                                                                                                            // tslint:disable-next-line:prefer-for-of
@@ -239,7 +255,6 @@ toggleSection(index, idProject: string) {
                                                                                                                            let dataTe: any[] = [];
                                                                                                                            // tslint:disable-next-line:no-shadowed-variable
                                                                                                                            for (let index = 0; index <= this.data.length; index++) {
-                                                                                                                                
                                                                                                                                 if (index === 0) {
                                                                                                                                   dataTe[index] = ['Role', 'Name', 'From', 'To'];
                                                                                                                                 } else {
@@ -268,7 +283,6 @@ toggleSection(index, idProject: string) {
                                                                                                                               }
 
                                                                                                                            // console.log(dataTe);
-                                                                                                                          
                                                                                                                   });
 
                                                                                                                   }

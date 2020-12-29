@@ -8,18 +8,22 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 import { ModalNewprojectPageModule } from '../pages/modal-newproject/modal-newproject.module';
 import { ModalNewprojectPage } from '../pages/modal-newproject/modal-newproject.page';
 import { ModalEvidencedelegatePage } from '../pages/modal-evidencedelegate/modal-evidencedelegate.page';
-import { ModalEvidencedelegatePageModule } from '../pages/modal-evidencedelegate/modal-evidencedelegate.module'; 
+import { ModalEvidencedelegatePageModule } from '../pages/modal-evidencedelegate/modal-evidencedelegate.module';
+import { ModalProfilePage } from '../pages/modal-profile/modal-profile.page';
+import { ModalProfilePageModule } from '../pages/modal-profile/modal-profile.module';
 
 @NgModule({
   entryComponents: [
     ModalNewprojectPage,
-    ModalEvidencedelegatePage
+    ModalEvidencedelegatePage,
+    ModalProfilePage
 ],
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
+    ModalProfilePageModule,
     RouterModule.forChild([{ path: '', component: Tab3Page }]),
     ModalNewprojectPageModule,
     ModalEvidencedelegatePageModule

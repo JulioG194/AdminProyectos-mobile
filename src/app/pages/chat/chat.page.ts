@@ -37,10 +37,6 @@ export class ChatPage implements OnInit {
   validate = true;
 
   panelOpenState = false;
-
-
- // delegates: string[]=['Boots', 'Yeye','Pedro', 'Juli','Alexa'];
-
   projectApp: Project = {
     name: '',
     client: '',

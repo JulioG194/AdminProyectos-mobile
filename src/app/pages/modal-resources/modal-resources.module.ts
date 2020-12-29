@@ -2,10 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-
-/* import { ModalActivityPageRoutingModule } from './modal-activity-routing.module'; */
-
-import { ModalActivityPage } from './modal-resources.page';
+import { ModalResourcesPage } from './modal-resources.page';
 
 @NgModule({
   imports: [
@@ -14,6 +11,6 @@ import { ModalActivityPage } from './modal-resources.page';
     IonicModule
     /* ModalActivityPageRoutingModule */
   ],
-  declarations: [ModalActivityPage]
+  declarations: [ModalResourcesPage]
 })
-export class ModalActivityPageModule {}
+export class ModalResourcesPageModule {}

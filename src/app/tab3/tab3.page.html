@@ -1,29 +1,27 @@
 <ion-header [translucent]="true">
     <ion-toolbar>
-        <div class="box align">
-            <ion-title>Proyectos</ion-title>
-            <div class="align4">
-                <p>Versión Móvil</p>
-                <p class="rol">Gestor</p>
+        <ion-row>
+            <img src="../../assets/img/Escudo_de_la_Escuela_Politécnica_Nacional.png" style="width: 46px; height: 60px; padding-top: 18px;" alt="">
+            <div>
+                <p style="font-size: 14px; color: white">PROYECTOS</p>
+                <p style="font-size: 10px; color: white">GUGO-MOBILE - Version Gestor</p>
             </div>
-            <ion-buttons slot="end">
-                <ion-button id="notification-button">
-                    <ion-badge id="notifications-badge" color="primary">5</ion-badge>
-                    <ion-icon name="notifications"></ion-icon>
-                </ion-button>
-                <ion-button id="notification-button1">
-                    <ion-avatar id="notification-button1">
-                        <img [src]="userApp.photoURL">
-                    </ion-avatar>
-                </ion-button>
-            </ion-buttons>
-        </div>
+        </ion-row>
+        <ion-buttons slot="end">
+            <ion-button style="width: 85px;">
+                <ion-badge id="notifications-badge" color="primary">25</ion-badge>
+                <ion-icon name="notifications"></ion-icon>
+            </ion-button>
+            <ion-button id="notification-button1" (click)="openProfile()">
+                <ion-avatar id="notification-button1">
+                    <img [src]="userApp.photoURL">
+                </ion-avatar>
+            </ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" color="secondary">
-    <!-- <div class="background"> -->
-    <!-- <ion-list-header class="title">Proyectos</ion-list-header> -->
     <div class="container1">
         <div *ngIf=" userApp.manager == true ; else delegate">
             <ion-list>
@@ -32,8 +30,8 @@
                         <ion-icon slot="start" name="clipboard"></ion-icon>
                         <ion-icon slot="end" name="arrow-forward"></ion-icon>
                         <ion-label class="container">
-                            <h2>{{project.name}}</h2>
-                            <p style="color: rgb(253, 220, 201);">Cliente: {{ project.client }}</p>
+                            <h2 style="white-space: pre-wrap; text-align: start;">{{project.name}}</h2>
+                            <p style="color: rgb(253, 220, 201); white-space: pre-wrap; text-align: start;">Cliente: {{ project.client }}</p>
                             <p>Fecha de inicio: {{project.startDate | date : "dd/MM/y"}}</p>
                             <p>Fecha de fin: {{project.endDate | date : "dd/MM/y"}}</p>
                         </ion-label>
@@ -52,7 +50,6 @@
             <button class="btnNewProject" expand="block" (click)="openNewProject()">Nuevo proyecto</button>
         </div>
     </div>
-    <!--  </div> -->
 </ion-content>
 
 <ng-template #delegate>
@@ -60,7 +57,6 @@
     <ion-list>
         <ion-item-sliding *ngFor="let project of projectsApp; let i = index">
             <ion-item class="container" color='dark' tappable>
-                <!-- <ion-icon slot="start" name="clipboard"></ion-icon> -->
                 <ion-icon slot="end" name="arrow-forward"></ion-icon>
                 <div class="align3">
                     <div class="align container3">
@@ -85,14 +81,6 @@
                 <ion-button color="primary" icon-left (click)="openEvidence(project.name)">
                     <ion-icon slot="icon-only" name="create"></ion-icon>
                 </ion-button>
-                <!-- <ion-button color="danger" icon-left>
-                    <ion-icon slot="icon-only" name="trash"></ion-icon>
-                </ion-button> -->
-
-                <!-- <ion-label class="container2">
-                    <p>Actividad: {{ project.client }}</p>
-                    <p>Proyecto: {{ project.client }}</p>
-                </ion-label> -->
             </ion-item-options>
         </ion-item-sliding>
     </ion-list>

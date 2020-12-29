@@ -10,11 +10,15 @@ import { ModalTeamPageModule } from '../pages/modal-team/modal-team.module';
 import { TooltipsModule } from 'ionic-tooltips';
 import { ModalProfilePage } from '../pages/modal-profile/modal-profile.page';
 import { ModalProfilePageModule } from '../pages/modal-profile/modal-profile.module';
+import { ModalResourcesPage } from '../pages/modal-resources/modal-resources.page';
+import { ModalResourcesPageModule } from '../pages/modal-resources/modal-resources.module';
+
 
 @NgModule({
   entryComponents: [
       ModalTeamPage,
-      ModalProfilePage
+      ModalProfilePage,
+      ModalResourcesPage
   ],
   imports: [
     IonicModule,
@@ -24,7 +28,8 @@ import { ModalProfilePageModule } from '../pages/modal-profile/modal-profile.mod
     ExploreContainerComponentModule,
     RouterModule.forChild([{ path: '', component: Tab2Page }]),
     ModalTeamPageModule,
-    TooltipsModule.forRoot()
+    TooltipsModule.forRoot(),
+    ModalResourcesPageModule
   ],
   declarations: [Tab2Page]
 })

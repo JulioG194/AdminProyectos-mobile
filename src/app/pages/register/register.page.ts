@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-// tslint:disable-next-line:import-spacing
 import Swal from 'sweetalert2';
 import * as firebase from 'firebase/app';
 import { User } from 'src/app/models/user.interface';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
 import { ValidatorService } from 'src/app/services/validators.service';
 import * as _ from 'lodash';
 @Component({
@@ -195,7 +193,7 @@ export class RegisterPage implements OnInit {
       this.userRegister.employment = 'Gestor de proyectos';
     } else {
       this.userRegister.manager = false;
-      this.userRegister.employment = 'Delegado en poyectos';
+      this.userRegister.employment = 'Delegado de proyectos';
     }
   }
 

@@ -159,6 +159,7 @@ export class LoginPage implements OnInit {
         });
     } catch (error) {
       Swal.close();
+      console.log(error);
       Swal.fire({
         icon: 'error',
         title: 'Error al autenticar',

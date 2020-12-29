@@ -11,6 +11,7 @@ import * as _ from 'lodash';
 import { take } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { ModalProfilePage } from '../pages/modal-profile/modal-profile.page';
+import { ModalResourcesPage } from '../pages/modal-resources/modal-resources.page';
 
 @Component({
   selector: 'app-tab2',
@@ -326,5 +327,18 @@ segmentModel = 'select';
     });
   }
 }
+
+async openResources(project: Project) {
+    const modal = await this.modalCtrl.create({
+      component: ModalResourcesPage,
+      componentProps: {
+        projectId: project.id,
+        newProfile: null
+      }
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    // this.userGugo = this.authService.userAuth;
+  }
 
 }

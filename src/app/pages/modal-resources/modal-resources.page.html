@@ -1,7 +1,7 @@
-<ion-header traslucent>
+<ion-header [translucent]="false">
     <ion-toolbar>
         <div class="box align">
-            <ion-title>ACTIVIDAD</ion-title>
+            <ion-title>RECURSOS</ion-title>
             <ion-buttons slot="end">
                 <ion-button color="primary" (click)="onClose()">
                     <ion-icon name="close"></ion-icon>
@@ -9,28 +9,141 @@
             </ion-buttons>
         </div>
     </ion-toolbar>
+    <ion-segment [value]="segmentModel" color="primary" scrollable="false" mode="android" [(ngModel)]="segmentModel" (ionChange)="segmentChanged($event)">
+
+        <ion-segment-button value="observations" style="font-size: 10.5px; color:white">
+            <ion-label>Observaciones
+            </ion-label>
+        </ion-segment-button>
+
+        <ion-segment-button value="files" style="font-size: 10.5px; color:white">
+            <ion-label>Archivos</ion-label>
+        </ion-segment-button>
+
+    </ion-segment>
+
 </ion-header>
 
-<ion-content padding color="secondary">
-    <form (ngSubmit)="onSaveActivity( f )" #f="ngForm" class="container">
+<ion-content padding #content color="secondary">
+    <div class="container" *ngIf="segmentModel === 'observations'">
+        <div *ngFor="let comm of comments">
+            <ion-item style="padding-right: 15mm;" color="secondary">
+                <div>
+                    <p style="font-size: 8px;">{{comm.user.displayName}}</p>
+                    <ion-avatar class="right">
+                        <img style="width:45px;height:45px;" [src]="comm.user.photoURL">
+                        <p style="font-size: 5px;">{{comm.createdAt | date: 'dd/MM/y HH:mm'}}</p>
+                    </ion-avatar>
 
-        <ion-item color="secondary">
-            <ion-label position="floating">Nombre</ion-label>
-            <ion-input type="text" name="name" [(ngModel)]="activityProject.name" required></ion-input>
-        </ion-item>
+                </div>
+                &nbsp;&nbsp;&nbsp;
+                <ion-label class="other_message msgRx">
+                    <p class="line-breaker">{{ comm.comment }}</p>
+                </ion-label>
+            </ion-item>
+        </div>
         <br>
-        <ion-item color="secondary">
-            <ion-label position="floating">Fecha de inicio</ion-label>
-            <ion-datetime name="startDate" displayFormat="DD-MMM-YYYY" pickerFormat="DD-MMM-YY" [(ngModel)]="startDate" [min]="minD" [max]="maxD" required></ion-datetime>
-        </ion-item>
         <br>
-        <ion-item color="secondary">
-            <ion-label position="floating">Fecha de fin</ion-label>
-            <ion-datetime name="endDate" displayFormat="DD-MMM-YYYY" pickerFormat="DD-MMM-YY" [(ngModel)]="endDate" [min]="minD" [max]="maxD" required></ion-datetime>
-        </ion-item>
+        <br>
+        <br>
+        <ion-toolbar>
+            <div class="message_row">
+                <form #f2="ngForm">
+                    <ion-item no-lines>
+                        <ion-input style="color:grey" type="text" placeholder="Mensaje" cols="" rows="2" name="message"></ion-input>
+                        <ion-item button clear color="primary">
+                            <ion-icon name="send-outline"></ion-icon>
+                        </ion-item>
+                    </ion-item>
+                </form>
+            </div>
+        </ion-toolbar>
 
-        <ion-row style="height: 10mm"></ion-row>
-        <span *ngIf="f.submitted && (f.controls['name'].errors || f.controls['startDate'].errors || f.controls['endDate'].errors)" style="color:red;"> Todos los campos (*) deben ser llenados</span>
-        <button class="btnGuardar" expand="block" type="submit">Guardar</button>
-    </form>
+    </div>
+    <div class="container" *ngIf="segmentModel === 'files'">
+        <h3>Subir archivo recurso</h3>
+
+        <ion-button (click)="openPWAPhotoPicker()">
+            <ion-icon name="cloud-upload-outline"></ion-icon>
+        </ion-button>
+
+        <div *ngIf="imgURI != null">
+            <img *ngIf="
+                  fileUploaded.type == 'image/jpeg' ||
+                  fileUploaded.type == 'image/png' ||
+                  fileUploaded.type == 'image/gif' ||
+                  fileUploaded.type == 'image/bmp'
+                " [src]="imgURI" #imageSrc style="width: 200px;" alt="img" />
+            <img *ngIf="fileUploaded.type == 'application/pdf'" #imageSrc style="width: 200px;" src="../../../assets/img/pdf.png" alt="pdf" />
+            <img *ngIf="
+                  fileUploaded.type ==
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+                  fileUploaded.type == 'application/msword' ||
+                  fileUploaded.type == 'application/vnd.oasis.opendocument.text'
+                " src="../../../assets/img/word.png" #imageSrc style="width: 200px;" alt="word" />
+            <img *ngIf="
+                  fileUploaded.type ==
+                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+                  fileUploaded.type == 'application/vnd.ms-excel' ||
+                  fileUploaded.type == 'application/vnd.oasis.opendocument.spreadsheet'
+                " src="../../../assets/img/excel.jpg" #imageSrc style="width: 200px;" alt="excel" />
+            <img *ngIf="fileUploaded.type == 'text/plain'" src="../../../assets/img/txt.png" alt="" />
+            <img *ngIf="
+                  fileUploaded.type ==
+                    'application/vnd.oasis.opendocument.presentation' ||
+                  fileUploaded.type ==
+                    'application/vnd.openxmlformats-officedocument.presentationml.presentation' ||
+                  fileUploaded.type == 'application/vnd.ms-powerpoint'
+                " src="../../../assets/img/pp.jpg" #imageSrc style="width: 200px;" alt="ppt" />
+
+            <p>
+                {{fileName}}
+            </p>
+
+            <ion-button>
+                <ion-icon name="checkmark-circle-outline"></ion-icon>
+            </ion-button>
+
+            <ion-button (click)="cancel() ">
+                <ion-icon name="close-circle-outline"></ion-icon>
+            </ion-button>
+
+        </div>
+
+        <div id="pwa">
+            <input type="file" id="pwaphoto" #pwaphoto (change)="uploadPWA()">
+        </div>
+        <div *ngFor="let res of resources; let i = index">
+            <ion-card>
+                <ion-item>
+                    <ion-avatar slot="start">
+                        <img [src]="res.user.photoURL">
+                    </ion-avatar>
+                    <ion-label>
+                        <h3>{{res.user.displayName}}</h3>
+                        <p>{{res.createdAt | date: 'dd/MM/y HH:mm' }}</p>
+                    </ion-label>
+                </ion-item>
+
+                <img [src]="res.url" alt="ion">
+                <ion-card-header>
+                    <ion-card-title>Recurso {{i+1}}</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                    {{res.fileName}}
+                </ion-card-content>
+
+                <ion-footer>
+                    <ion-row>
+                        <ion-col center text-center>
+                            <button (click)="downloadFile(res.url)">
+          <ion-icon name="cloud-download-outline"></ion-icon>
+          <div>Descargar</div>
+        </button>
+                        </ion-col>
+                    </ion-row>
+                </ion-footer>
+            </ion-card>
+        </div>
+    </div>
 </ion-content>

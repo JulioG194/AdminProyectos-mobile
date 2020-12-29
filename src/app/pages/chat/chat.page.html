@@ -10,63 +10,26 @@
 </ion-header>
 
 <ion-content padding #content color="secondary">
-
-
-    <!--  <ion-grid> -->
     <div *ngFor="let message of allChats">
-
         <ion-item style="padding-left: 15mm;" *ngIf="message.coworkerEmail == coworker.email" color="secondary">
-            <!-- <span class="user_name">{{  }}:</span><br> -->
-            <!-- <ion-avatar item-left="item-left">
-                    <img style="width:45px;height:45px;" [src]="coworker.photo"></ion-avatar>
-                <span>{{ message.message }}</span> -->
-            <!--  <div class="time">{{message.createdAt | date:'dd.MM hh:MM'}}</div> -->
-            <!--   <ion-item> -->
             <ion-avatar slot="end">
                 <img style="width:45px;height:45px;" [src]="userApp.photoURL"></ion-avatar>
             <ion-label floating class="my_message msgTx" [ngClass]="{'my_message':message.coworkerEmail == coworker.email, 'other_message':message.coworkerEmail == userApp.email && message.senderEmail == coworker.email}">
                 <p class="line-breaker">{{ message.message }}</p>
-                <!-- <p>{{ item.employment }}</p> -->
             </ion-label>
         </ion-item>
 
         <ion-item style="padding-right: 15mm;" *ngIf="message.coworkerEmail == userApp.email  && message.senderEmail == coworker.email" color="secondary">
-            <!-- <span class="user_name">{{  }}:</span><br> -->
-            <!-- <ion-avatar item-left="item-left">
-                    <img style="width:45px;height:45px;" [src]="coworker.photo"></ion-avatar>
-                <span>{{ message.message }}</span> -->
-            <!--  <div class="time">{{message.createdAt | date:'dd.MM hh:MM'}}</div> -->
-            <!--   <ion-item> -->
             <ion-avatar class="right">
                 <img style="width:45px;height:45px;" [src]="coworker.photoURL"></ion-avatar>&nbsp;&nbsp;&nbsp;
             <ion-label class="other_message msgRx">
                 <p class="line-breaker">{{ message.message }}</p>
-                <!-- <p>{{ item.employment }}</p> -->
             </ion-label>
         </ion-item>
-        <!--     </ion-col> -->
-
-        <!--   <ion-col offset-3 col-9 *ngIf="message.from === nickname" class="message" [ngClass]="{'my_message': message.from === nickname, 'other_message': message.from !== nickname}">
-            <span class="user_name">{{ message.from }}:</span><br>
-            <span>{{ message.text }}</span>
-            <div class="time">{{message.created | date:'dd.MM hh:MM'}}</div>
-          </ion-col> -->
-
     </div>
-    <!--   </ion-grid> -->
-
 </ion-content>
 
-<!-- <ion-footer no-border>
-    <div class="input-wrap">
-        <textarea #chat_input placeholder="Text Input" [(ngModel)]="editorMsg" (keyup.enter)="sendMsg()" (focusin)="onFocus()">
-      </textarea>
-        <button ion-button clear icon-only item-right (click)="sendMsg()">
-        <ion-icon name="send-outline"></ion-icon>
-      </button>
-    </div>
-</ion-footer> -->
-<ion-footer >
+<ion-footer>
     <ion-toolbar>
         <div class="message_row">
             <form #f2="ngForm">

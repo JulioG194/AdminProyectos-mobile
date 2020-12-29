@@ -1,27 +1,26 @@
 <ion-header [translucent]="false">
     <ion-toolbar>
-        <div class="box align">
-            <ion-title>Mi Equipo</ion-title>
-            <div class="align4">
-                <p>Versión Móvil</p>
-                <p *ngIf="userGugo.manager == true" class="rol">Gestor</p>
-                <p *ngIf="userGugo.manager == false" class="rol">Delegado</p>
+        <ion-row>
+            <img src="../../assets/img/Escudo_de_la_Escuela_Politécnica_Nacional.png" style="width: 46px; height: 60px; padding-top: 18px;" alt="">
+            <div>
+                <p style="font-size: 14px; color: white">MI EQUIPO </p>
+                <p style="font-size: 10px; color: white">GUGO-MOBILE - Version Gestor</p>
             </div>
-            <ion-buttons slot="end">
-                <ion-button id="notification-button">
-                    <ion-badge id="notifications-badge" color="primary">5</ion-badge>
-                    <ion-icon name="notifications"></ion-icon>
-                </ion-button>
-                <ion-button id="notification-button1" (click)="openProfile()">
-                    <ion-avatar id="notification-button1">
-                        <img [src]="userGugo.photoURL">
-                    </ion-avatar>
-                </ion-button>
-            </ion-buttons>
-        </div>
+        </ion-row>
+        <ion-buttons slot="end">
+            <ion-button style="width: 85px;">
+                <ion-badge id="notifications-badge" color="primary">25</ion-badge>
+                <ion-icon name="notifications"></ion-icon>
+            </ion-button>
+            <ion-button id="notification-button1" (click)="openProfile()">
+                <ion-avatar id="notification-button1">
+                    <img [src]="userGugo.photoURL">
+                </ion-avatar>
+            </ion-button>
+        </ion-buttons>
     </ion-toolbar>
 
-    <ion-segment [value]="segmentModel" color="primary" scrollable="false" mode="android" [(ngModel)]="segmentModel" (ionChange)="segmentChanged($event)">
+    <ion-segment [value]="segmentModel" color="primary" scrollable="false" mode="md" [(ngModel)]="segmentModel" (ionChange)="segmentChanged($event)">
 
         <ion-segment-button value="select" *ngIf="userGugo.manager == true" style="font-size: 10.5px; color:white">
             <ion-label>Seleccionar Equipo
@@ -100,12 +99,12 @@
                 <ion-card color='dark' tappable *ngFor="let project of projectsTeam; let i = index">
                     <ion-card-header>
                         <ion-label class="container">
-                            <h2 style="text-transform: uppercase">{{project.name}}</h2>
+                            <h2 style="text-transform: uppercase; color: blanchedalmond;">{{project.name}}</h2>
                             <div>
                                 <div style="text-align: end;">
                                     <p style="text-align: center; font-size: smaller; color: tomato;">Recursos: {{project.resources}}</p>
                                     <p style="text-align: center; font-size: smaller; color: olive;">Comentarios: {{project.comments}}</p>
-                                    <ion-button color="primary" icon-left>
+                                    <ion-button color="primary" icon-left (click)="openResources(project)">
                                         <ion-icon slot="end" name="eye"></ion-icon>
                                     </ion-button>
                                 </div>
@@ -115,13 +114,17 @@
 
                     <ion-card-content>
                         <p style="color: sienna; font-size: smaller;">Delegados:</p>
+                        <br>
                         <div *ngIf="project.delegates.length > 0; else noDelegates">
-                            <ion-item color="dark" *ngFor="let delegate of project.delegates">
-                                <ion-avatar>
-                                    <img [src]="delegate.photoURL" alt="hola" style="width:35px;height:35px;" />
+                            <ion-row>
+                                <ion-avatar *ngFor="let user of project.delegates">
+                                    <img [src]="user.photoURL" style="max-width:2.5rem;max-height:2.5rem;">
+                                    <br>
+                                    <ion-label style="font-size: 6px; color: white">
+                                        {{user.displayName}}
+                                    </ion-label>
                                 </ion-avatar>
-                                <ion-label style="font-size: smaller;">{{delegate.displayName}}</ion-label>
-                            </ion-item>
+                            </ion-row>
                         </div>
                     </ion-card-content>
                 </ion-card>
@@ -211,6 +214,6 @@
 <ng-template #noDelegatesToAdd>
     <br>
     <div class="empty">
-        <h4 class="style4">No existen delegados para agregar</h4><br>
+        <h4 class="style4">No hay delegados para agregar al equipo</h4><br>
     </div>
 </ng-template>

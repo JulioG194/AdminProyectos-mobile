@@ -6,10 +6,11 @@ import { TeamService } from '../services/team.service';
 import { ChatService } from '../services/chat.service';
 import { AuthService } from '../services/auth.service';
 import * as firebase from 'firebase/app';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { ChatPage } from '../pages/chat/chat.page';
 import { Router } from '@angular/router';
 import { NavigationExtras } from '@angular/router';
+import { ModalProfilePage } from '../pages/modal-profile/modal-profile.page';
 
 @Component({
   selector: 'app-tab5',
@@ -95,7 +96,8 @@ export class Tab5Page implements OnInit {
                 private authService: AuthService,
                 private chatService: ChatService,
                 private navCtrl: NavController,
-                private router: Router  ) { }
+                private router: Router,
+                private modalCtrl: ModalController  ) { }
 
   ngOnInit() {
     this.getTeam();
@@ -177,6 +179,18 @@ export class Tab5Page implements OnInit {
                   // });
   }
 
+   async openProfile() {
+    const modal = await this.modalCtrl.create({
+      component: ModalProfilePage,
+      componentProps: {
+        user: this.userGugo,
+        newProfile: null
+      }
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    this.userGugo = this.authService.userAuth;
+  }
   getUniqueDelegates() {
     this.delegatesAux1.filter((elem, pos) => this.delegatesAux1.indexOf(elem) === pos);
     let element = 0;

@@ -1,8 +1,11 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 import { ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/models/user.interface';
 import { AuthService } from 'src/app/services/auth.service';
+import { ValidatorService } from 'src/app/services/validators.service';
 
 @Component({
   selector: 'app-modal-profile',
@@ -28,15 +31,57 @@ bDate: string;
 birth: Date = new Date();
 isDisabled = true;
 photoProfile: string;
+editForm: FormGroup;
+submitted = false;
 
   constructor(private modalCtrl: ModalController,
-              public authService: AuthService) { }
+              public authService: AuthService,
+              private fb: FormBuilder,
+              private validators: ValidatorService) { }
 
   ngOnInit() {
     this.userApp = this.authService.userAuth;
     this.photoProfile = this.userApp.photoURL;
     this.birth = new Date(this.userApp.birthdate['seconds'] * 1000);
     this.bDate = this.birth.toString();
+    this.editForm = this.fb.group({
+      fullName: ['', Validators.compose([Validators.required, this.validators.noWhitespaceValidator()])],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.compose([Validators.required, this.validators.patternValidator()])],
+      confirmPassword: ['', [Validators.required]],
+      phoneNumber: ['', Validators.compose([ Validators.required,
+        this.validators.patternPhoneValidator(),
+        Validators.minLength(10), Validators.maxLength(10)])],
+      role: ['', Validators.required],
+      birthdate: ['', Validators.required]
+    },
+     {
+        validator: this.validators.MatchPassword('password', 'confirmPassword'),
+      }
+    );
+  }
+
+  get editFormControl() {
+    return this.editForm.controls;
+  }
+
+  async onEdit() {
+     try {
+       this.submitted = true;
+       if (!this.editForm.valid) {
+        return;
+      }
+       console.log(this.editForm.value);
+    }  catch (error) {
+      console.log(error);
+      Swal.close();
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al editar',
+        text: 'Ha ocurrido un error',
+        confirmButtonText: 'Listo!'
+      });
+    }
   }
 
   onClose() {

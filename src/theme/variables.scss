@@ -53,7 +53,7 @@
     --ion-color-dark-contrast: #ffffff;
     --ion-color-dark-contrast-rgb: 255, 255, 255;
     --ion-color-dark-shade: #1e2023;
-    --ion-color-dark-tint: #383a3e;
+    --ion-color-dark-tint: #ffffff;
     /** medium **/
     --ion-color-medium: #0C1B22;
     --ion-color-medium-rgb: 146, 148, 156;
@@ -112,8 +112,8 @@
         --ion-color-danger-contrast-rgb: 255, 255, 255;
         --ion-color-danger-shade: #e04055;
         --ion-color-danger-tint: #ff5b71;
-        --ion-color-dark: #f4f5f8;
-        --ion-color-dark-rgb: 244, 245, 248;
+        --ion-color-dark: #383a3e;
+        --ion-color-dark-rgb: 56, 58, 62;
         --ion-color-dark-contrast: #000000;
         --ion-color-dark-contrast-rgb: 0, 0, 0;
         --ion-color-dark-shade: #d7d8da;
@@ -129,7 +129,7 @@
         --ion-color-light-contrast: #ffffff;
         --ion-color-light-contrast-rgb: 255, 255, 255;
         --ion-color-light-shade: #1e2023;
-        --ion-color-light-tint: #383a3e;
+        --ion-color-light-tint: #ffffff;
     }
     /*
    * iOS Dark Theme
@@ -194,7 +194,7 @@
         --ion-color-step-950: #f3f3f3;
         --ion-item-background: #1A1B1E;
     }
-    ion-title.title-large {
+    ion-title {
         --color: white;
     }
 }

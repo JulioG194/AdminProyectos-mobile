@@ -283,13 +283,13 @@ export class Tab1Page implements OnInit, OnDestroy {
                           this.dataProjects = [];
                           this.activitiesNumber = 0;
                           this.tasksNumber = 0;
-                          let tasksInprogress = 0;
-                          let tasksOut = 0;
-                          let tasksCompleted = 0;
+                          const tasksInprogress: Task[] = [];
+                          const tasksOut: Task[] = [];
+                          const tasksCompleted: Task[] = [];
                           this.activitiesStatistics = [];
-                          let activitiesInprogress = 0;
-                          let activitiesOut = 0;
-                          let activitiesCompleted = 0;
+                          const activitiesInprogress: Activity[] = [];
+                          const activitiesOut: Activity[] = [];
+                          const activitiesCompleted: Activity[] = [];
                           let projectsInprogress = 0;
                           let projectsOut = 0;
                           let projectsCompleted = 0;
@@ -312,48 +312,49 @@ export class Tab1Page implements OnInit, OnDestroy {
                           loading.dismiss();
 
                           this.projectsApp.map(proj => {
+                          this.activitiesNumber = 0;
                           this.subscriptions.push(this.projectService
                             .getActivities(proj.id)
                             .subscribe(acts => {
-                              this.activitiesNumber += acts.length;
                               acts.map(act => {
                                 this.activitiesStatistics.push(act);
+                                this.activitiesNumber = _.uniqBy(this.activitiesStatistics, 'id').length;
                                 if (act.progress === 100) {
-                                        activitiesCompleted++;
+                                        activitiesCompleted.push(act);
                                       } else if (
                                     act.progress > 0 &&
                                     act.progress < 100
                                     ) {
-                                    activitiesInprogress++;
+                                    activitiesInprogress.push(act);
                                     } else if (act.progress === 0) {
-                                    activitiesOut++;
+                                    activitiesOut.push(act);
                                     }
                                 this.subscriptions.push(this.projectService
                                   .getTasks(proj.id, act.id)
                                   .subscribe(tsks => {
-                                  this.tasksNumber += tsks.length;
                                   tsks.map(tsk => {
                                     this.tasksStatistics.push(tsk);
+                                    this.tasksNumber = _.uniqBy(this.tasksStatistics, 'id').length;
                                     if (tsk.progress === 100) {
-                                        tasksCompleted++;
+                                        tasksCompleted.push(tsk);
                                       } else if (
                                       tsk.progress > 0 &&
                                       tsk.progress < 100
                                       ) {
-                                      tasksInprogress++;
+                                      tasksInprogress.push(tsk);
                                       } else if (tsk.progress === 0) {
-                                      tasksOut++;
+                                      tasksOut.push(tsk);
                                       }
                                   });
-                                  this.dataTasks.push(tasksOut);
-                                  this.dataTasks.push(tasksCompleted);
-                                  this.dataTasks.push(tasksInprogress);
+                                  this.dataTasks.push(_.uniqBy(tasksOut, 'id').length);
+                                  this.dataTasks.push(_.uniqBy(tasksCompleted, 'id').length);
+                                  this.dataTasks.push(_.uniqBy(tasksInprogress, 'id').length);
                                   this.pieChartDataTsk = _.takeRight(this.dataTasks, 3);
                                 }));
                               });
-                              this.dataActivities.push(activitiesOut);
-                              this.dataActivities.push(activitiesCompleted);
-                              this.dataActivities.push(activitiesInprogress);
+                              this.dataActivities.push(_.uniqBy(activitiesOut, 'id').length);
+                              this.dataActivities.push(_.uniqBy(activitiesCompleted, 'id').length);
+                              this.dataActivities.push(_.uniqBy(activitiesInprogress, 'id').length);
                               this.pieChartDataAct = _.takeRight(this.dataActivities, 3);
                             }));
                           });
@@ -438,7 +439,8 @@ export class Tab1Page implements OnInit, OnDestroy {
     }
   }
   ionViewWillEnter() {
-    this.getProjects();
+    // this.getProjects();
+    // this.subscriptions.forEach(subscription => subscription.unsubscribe());
     console.log(this.authService.updated);
     if (this.authService.updated) {
       this.authService.getUser(this.userGugo).subscribe(usr => {
