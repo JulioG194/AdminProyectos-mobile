@@ -179,7 +179,7 @@ export class RegisterPage implements OnInit {
       Swal.fire({
               icon: 'error',
               title: 'Usuario no encontrado',
-              text: 'Por favor verifique su correo, rol o comuniquese con la empresa a la que pertenece',
+              text: 'Por favor, verifique su correo, rol o comuniquese con la empresa a la que pertenece',
               position: 'center',
               showCloseButton: true,
               confirmButtonText: 'Listo!'
