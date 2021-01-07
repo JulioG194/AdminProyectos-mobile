@@ -1,7 +1,7 @@
 <ion-header traslucent>
     <ion-toolbar>
         <div class="box align">
-            <ion-title>TAREA</ion-title>
+            <ion-title style="font-size: 16px;">NOTIFICACIONES</ion-title>
             <ion-buttons slot="end">
                 <ion-button color="primary" (click)="onClose()">
                     <ion-icon name="close"></ion-icon>
@@ -12,26 +12,29 @@
 </ion-header>
 
 <ion-content padding color="secondary">
-    <form (ngSubmit)="onSaveTask( f )" #f="ngForm" class="container">
+    <!-- <form (ngSubmit)="onSaveTask( f )" #f="ngForm" class="container">
 
         <ion-item color="secondary">
-            <ion-label position="floating">Nombre</ion-label>
+            <ion-label position="floating">Nombre *</ion-label>
             <ion-input type="text" name="name" [(ngModel)]="taskActivity.name" required></ion-input>
+            <ion-icon name="pencil-outline" slot="end"></ion-icon>
         </ion-item>
         <br>
         <ion-item color="secondary">
-            <ion-label position="floating">Fecha de inicio</ion-label>
+            <ion-label position="floating">Fecha de inicio *</ion-label>
             <ion-datetime name="startDate" displayFormat="DD-MMM-YYYY" pickerFormat="DD-MMM-YY" [(ngModel)]="startDate" [min]="minD" [max]="maxD" required></ion-datetime>
+            <ion-icon name="calendar-outline" slot="end"></ion-icon>
         </ion-item>
         <br>
         <ion-item color="secondary">
-            <ion-label position="floating">Fecha de fin</ion-label>
+            <ion-label position="floating">Fecha de fin *</ion-label>
             <ion-datetime name="endDate" displayFormat="DD-MMM-YYYY" pickerFormat="DD-MMM-YY" [(ngModel)]="endDate" [min]="minD" [max]="maxD" required></ion-datetime>
+            <ion-icon name="calendar-outline" slot="end"></ion-icon>
         </ion-item>
         <br>
         <ion-item color="secondary">
-            <ion-label>Delegado</ion-label>
-
+            <ion-label>Delegado *</ion-label>
+            <ion-icon name="person" slot="end"></ion-icon>
             <ion-select [(ngModel)]="delegateAux1" name="member" required>
                 <ion-select-option [value]="item" *ngFor=" let item of members">
                     {{item.displayName}}
@@ -55,8 +58,32 @@
                 <ion-label class="style3">{{ delegateAux1.phoneNumber }}</ion-label>
             </div>
         </ion-item>
+        <br>
+        <ion-item color="secondary">
+            <ion-label position="floating">Descripción</ion-label>
+            <ion-textarea type="text" name="description" [(ngModel)]="taskActivity.description" required></ion-textarea>
+            <ion-icon name="document-outline" slot="end"></ion-icon>
+        </ion-item>
+        <br>
+        <span style="color:  #ff4961; font-size: 10px;">
+        Todos los campos (*) deben ser llenados</span>
         <ion-row style="height: 10mm"></ion-row>
         <span *ngIf="f.submitted && (f.controls['name'].errors || f.controls['startDate'].errors || f.controls['endDate'].errors)" style="color:red;"> Todos los campos (*) deben ser llenados</span>
         <button class="btnGuardar" expand="block" type="submit">Guardar</button>
-    </form>
+    </form> -->
+    <!-- <ion-list> -->
+    <div *ngFor="let manager of notifications">
+        <ion-item color="dark" button>
+            <div class="part1">
+                <ion-avatar item-left="item-left">
+                    <img style="width:35px;height:35px;" src="../../../assets/img/gg.jpg">
+                </ion-avatar>
+            </div>
+            <div class="align2 part2">
+                <ion-label class="style1">{{ manager}}</ion-label>
+            </div>
+            <ion-icon name="flag-outline" slot="end"></ion-icon>
+        </ion-item>
+    </div>
+    <!-- </ion-list> -->
 </ion-content>

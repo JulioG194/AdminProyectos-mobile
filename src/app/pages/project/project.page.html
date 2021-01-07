@@ -39,9 +39,9 @@
                             <ion-icon slot="end" name="arrow-down" *ngIf="item.active"></ion-icon>
                             <ion-label color="dark" class="container3">
                                 <h2 style="white-space: pre-wrap;">{{item.name}}</h2>
-                                <p style="color: darkcyan">Fecha de Inicio: {{item.startDate | date : "dd/MM/y"}}</p>
-                                <p style="color: darkcyan;">Fecha de Fin: {{item.endDate | date : "dd/MM/y"}}</p>
-                                <p style="color: darkcyan;">%Avance: {{item.progress}}</p>
+                                <p style="color: gray">Fecha de Inicio: {{item.startDate | date : "dd/MM/y"}}</p>
+                                <p style="color: gray;">Fecha de Fin: {{item.endDate | date : "dd/MM/y"}}</p>
+                                <p style="color: gray">%Avance: {{item.progress}}</p>
                             </ion-label>
                         </ion-item>
 
@@ -85,11 +85,14 @@
                                                 <ion-label class="container2">
                                                     <p>Fecha de Inicio: {{child.startDate | date : "dd/MM/y"}}</p>
                                                     <p>Fecha de Fin: {{child.endDate | date : "dd/MM/y"}}</p>
-                                                    <p>%Avance: {{child.progress}}</p>
+                                                    <!-- <p>%Avance: {{child.progress}}</p> -->
+                                                    <p>Duracion: 3</p>
+                                                    <p>Dias restantes: 3</p>
+                                                    <p>Dias de atraso: 0</p>
                                                 </ion-label>
                                             </div>
                                         </div>
-
+                                        <ion-icon name="calendar-outline" slot="end"></ion-icon>
                                     </ion-item>
                                     <ion-item-options side="start">
                                         <ion-button color="warning" icon-left (click)="openEvidence(child)">

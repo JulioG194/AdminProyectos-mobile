@@ -1,7 +1,7 @@
 <ion-header [translucent]="false">
     <ion-toolbar>
         <div class="box align">
-            <ion-title>RECURSOS</ion-title>
+            <ion-title>EVIDENCIAS</ion-title>
             <ion-buttons slot="end">
                 <ion-button color="primary" (click)="onClose()">
                     <ion-icon name="close"></ion-icon>
@@ -17,7 +17,7 @@
         </ion-segment-button>
 
         <ion-segment-button value="files" style="font-size: 10.5px; color:white">
-            <ion-label>Archivos</ion-label>
+            <ion-label>Avance</ion-label>
         </ion-segment-button>
 
     </ion-segment>
@@ -47,7 +47,7 @@
         <br>
         <br>
         <ion-toolbar>
-            <div class="message_row">
+            <!-- <div class="message_row">
                 <form #f2="ngForm">
                     <ion-item no-lines>
                         <ion-input style="color:grey" type="text" placeholder="Mensaje" cols="" rows="2" name="message"></ion-input>
@@ -56,16 +56,22 @@
                         </ion-item>
                     </ion-item>
                 </form>
-            </div>
+            </div> -->
         </ion-toolbar>
 
     </div>
     <div class="container" *ngIf="segmentModel === 'files'">
+        <!-- <ion-item no-lines>
+            <ion-input style="color:grey" type="text" placeholder="Ingrese su % de evidencia" cols="" rows="2" name="message"></ion-input>
+            <ion-item button clear color="primary">
+                <ion-icon name="send-outline"></ion-icon>
+            </ion-item>
+        </ion-item>
         <h3>Subir archivo recurso</h3>
 
         <ion-button (click)="openPWAPhotoPicker()">
             <ion-icon name="cloud-upload-outline"></ion-icon>
-        </ion-button>
+        </ion-button> -->
 
         <div *ngIf="imgURI != null">
             <img *ngIf="
@@ -117,17 +123,17 @@
             <ion-card>
                 <ion-item>
                     <ion-avatar slot="start">
-                        <img [src]="res.user.photoURL">
+                        <img src="https://www.profamedica.com/wp-content/uploads/2018/01/avatar-hombre.png">
                     </ion-avatar>
                     <ion-label>
-                        <h3>{{res.user.displayName}}</h3>
+                        <h3>Daniel Villavicencio</h3>
                         <p>{{res.createdAt | date: 'dd/MM/y HH:mm' }}</p>
                     </ion-label>
                 </ion-item>
 
-                <img [src]="res.url" alt="ion">
+                <img src="../../../assets/img/pdf.png" alt="ion">
                 <ion-card-header>
-                    <ion-card-title>Recurso {{i+1}}</ion-card-title>
+                    <ion-card-title>Evidencia {{i+1}}</ion-card-title>
                 </ion-card-header>
                 <ion-card-content>
                     {{res.fileName}}

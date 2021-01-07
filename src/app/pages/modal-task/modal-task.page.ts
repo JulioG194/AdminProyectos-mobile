@@ -36,6 +36,12 @@ endDate: string;
 minD: Date;
 maxD: Date;
 
+notifications: string [] = ['Mi Equipo: Julio te ha unido asu equipo de trabajo',
+                              'Tarea: Has sido asignado a una nueva tarea',
+                              'Mi Equipo: El Gestor te ha removido de su equipo',
+                              'Tarea: Julio ha corregido el avance de una tarea',
+                              'Tarea: Julio ha aprobado tu avance en una tarea',
+];
 constructor(  private modalCtrl: ModalController,
               private alertCtrl: AlertController,
               public loadingController: LoadingController) { }

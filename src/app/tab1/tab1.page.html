@@ -1,7 +1,7 @@
 <ion-header id="header" [translucent]="true">
     <ion-toolbar>
         <ion-row>
-            <img src="../../assets/img/Escudo_de_la_Escuela_Politécnica_Nacional.png" style="width: 46px; height: 60px; padding-top: 18px;" alt="">
+            <img src="../../assets/img/gg.jpg" style="width: 40px; height: 55px; padding-top: 18px;" alt="">
             <div>
                 <p style="font-size: 14px; color: white">INICIO</p>
                 <p style="font-size: 10px; color: white;">GUGO-MOBILE - Version Gestor</p>
@@ -10,7 +10,7 @@
         </ion-row>
         <ion-buttons slot="end">
             <ion-button style="width: 85px;">
-                <ion-badge id="notifications-badge" color="primary">25</ion-badge>
+                <ion-badge id="notifications-badge" color="primary"></ion-badge>
                 <ion-icon name="notifications"></ion-icon>
             </ion-button>
             <ion-button id="notification-button1" (click)="openProfile()">
@@ -119,12 +119,24 @@
     <div *ngIf="projectsApp.length === 0">
         <ion-card class="container1">
             <div class="align2">
-                <h4 style="color: white;">Proyectos</h4>
+                <h4 style="color: white;">Mi Equipo</h4>
                 <img style="height: 100px; width: 100px;" src="../../../assets/img/pdf.png" alt="">
             </div>
 
             <ion-card-content style="color: white;">
                 Forma tu equipo de trabajo para poder crear proyectos. En el menu lateral se tiene la opcion "Mi equipo", aqui podrás seleccionar las personas con las que vas trabajar dentro de tus proyectos y asignarles distintas tareas.
+            </ion-card-content>
+
+        </ion-card>
+        <ion-card class="container2">
+            <div class="align2">
+                <h4 style="color: white;">Proyectos</h4>
+                <img style="height: 100px; width: 100px;" src="../../assets/img/fondo2.jpg" alt="">
+            </div>
+
+            <ion-card-content style="color: white;">
+                En el menu lateral se tiene la opcion "Proyectos", aqui podrás crear tus proyectos dando click sobre "Nuevo Proyecto". Si ya existen proyectos se presentará una lista de los mismos con dististas herramientas que te permitirán; visualizar detalles, eliminar
+                y asignar actividades a cada proyecto.
             </ion-card-content>
 
         </ion-card>

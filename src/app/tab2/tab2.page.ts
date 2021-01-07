@@ -134,11 +134,13 @@ segmentModel = 'select';
          this.teamId = id;
          this.teamService.getDelegatesId(this.teamId).subscribe(delegates => {
          this.usersGugo = _.xorBy(usersGugoArray, delegates, 'uid');
+         this.usersGugo = _.reject(this.usersGugo, {manager: true});
          this.teamGugo.delegates = delegates;
          this.isLoading = false;
         });
        } else {
          this.usersGugo = usersGugoArray;
+         this.usersGugo = _.reject(this.usersGugo, {manager: true});
          this.isLoading = false;
        }
     });

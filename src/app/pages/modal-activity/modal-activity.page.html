@@ -1,7 +1,7 @@
 <ion-header traslucent>
     <ion-toolbar>
         <div class="box align">
-            <ion-title>ACTIVIDAD</ion-title>
+            <ion-title style="font-size: 16px;">NUEVA ACTIVIDAD</ion-title>
             <ion-buttons slot="end">
                 <ion-button color="primary" (click)="onClose()">
                     <ion-icon name="close"></ion-icon>
@@ -15,20 +15,31 @@
     <form (ngSubmit)="onSaveActivity( f )" #f="ngForm" class="container">
 
         <ion-item color="secondary">
-            <ion-label position="floating">Nombre</ion-label>
+            <ion-label position="floating">Nombre *</ion-label>
             <ion-input type="text" name="name" [(ngModel)]="activityProject.name" required></ion-input>
+            <ion-icon name="pencil-outline" slot="end"></ion-icon>
         </ion-item>
         <br>
         <ion-item color="secondary">
-            <ion-label position="floating">Fecha de inicio</ion-label>
+            <ion-label position="floating">Fecha de inicio *</ion-label>
             <ion-datetime name="startDate" displayFormat="DD-MMM-YYYY" pickerFormat="DD-MMM-YY" [(ngModel)]="startDate" [min]="minD" [max]="maxD" required></ion-datetime>
+            <ion-icon name="calendar-outline" slot="end"></ion-icon>
         </ion-item>
         <br>
         <ion-item color="secondary">
-            <ion-label position="floating">Fecha de fin</ion-label>
+            <ion-label position="floating">Fecha de fin *</ion-label>
             <ion-datetime name="endDate" displayFormat="DD-MMM-YYYY" pickerFormat="DD-MMM-YY" [(ngModel)]="endDate" [min]="minD" [max]="maxD" required></ion-datetime>
+            <ion-icon name="calendar-outline" slot="end"></ion-icon>
         </ion-item>
-
+        <br>
+        <ion-item color="secondary">
+            <ion-label position="floating">Descripción</ion-label>
+            <ion-textarea type="text" name="description" [(ngModel)]="activityProject.description" required></ion-textarea>
+            <ion-icon name="document-outline" slot="end"></ion-icon>
+        </ion-item>
+        <br>
+        <span style="color:  #ff4961; font-size: 10px;">
+        Todos los campos (*) deben ser llenados</span>
         <ion-row style="height: 10mm"></ion-row>
         <span *ngIf="f.submitted && (f.controls['name'].errors || f.controls['startDate'].errors || f.controls['endDate'].errors)" style="color:red;"> Todos los campos (*) deben ser llenados</span>
         <button class="btnGuardar" expand="block" type="submit">Guardar</button>

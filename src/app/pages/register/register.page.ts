@@ -165,6 +165,7 @@ export class RegisterPage implements OnInit {
       this.router.navigateByUrl('/login');
     } catch (error) {
       console.log(error);
+      this.userRegister.manager = null;
       Swal.close();
       Swal.fire({
         icon: 'error',
@@ -178,8 +179,8 @@ export class RegisterPage implements OnInit {
   failedRegister() {
       Swal.fire({
               icon: 'error',
-              title: 'Usuario no encontrado',
-              text: 'Por favor, verifique su correo, rol o comuniquese con la empresa a la que pertenece',
+              title: 'Error uso empresarial',
+              text: 'No existe registro del usuario o su rol no coincide',
               position: 'center',
               showCloseButton: true,
               confirmButtonText: 'Listo!'
