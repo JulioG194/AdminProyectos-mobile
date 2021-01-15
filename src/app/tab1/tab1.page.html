@@ -4,13 +4,12 @@
             <img src="../../assets/img/gg.jpg" style="width: 40px; height: 55px; padding-top: 18px;" alt="">
             <div>
                 <p style="font-size: 14px; color: white">INICIO</p>
-                <p style="font-size: 10px; color: white;">GUGO-MOBILE - Version Gestor</p>
+                <p style="font-size: 10px; color: white;">GUGO-MOBILE - Version {{role}}</p>
             </div>
-
         </ion-row>
         <ion-buttons slot="end">
             <ion-button style="width: 85px;">
-                <ion-badge id="notifications-badge" color="primary"></ion-badge>
+                <ion-badge id="notifications-badge" color="primary">1</ion-badge>
                 <ion-icon name="notifications"></ion-icon>
             </ion-button>
             <ion-button id="notification-button1" (click)="openProfile()">
@@ -21,7 +20,6 @@
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
-
 
 <ion-content [fullscreen]="true" class="main" color="secondary">
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
@@ -115,35 +113,148 @@
         <br>
     </div>
 
-
     <div *ngIf="projectsApp.length === 0">
-        <ion-card class="container1">
+        <ion-card class="container1 color5">
             <div class="align2">
-                <h4 style="color: white;">Mi Equipo</h4>
-                <img style="height: 100px; width: 100px;" src="../../../assets/img/pdf.png" alt="">
+                <h4>GuGo</h4>
             </div>
-
             <ion-card-content style="color: white;">
-                Forma tu equipo de trabajo para poder crear proyectos. En el menu lateral se tiene la opcion "Mi equipo", aqui podrás seleccionar las personas con las que vas trabajar dentro de tus proyectos y asignarles distintas tareas.
+                <img src="../../assets/img/Escudo_de_la_Escuela_Politécnica_Nacional.png" alt="">
+                <h4>Creadores</h4>
+                <h6 style=" color: rgb(116, 177, 92);">Julio González Pallo</h6>
+                <p class="p1">julio.gonzalez@epn.edu.ec</p>
+                <h6 style=" color: rgb(116, 177, 92);">Alexandra Gualotuña Fernández</h6>
+                <p class="p1">alexandra.gualotuna@epn.edu.ec</p>
+                <br>
+                <h4>Dirigido por</h4>
+                <h6 style=" color: rgb(116, 177, 92);">Ing. Pablo Hidalgo</h6>
+                <p class="p1">pablo.hidalgo@epn.edu.ec</p>
             </ion-card-content>
-
         </ion-card>
-        <ion-card class="container2">
+        <br>
+        <ion-card class="container1 color3">
             <div class="align2">
-                <h4 style="color: white;">Proyectos</h4>
-                <img style="height: 100px; width: 100px;" src="../../assets/img/fondo2.jpg" alt="">
+                <h4>Mi Equipo</h4>
             </div>
-
             <ion-card-content style="color: white;">
-                En el menu lateral se tiene la opcion "Proyectos", aqui podrás crear tus proyectos dando click sobre "Nuevo Proyecto". Si ya existen proyectos se presentará una lista de los mismos con dististas herramientas que te permitirán; visualizar detalles, eliminar
-                y asignar actividades a cada proyecto.
+                <div class="p">
+                    <div class="menu">En el menu inferior se tiene la opcion "Mi equipo"</div>
+                    <br>
+                    <div class="rol">Si eres Gestor podrá</div>
+                    * En la pestaña Seleccion Equipo podrá seleccionar personas con las que vas trabajar dentro de tus proyectos. <br> * En la pestaña Editar Equipo podrá visualizar su Equipo de trabajo y remover algun integrante. <br> * En la pestaña
+                    Ver Equipo por proyecto podrás visualizar los proyectos que dirija u el equipo perteneciente a cada proyecto. <br>
+                    <br>
+                    <div class="rol">Si eres Delegado podrá</div>
+                    * En la pestaña Ver Equipo podrá visualizar sus Gestores y compañeros de Equipo de trabajo. <br> * En la pestaña Ver Equipo por proyecto podrás visualizar los proyectos de los que usted es parte.
+                </div>
             </ion-card-content>
-
+        </ion-card>
+        <br>
+        <ion-card class="container1 color4">
+            <div class="align2">
+                <h4>Proyectos</h4>
+            </div>
+            <ion-card-content style="color: white;">
+                <div class="p">
+                    <div class="menu">En el menu inferior se tiene la opcion "Proyectos"</div>
+                    <br>
+                    <div class="rol">Si eres Gestor podrá</div>
+                    * Visualizar la lista de proyectos que dirija. <br> * Crear, edita y elimiar un proyecto mediante los respectivos formularios<br> * Visualizar detalles de un proyecto especifico mediante la opcion Ver Actividades<br>
+                    <br>
+                    <div class="rol">Si eres Delegado podrá</div>
+                    * Visualizar la lista de tareas que le han asignado y las cuales debe cumplir <br> * Mediante la opcion Subir evidencia podrá: <br> &nbsp;&nbsp;- Subir Archivos que verifiquen el cumplimiento de la tarea y &nbsp;&nbsp;su respectivo
+                    porcentaje de avance. <br> &nbsp;&nbsp;- Ver comentarios emitidos por el Gestor de la tarea.
+                </div>
+            </ion-card-content>
+        </ion-card>
+        <br>
+        <ion-card class="container1 color1">
+            <div class="align2">
+                <h4>Actividades</h4>
+            </div>
+            <ion-card-content style="color: white;">
+                <div class="p">
+                    <div class="menu">A esta pantalla se accede mediante la opcion Ver Actividades de la opcion "Proyectos"</div>
+                    <br>
+                    <div class="rol">Si eres Gestor podrá</div>
+                    * Visualizar la lista de actividades del proyecto y la lista de tareas pertenecientes a cada actividad. <br> * Crear, editar y elimiar una actividad o tarea mediante los respectivos formularios<br> * Visualizar las evidencias de cada
+                    tarea proporcionada por el Delegado respectivo, aqui podrá:<br> &nbsp;&nbsp;- Descargar los archivos proporcionados por el Delegado de la tarea. <br> &nbsp;&nbsp;- Emitir comentarios acerca de los archivos proporcionados. <br> &nbsp;&nbsp;-
+                    Confirmar o corregir el porcentaje de avance de la tarea proporcionado por el respectivo <br>
+                    <br>
+                    <div class="rol">Los sentimos!!! Esta pantalla no esta disponible para este rol Delegado</div>
+                </div>
+            </ion-card-content>
+        </ion-card>
+        <br>
+        <ion-card class="container1 color2">
+            <div class="align2">
+                <h4>Cronograma</h4>
+            </div>
+            <ion-card-content style="color: white;">
+                <div class="p">
+                    <div class="menu">En el menu inferior se tiene la opcion "Cronograma</div>
+                    <br>
+                    <div class="rol">Si eres Gestor podrá</div>
+                    * Visualizar la lista de proyectos que dirija ordenados según su fecha de entrega <br> * Visualizar la lista de tareas pertenecientes a un proyecto mediante la opcion "Ver calendario", además, cada tarea indica el Delegado encargado
+                    y el porcentaje de avance<br>
+                    <br>
+                    <div class="rol">Si eres Delegado podrá</div>
+                    * Visualizar la lista de tareas a las que ha sido asignado ordenadas por su fecha de entrega <br>
+                </div>
+            </ion-card-content>
+        </ion-card>
+        <br>
+        <ion-card class="container1 color3">
+            <div class="align2">
+                <h4>Chat</h4>
+            </div>
+            <ion-card-content style="color: white;">
+                <div class="p">
+                    <div class="menu">En el menu inferior se tiene la opcion"Chat"</div>
+                    <br>
+                    <div class="rol">Ambos roles</div>
+                    <br>
+                    <div>
+                        * Aqui el usuario podrá comunicarse con cualquier usuario perteneciente a su Equipo de trabajo.
+                    </div>
+                </div>
+            </ion-card-content>
+        </ion-card>
+        <br>
+        <ion-card class="container1 color1">
+            <div class="align2">
+                <h4>Perfil de Usuario</h4>
+            </div>
+            <ion-card-content style="color: white;">
+                <div class="p">
+                    <div class="menu">En la cabecera de la aplicacion se tiene el icono "Ver mi Perfil"</div>
+                    <br>
+                    <div class="rol">Ambos roles</div>
+                    <br>
+                    <div>
+                        * Este icono proporciona una pequeña visualización del perfil de usuario, con la opcion Cerrar sesion podrá salir de la aplicación. <br> * Con la opción Ver Perfil podrá acceder a la pantalla "Mi Perfil", aqui podrá agregar una
+                        foto de perfil desde su ordenador o editar algun campo disponible.
+                    </div>
+                </div>
+            </ion-card-content>
+        </ion-card>
+        <br>
+        <ion-card class="container1 color2">
+            <div class="align2">
+                <h4>Notificaciones</h4>
+            </div>
+            <ion-card-content style="color: white;">
+                <div class="p">
+                    <div class="menu">En la cabecera de la aplicacion se tiene el icono "Notificaciones"</div>
+                    <br>
+                    <div class="rol">Ambos roles</div>
+                    <br>
+                    <div>
+                        * Este icono proporciona una pequeña visualización de las noticaciones que ha recibido el usuario, con la opción Ver todas podrá acceder a la pantalla "Notificaciones", aqui podrá ver todas las notificaciones que ha recibido, y mediante la opción Ir a
+                        la notificación accederá ala pantalla Origen que generó la notificación.
+                    </div>
+                </div>
+            </ion-card-content>
         </ion-card>
     </div>
-
-
 </ion-content>
-<ion-footer>
-
-</ion-footer>

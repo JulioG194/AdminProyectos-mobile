@@ -16,4 +16,5 @@ export interface Project {
     comments?: number;
     resources?: number;
     active?: boolean;
+    manager?: User;
 }

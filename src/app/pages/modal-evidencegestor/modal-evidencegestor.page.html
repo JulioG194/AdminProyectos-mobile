@@ -1,0 +1,131 @@
+<ion-header [translucent]="false">
+    <ion-toolbar>
+        <div class="box align">
+            <ion-title>Evidencia</ion-title>
+            <ion-buttons slot="end">
+                <ion-button color="primary">
+                    <ion-icon name="close"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </div>
+    </ion-toolbar>
+    <ion-segment [value]="segmentModel" color="primary" scrollable="false" mode="android" [(ngModel)]="segmentModel" (ionChange)="segmentChanged($event)">
+
+        <ion-segment-button value="files" style="font-size: 12px; color:white">
+            <ion-label>Archivos</ion-label>
+        </ion-segment-button>
+
+        <ion-segment-button value="observations" style="font-size: 12px; color:white">
+            <ion-label>Observaciones
+            </ion-label>
+        </ion-segment-button>
+
+        <ion-segment-button value="avances" style="font-size: 12px; color:white">
+            <ion-label>Avance
+            </ion-label>
+        </ion-segment-button>
+
+    </ion-segment>
+
+</ion-header>
+
+<ion-content padding #content color="secondary">
+    <div *ngIf="segmentModel === 'files'">
+        <ion-item class="porcentaje">
+            <div class="avan">
+                <ion-input style="color:grey; background-color: white;" type="number" placeholder="Ingrese su % de avance" cols="" rows="2" name="message"></ion-input>
+            </div>
+            <ion-button clear color="primary" style="width: 50px;height: 50px;">
+                <ion-icon name="send-outline"></ion-icon>
+            </ion-button>
+            <label for="">100%</label>
+        </ion-item>
+
+        <div>
+            <ion-input type="file" cols="" rows="2"></ion-input>
+        </div>
+        <div class="accept">
+            <button clear style="background-color: transparent;">
+                <ion-icon style="font-size: 25px; color: white;" name="checkmark-circle-outline"></ion-icon>
+            </button>
+            <button clear style="background-color: transparent;">
+                <ion-icon style="font-size: 25px; color: white;" name="close-circle-outline"></ion-icon>
+            </button>
+        </div>
+        <br>
+        <div *ngFor="let comm of lista" class="center">
+            <ion-card class="welcome-card view2">
+                <ion-card-header>
+                    <ion-button clear color="primary">
+                        <ion-icon name="send-outline"></ion-icon>
+                    </ion-button>
+                </ion-card-header>
+                <ion-card-content>
+                    <img style="width: 100px;height: 150;" src="../../../assets/img/pdf.jpg" alt="">
+                    <p>Nombre: Evidencia.jpg</p>
+                    <p>Fecha de entrega: 22/02/2021</p>
+                </ion-card-content>
+            </ion-card>
+            <br>
+        </div>
+
+    </div>
+    <div class="container" *ngIf="segmentModel === 'observations'">
+        <div *ngFor="let comm of lista">
+            <div class="align1" color="secondary">
+                <div class="data align2">
+                    <p style="font-size: 10px; color:rgb(196, 176, 90)">Alexandra Gualotuña</p>
+                    <ion-avatar class="right">
+                        <img style="width:45px;height:45px;" src="../../../assets/img/gg.jpg" alt="">
+                        <!-- <img style="width:45px;height:45px;" > -->
+                    </ion-avatar>
+                    <p style="font-size: 10px; margin-top: -10px;">09/01/2020</p>
+                </div>
+
+                <div class="obs">
+                    <p>{{comm}}</p>
+                    <!-- <p class="line-breaker">{{ comm }}</p> -->
+                </div>
+            </div>
+        </div>
+        <ion-item class="porcentaje">
+            <div class="avan">
+                <ion-textarea style="color:grey; background-color: white;" type="number" placeholder="Escribir mensaje" cols="" rows="2" name="message"></ion-textarea>
+            </div>
+            <ion-button clear color="primary" style="width: 50px;height: 50px;">
+                <ion-icon name="send-outline"></ion-icon>
+            </ion-button>
+        </ion-item>
+    </div>
+
+    <div *ngIf="segmentModel === 'avances'" class="section3">
+        <br>
+        <div>
+            <circle-progress percent="25" [radius]="50" [outerStrokeWidth]="5" [innerStrokeWidth]="2" [titleColor]="'#ffffff'" [titleFontSize]="'18'" [subtitle]="'Avance'" [unitsColor]="'#ffffff'" [outerStrokeColor]="'#17A2B8'" [innerStrokeColor]="'#C7E596'" [animation]="true"
+                [animationDuration]="300">
+
+            </circle-progress>
+        </div>
+        <br>
+        <label for="">Evidencia correcta:</label><br><br>
+        <button color="primary" class="confirmar" style="background-color: rgb(212,212,212); border-radius: 10px;">
+            Confirmar Progreso
+        </button><br><br>
+        <label for="">Corregir progreso:</label><br><br>
+
+        <ion-item class="porcentaje sect">
+            <div class="avan">
+                <ion-input style="color:grey; background-color: white;" type="number" placeholder="Ingrese su % de avance" cols="" rows="2" name="message"></ion-input>
+            </div>
+            <ion-button clear color="primary" style="width: 50px;height: 50px;">
+                <ion-icon name="send-outline"></ion-icon>
+            </ion-button>
+
+        </ion-item>
+
+        <br>
+
+
+    </div>
+
+</ion-content>

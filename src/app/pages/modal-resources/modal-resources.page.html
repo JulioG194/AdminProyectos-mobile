@@ -1,7 +1,7 @@
 <ion-header [translucent]="false">
     <ion-toolbar>
         <div class="box align">
-            <ion-title>EVIDENCIAS</ion-title>
+            <ion-title>RECURSOS</ion-title>
             <ion-buttons slot="end">
                 <ion-button color="primary" (click)="onClose()">
                     <ion-icon name="close"></ion-icon>
@@ -17,7 +17,7 @@
         </ion-segment-button>
 
         <ion-segment-button value="files" style="font-size: 10.5px; color:white">
-            <ion-label>Avance</ion-label>
+            <ion-label>Archivos</ion-label>
         </ion-segment-button>
 
     </ion-segment>
@@ -29,12 +29,12 @@
         <div *ngFor="let comm of comments">
             <ion-item style="padding-right: 15mm;" color="secondary">
                 <div>
-                    <p style="font-size: 8px;">{{comm.user.displayName}}</p>
+                    <p style="font-size: 10px;">{{comm.user.displayName}}</p>
                     <ion-avatar class="right">
                         <img style="width:45px;height:45px;" [src]="comm.user.photoURL">
-                        <p style="font-size: 5px;">{{comm.createdAt | date: 'dd/MM/y HH:mm'}}</p>
-                    </ion-avatar>
 
+                    </ion-avatar>
+                    <p style="font-size: 10px;">{{comm.createdAt | date: 'dd/MM/y HH:mm'}}</p>
                 </div>
                 &nbsp;&nbsp;&nbsp;
                 <ion-label class="other_message msgRx">
@@ -47,16 +47,16 @@
         <br>
         <br>
         <ion-toolbar>
-            <!-- <div class="message_row">
+            <div class="message_row">
                 <form #f2="ngForm">
                     <ion-item no-lines>
-                        <ion-input style="color:grey" type="text" placeholder="Mensaje" cols="" rows="2" name="message"></ion-input>
+                        <ion-textarea style="color:grey" type="text" placeholder="Mensaje" cols="" rows="2" name="message"></ion-textarea>
                         <ion-item button clear color="primary">
                             <ion-icon name="send-outline"></ion-icon>
                         </ion-item>
                     </ion-item>
                 </form>
-            </div> -->
+            </div>
         </ion-toolbar>
 
     </div>
@@ -66,14 +66,17 @@
             <ion-item button clear color="primary">
                 <ion-icon name="send-outline"></ion-icon>
             </ion-item>
+        </ion-item> -->
+        <ion-item>
+            <h5>Subir archivo recurso: </h5>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <ion-button (click)="openPWAPhotoPicker()">
+                <ion-icon name="cloud-upload-outline"></ion-icon>
+            </ion-button>
+
         </ion-item>
-        <h3>Subir archivo recurso</h3>
 
-        <ion-button (click)="openPWAPhotoPicker()">
-            <ion-icon name="cloud-upload-outline"></ion-icon>
-        </ion-button> -->
-
-        <div *ngIf="imgURI != null">
+        <div style="text-align: center;" *ngIf="imgURI != null">
             <img *ngIf="
                   fileUploaded.type == 'image/jpeg' ||
                   fileUploaded.type == 'image/png' ||
@@ -120,13 +123,13 @@
             <input type="file" id="pwaphoto" #pwaphoto (change)="uploadPWA()">
         </div>
         <div *ngFor="let res of resources; let i = index">
-            <ion-card>
+            <ion-card style="text-align: center;">
                 <ion-item>
                     <ion-avatar slot="start">
-                        <img src="https://www.profamedica.com/wp-content/uploads/2018/01/avatar-hombre.png">
+                        <img [src]="res.user.photoURL">
                     </ion-avatar>
                     <ion-label>
-                        <h3>Daniel Villavicencio</h3>
+                        <h3>{{res.user.displayName}}</h3>
                         <p>{{res.createdAt | date: 'dd/MM/y HH:mm' }}</p>
                     </ion-label>
                 </ion-item>

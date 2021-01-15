@@ -13,7 +13,11 @@ export class ModalEvidencegestorPage implements OnInit {
 
   evidences: Evidence[] = [];
   @Input() task;
-
+  segmentModel = 'observations';
+  lista = ['hola que hace como esta esto es un mensaje de ale y como estas es un nmesnahdb hanhbhs hansa rta  como estas es un mensaje super largo que estas haciendo si deberias estar trabajdo',
+  'tal como me indicaste debo solucionar el problema', 'estas en tu casa n hay ningun tipo de problma',
+  'hola que hace como esta esto es un mensaje de ale y como estas es un nmesnahdb hanhbhs hansa rta  como estas es un mensaje super largo que estas haciendo si deberias estar trabajdo',
+  'tal como me indicaste debo solucionar el problema'];
   constructor(private modalCtrl: ModalController,
               private evidenceService: EvidenceService) { }
 

@@ -50,6 +50,8 @@ export class Tab1Page implements OnInit, OnDestroy {
   isLoading = true;
   subscriptions: Subscription[] = [];
 
+  role = '';
+
   constructor(
     private authService: AuthService,
     private projectService: ProjectService,
@@ -429,6 +431,11 @@ export class Tab1Page implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getProjects();
+    if (this.userGugo.manager) {
+        this.role = 'Gestor';
+    } else {
+        this.role = 'Delegado';
+    }
     console.log(this.authService.updated);
     if (this.authService.updated) {
       this.authService.getUser(this.userGugo).subscribe(usr => {

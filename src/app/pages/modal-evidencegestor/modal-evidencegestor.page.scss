@@ -14,6 +14,18 @@
     flex-direction: row;
 }
 
+.align1 {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #5c92b1;
+    text-align: center;
+}
+
+.align2 {
+    display: flex;
+    flex-direction: column;
+}
+
 .box ion-title {
     text-align: center;
     letter-spacing: 10px;
@@ -22,76 +34,171 @@
 }
 
 .container {
-    /* padding: 20px; */
-    background-color: #0C1B22;
-    margin: 0 auto;
-    width: 80%;
-}
-.container1 {
-    padding: 10px;
-    background-color: #0C1B22;
-    display: flex;
-    flex-direction: column;
-    color: rgb(212,212,212);
-    margin: 0 auto;
-}
-
-ion-card img{
-    background-color: #0C1B22;
-    margin: 0 auto;
-}
-
-.test ion-button {
-    float: right;
-    background: rgb(212,212,212);
-    
-}
-
-.test img {
-    height: 40%;
-    width: 40%;
-}
-
-.container2 {
-    width: 105px;
-    height: 105px;
-    border-radius: 50px;
-    margin: 0 auto;
-    background-color: rgb(212,212,212);
-    border: 1px solid white;
-    text-align: center;
-    color: black;
     padding: 20px;
 }
 
-.corregir {
-    padding-left: 15%;
-    padding-right: 15%;
+.btnGuardar {
+    background: rgb(212, 212, 212);
+    color: black;
+    width: 100%;
+    font-size: 18px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+}
+
+ion-label {
+    color: rgb(212, 212, 212);
+}
+
+ion-input {
+    color: rgb(212, 212, 212);
+}
+
+ion-header ion-segment {
+    --background: #082330;
+}
+
+* {
+    .user_name {
+        color: #afafaf;
+    }
+    .message {
+        padding: 10px !important;
+        transition: all 250ms ease-in-out !important;
+        border-radius: 10px !important;
+        margin-bottom: 4px !important;
+    }
+    .my_message {
+        padding: 10px !important;
+        transition: all 250ms ease-in-out !important;
+        border-radius: 10px !important;
+        margin-bottom: 4px !important;
+        color: white !important;
+    }
+    ion-item {
+        right: 0;
+    }
+    .line-breaker {
+        white-space: pre-line;
+        font-size: 12px;
+    }
+    .other_message {
+        padding: 10px !important;
+        // transition: all 250ms ease-in-out !important;
+        border-radius: 10px !important;
+        margin-bottom: 4px !important;
+        /* background: white !important; */
+        color: rgb(182, 141, 141) !important;
+        // border-style: ridge;
+        /* border-width: 0.5px; */
+        width: 20px;
+    }
+    .left {
+        left: 0;
+    }
+    .time {
+        color: #afafaf;
+        float: right;
+        font-size: small;
+    }
+    .message_row {
+        background-color: #fff;
+    }
+}
+
+.box {
+    /* background: #082330; */
+    background: #0C1B22;
+    padding: 10px;
+    color: white;
+}
+
+.align {
+    display: flex;
+    flex-direction: row;
+}
+
+.data {
+    width: 20%;
+}
+
+.msgRx {
+    width: 100%;
+}
+
+.msgRx p {
+    color: white;
+}
+
+.msgTx p {
+    color: #5c92b1;
+    /*  color: #17b4b4; */
+}
+
+div#pwa {
+    visibility: hidden;
+}
+
+.obs {
+    font-size: 12px;
+    text-align: justify;
+    color: rgb(212, 212, 212);
+}
+
+.avan {
+    width: 70%;
+}
+
+.align3 {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-around;
+    padding: 10px;
+}
+
+.center ion-card {
+    //padding: 20px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+ion-card {
+    width: 70%;
+}
+
+.porcentaje {
+    padding: 10px;
+}
+
+ion-item {
+    //height: 50px;
+    padding: 5px;
+}
+
+.accept {
+    text-align: center;
+}
+
+.porAvanc {
+    width: 150px;
+    height: 150px;
+    border-radius: 150px;
+    background-color: rosybrown;
+    margin: 0 auto;
+}
+
+.section3 {
+    text-align: center;
+}
+
+.sect {
+    width: 65%;
+    margin: 0 auto;
 }
 
 .confirmar {
+    background-color: rgb(212, 212, 212);
     padding: 10px;
-    //border-radius: 10px;
-    background-color: rgb(212,212,212);
-}
-
-.container3 {
-    border-bottom: 1px solid cadetblue;
-}
-
-.align2 {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.align2 p {
-    font-size: 12px;
-}
-
-.align3 ion-avatar {
-    width: 20%;
-}
-.align3 p {
-    width: 80%;
+    border-radius: 10px;
 }

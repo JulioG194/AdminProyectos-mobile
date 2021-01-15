@@ -30,7 +30,7 @@ self.addEventListener('notificationclick', event => {
   if (event.action === 'ok') {
     console.log(event.action);
     event.waitUntil(
-      clients.openWindow(event.notification.data.click_action)
+      clients.openWindow(event.notification.data.click_action_mobile)
     );
   }
 });

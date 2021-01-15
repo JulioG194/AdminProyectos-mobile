@@ -14,7 +14,7 @@
             </ion-button>
             <ion-button id="notification-button1" (click)="openProfile()">
                 <ion-avatar id="notification-button1">
-                    <img [src]="userGugo.photoURL">
+                    <img src="https://www.profamedica.com/wp-content/uploads/2018/01/avatar-hombre.png">
                 </ion-avatar>
             </ion-button>
         </ion-buttons>
@@ -113,6 +113,19 @@
                     </ion-card-header>
 
                     <ion-card-content>
+                        <p style="color: sienna; font-size: smaller;">Gestor:</p>
+                        <br>
+                        <div>
+                            <ion-row>
+                                <ion-avatar>
+                                    <img [src]="project.manager?.photoURL" style="max-width:2.5rem;max-height:2.5rem;">
+                                    <br>
+                                    <ion-label style="font-size: 8px; color: white">
+                                        {{project.manager?.displayName}}
+                                    </ion-label>
+                                </ion-avatar>
+                            </ion-row>
+                        </div>
                         <p style="color: sienna; font-size: smaller;">Delegados:</p>
                         <br>
                         <div *ngIf="project.delegates.length > 0; else noDelegates">
@@ -120,11 +133,13 @@
                                 <ion-avatar *ngFor="let user of project.delegates">
                                     <img [src]="user.photoURL" style="max-width:2.5rem;max-height:2.5rem;">
                                     <br>
-                                    <ion-label style="font-size: 6px; color: white">
+                                    <ion-label style="font-size: 8px; color: white">
                                         {{user.displayName}}
                                     </ion-label>
                                 </ion-avatar>
                             </ion-row>
+                            <br>
+                            <br>
                         </div>
                     </ion-card-content>
                 </ion-card>

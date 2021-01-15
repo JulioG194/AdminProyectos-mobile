@@ -155,6 +155,7 @@ segmentModel = 'select';
       this.projectsTeam.map(proj => {
         // proj.delegates = _.uniqBy(proj.delegates, 'uid');
         proj.delegates = [];
+        proj.manager = this.userGugo;
         this.projectService.getActivities(proj.id).subscribe(acts => {
           acts.map(act => {
             this.projectService.getTasks(proj.id, act.id).subscribe(tsks => {

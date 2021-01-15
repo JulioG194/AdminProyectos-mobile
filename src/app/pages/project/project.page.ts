@@ -335,4 +335,19 @@ automaticClose = false;
     } */
   }
 
+  async openResources(task: Task) {
+    const modal = await this.modalCtrl.create({
+      component: ModalEvidencegestorPage,
+      componentProps: {
+        taskId: task.id,
+        newProfile: null
+      }
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    // this.userGugo = this.authService.userAuth;
+  }
+
 }
+
+

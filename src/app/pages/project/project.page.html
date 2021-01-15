@@ -42,6 +42,7 @@
                                 <p style="color: gray">Fecha de Inicio: {{item.startDate | date : "dd/MM/y"}}</p>
                                 <p style="color: gray;">Fecha de Fin: {{item.endDate | date : "dd/MM/y"}}</p>
                                 <p style="color: gray">%Avance: {{item.progress}}</p>
+                                <p style="color: gray">Estado: {{item.status}}</p>
                             </ion-label>
                         </ion-item>
 
@@ -81,18 +82,25 @@
                                             <div class="align">
                                                 <ion-avatar item-left="item-left">
                                                     <img style="width:45px;height:45px;" [src]="child.delegate.photoURL">
+                                                    <br>
+                                                    <ion-label style="font-size: 7px; color: turquoise;">
+                                                        {{child.delegate.displayName}}
+                                                    </ion-label>
                                                 </ion-avatar>
                                                 <ion-label class="container2">
                                                     <p>Fecha de Inicio: {{child.startDate | date : "dd/MM/y"}}</p>
                                                     <p>Fecha de Fin: {{child.endDate | date : "dd/MM/y"}}</p>
-                                                    <!-- <p>%Avance: {{child.progress}}</p> -->
-                                                    <p>Duracion: 3</p>
+                                                    <p>%Avance: 0</p>
+                                                    <!-- <p>Actividad: {{item.name}}</p>
+                                                    <p>Proyecto: {{projectApp.name}}</p> -->
+                                                    <p>Estado: {{child.status}}</p>
+                                                    <!-- <p>Duracion: 3</p>
                                                     <p>Dias restantes: 3</p>
-                                                    <p>Dias de atraso: 0</p>
+                                                    <p>Dias de atraso: 0</p> -->
                                                 </ion-label>
                                             </div>
                                         </div>
-                                        <ion-icon name="calendar-outline" slot="end"></ion-icon>
+                                        <!-- <ion-icon name="calendar-outline" slot="end"></ion-icon> -->
                                     </ion-item>
                                     <ion-item-options side="start">
                                         <ion-button color="warning" icon-left (click)="openEvidence(child)">

@@ -71,6 +71,7 @@ export class ModalResourcesPage implements OnInit {
                  }
           });
           this.resources = ress;
+          console.log(this.resources)
         });
       }
 
